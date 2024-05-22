@@ -53,6 +53,8 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+    'api_url' => env('API_URL', 'https://admin.naisha.id/api/customer'),
+
 
     /*
     |--------------------------------------------------------------------------

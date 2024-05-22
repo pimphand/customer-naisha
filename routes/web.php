@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -10,10 +13,8 @@ Route::get('/product/{id}', function () {
     return view('product');
 });
 
-Route::get('/adminer', function () {
-    // Mengarahkan ke file adminer.php di folder public
-
-});
+Route::get('/check-courier', function (Request $request) {
+})->name('getCourier');
 
 Route::get('/checkout', function () {
     return view('checkout');

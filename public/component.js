@@ -72,13 +72,18 @@ function removeCart(id) {
 }
 
 function get(url, callback) {
-    $.get(url)
-        .done(function (data) {
+    $.ajax({
+        url: url,
+        headers: {
+            'Accept': 'application/json'
+        },
+        success: function(data) {
             callback(null, data);
-        })
-        .fail(function (err) {
+        },
+        error: function(err) {
             callback(err, null);
-        });
+        }
+    });
 }
 
 function currency(price) {
