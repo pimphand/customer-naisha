@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="{{asset('assets')}}/css/meanmenu.css">
     <link rel="stylesheet" href="{{asset('assets')}}/css/slick.css">
     <link rel="stylesheet" href="{{asset('assets')}}/css/default.css">
-    <link rel="stylesheet" href="{{asset('assets')}}/css/style.css">
+    <link rel="stylesheet" href="{{asset('assets')}}/css/style.css?date={{ now() }}">
     <link rel="stylesheet" href="{{asset('assets')}}/css/responsive.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css">
 </head>
@@ -38,9 +38,7 @@
     @yield('content')
     <!-- footer section start -->
     <x-footer></x-footer>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-        Launch demo modal
-    </button>
+
     {{--modal--}}
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -106,76 +104,44 @@
                                             </div>
 
                                         </div>
-                                        <div class="single-product-component mt-15">
+                                        <div class="single-product-component mt-10">
                                             <div class="size">
                                                 <h6>Size: <span id="value_size"></span></h6>
                                                 <div id="select_size">
-                                                    <label for="t-xl" class="active">3xl</label>
-                                                    <input type="radio" class="d-none" id="t-xl">
+
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="single-product-component mt-10">
+                                            <div class="size">
+                                                <h6>Material: <span id="value_material"></span></h6>
+                                                <div id="select_material">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="single-product-component mt-10">
+                                            <div class="size">
+                                                <h6>Stok: <span id="value_stock"></span></h6>
                                             </div>
                                         </div>
                                         <div class="quick-quantity mt-60">
                                             <form action="#" method="POST">
-                                                <button type="submit" class="list-add-cart-btn red-hover-btn border-0"
+                                                <button type="button" id="add_to_cart"
+                                                    class="list-add-cart-btn primary-hover-btn border-0"
                                                     style="padding-left: 80px;padding-right: 80px;transition: all .5s;">
-                                                    add
-                                                    to
-                                                    cart
+                                                    Tambah ke keranjang
                                                 </button>
                                             </form>
                                         </div>
-                                        <div class="single-product-action mt-35">
-                                            <ul>
-                                                <li><a href="wishlist.html"><i class="fal fa-heart"></i> add to
-                                                        wishlist</a></li>
-                                                <li><a href="cart.html"><i class="fal fa-abacus"></i> add to compare</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="sku"><span>Sku: </span> <strong>M-Hat-8</strong></div>
-                                        <div class="single-product-category">
-                                            <ul>
-                                                <li class="mb-0"><a href="javascript:void(0)" class="title">Categories:
-                                                    </a>
-                                                </li>
-                                                <li class="mb-0"><a href="shop4.html">Chair &amp; Table</a></li>
-                                                <li class="mb-0"><a href="shop4.html">Chairs</a></li>
-                                                <li class="mb-0"><a href="shop4.html">Handbeg</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="share-product mt-20">
-                                            <ul>
-                                                <li><a href="javascript:void(0)" class="title">Share this
-                                                        product</a></li>
-                                                <li><a href="javascript:void(0)" data-toggle="tooltip"
-                                                        data-placement="top" title="facebook"><i
-                                                            class="fab fa-facebook-f"></i></a></li>
-                                                <li><a href="javascript:void(0)" data-toggle="tooltip"
-                                                        data-placement="top" title="twitter"><i
-                                                            class="fab fa-twitter"></i></a></li>
-                                                <li><a href="javascript:void(0)" data-toggle="tooltip"
-                                                        data-placement="top" title="pinterest"><i
-                                                            class="fab fa-pinterest"></i></a></li>
-                                                <li><a href="javascript:void(0)" data-toggle="tooltip"
-                                                        data-placement="top" title="google +"><i
-                                                            class="fab fa-google-plus-g"></i></a>
-                                                </li>
-                                                <li><a href="javascript:void(0)" data-toggle="tooltip"
-                                                        data-placement="top" title="Linkdin"><i
-                                                            class="fab fa-linkedin-in"></i></a></li>
-                                            </ul>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
+
             </div>
         </div>
     </div>
@@ -185,7 +151,8 @@
     <!-- JS here -->
     <script src="{{asset('assets')}}/js/vendor/jquery-1.12.4.min.js"></script>
     <script>
-        let url = "https://naisha-backend.test/api";
+        let url = "{{ config('app.api_url') }}/customer";
+        let url_product = "{{ config('app.api_url') }}";
     </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
@@ -204,7 +171,7 @@
     <script src="{{asset('assets')}}/js/jquery.magnific-popup.min.js"></script>
     <script src="{{asset('assets')}}/js/plugins.js"></script>
     <script src="{{asset('assets')}}/js/main.js"></script>
-    <script src="{{asset('')}}/component.js"></script>
+    <script src="{{asset('')}}/component.js?date={{ now() }}"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
         lucide.createIcons();
@@ -214,7 +181,7 @@
     <script>
         function openModal(slug) {
             // get product details
-            get(url + "/all-products?filter[slug]=" + slug, function (err, data) {
+            get(url_product + "/all-products?filter[slug]=" + slug, function (err, data) {
                 let product = data.data[0];
                 $('#_product_name').text(product.name);
                 $('#exampleModalCenter').modal('show');
@@ -273,7 +240,7 @@
 
                         // Append the tab
                         $('#v-pills-tab').append(`
-                            <a class="nav-link ${processedColors.size == 1 ? "active" : ''}" id="tab-${colorName}-tab" data-toggle="pill" href="#${colorName}" role="tab" aria-controls="${sku_.properties.color}" aria-selected="${processedColors.size == 1 ? "true" : "false"}">
+                            <a data-code="${sku_.code}" class="nav-link ${processedColors.size == 1 ? "active" : ''}" id="tab-${colorName}-tab" data-toggle="pill" href="#${colorName}" role="tab" aria-controls="${sku_.properties.color}" aria-selected="${processedColors.size == 1 ? "true" : "false"}">
                                 <img src="${sku_.image_url}" class="" width="20px" alt="">
                             </a>
                         `);
@@ -282,21 +249,35 @@
                 });
 
                 let processedSize= new Set();
+                let processedMaterial= new Set();
+                $('#select_size').html('');
+                $('#select_material').html('');
 
+                let sku_modal = product.skus;
                 $.each(product.skus, function (is, sku_s) {
                     let size = sku_s.properties.size.replace(/ /g, '_');
-
+                    let material = sku_s.properties.material.replace(/ /g, '_');
                     // Check if the color has already been processed
                     if (!processedSize.has(size)) {
                         // Add the color to the set
                         processedSize.add(size);
-
                         // Append the tab content
                         $('#select_size').append(`
-                            <label for="${size}" class="active">${size}</label>
+                            <label for="${size}" class="size-label ${is == 0 ? "active" : ""}">
+                                <span class="p-1">${sku_s.properties.size}</span>
+                            </label>
                             <input type="radio" class="d-none" id="${size}">
                         `);
+                    }
 
+                    if (!processedMaterial.has(material)) {
+                        // Add the color to the set
+                        processedMaterial.add(material);
+                        // Append the tab content
+                        $('#select_material').append(`
+                            <label for="${material}" class="material-label ${is == 0 ? "active" : ""}"><span class="p-1">${sku_s.properties.material}</span></label>
+                            <input type="radio" class="d-none" id="${material}">
+                        `);
                     }
                 });
 
@@ -315,18 +296,56 @@
                         </div>
                     `);
                 });
-
+                let selectedSku = [];
                 $('#_warna_modals').on('click', '.color-input', function(e) {
                     let selectedColor = $(this).data('color');
                     $(`#v-pills-tab a[href="#${selectedColor}"]`).tab('show');
+
+                     selectedSku =  sku_modal.find(sku => sku.code == $(`#v-pills-tab a[href="#${selectedColor}"]`).data('code'));
+                    $('#value_stock').text(selectedSku.stock);
+                    localStorage.setItem('selectedSku', JSON.stringify(selectedSku));
                 });
 
-
-                // Tampilkan pilihan ukuran di modal
             });
         }
+        $(document).on('click', '#add_to_cart', function () {
+            let selectedSku = JSON.parse(localStorage.getItem('selectedSku'));
+            if (selectedSku.stock == 0) {
+                $.toast({
+                    text: "Stok habis",
+                    showHideTransition: 'slide',
+                    bgColor: '#f5365c',
+                    textColor: 'white',
+                    allowToastClose: false,
+                    hideAfter: 3000,
+                    stack: 5,
+                    textAlign: 'left',
+                    position: 'bottom-right',
+                    icon: 'error'
+                });
+            }else{
+                AddCart(selectedSku);
+            }
+        });
 
 
+        $(document).on('click', '.size-label', function () {
+            // Remove active class from all labels
+            $('.size-label').removeClass('active');
+            // Add active class to the clicked label
+            $(this).addClass('active');
+            // Set the corresponding radio button to checked
+            $(`#${$(this).attr('for')}`).prop('checked', true);
+        });
+
+        $(document).on('click', '.material-label', function () {
+            // Remove active class from all labels
+            $('.material-label').removeClass('active');
+            // Add active class to the clicked label
+            $(this).addClass('active');
+            // Set the corresponding radio button to checked
+            $(`#${$(this).attr('for')}`).prop('checked', true);
+        });
 
         function getColorCode(name) {
             var colors = [

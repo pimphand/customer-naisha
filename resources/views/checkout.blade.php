@@ -28,7 +28,7 @@
     }
 
     .font-12 {
-        font-size: 12px;
+        font-size: 13px;
     }
 
     .custom-radio input[type="radio"] {
@@ -65,6 +65,24 @@
         /* Ubah sesuai keinginan Anda */
         border-radius: 50%;
     }
+
+    .hover {
+        width: 100%;
+        height: 44px;
+        background-color: #082f49;
+        border-radius: 20px;
+        color: white;
+        /* Warna teks tombol */
+        transition: background-color 0.3s, color 0.3s;
+        /* Efek transisi saat hover */
+    }
+
+    .hover:hover {
+        background-color: #b2cfed;
+        /* Warna latar belakang saat dihover */
+        color: black;
+        /* Warna teks saat dihover */
+    }
 </style>
 
 <section class="checkout-area pb-70">
@@ -85,7 +103,7 @@
                             </li>
                             <li class="list-group-item mb-1 element text-icon" style="cursor: auto" id="payment"
                                 onmouseover="this.style.cursor='pointer'" onmouseout="this.style.cursor='auto'">
-                                <i data-lucide="credit-card"></i> <span class="_show_payment_fix ml-2">Metode
+                                <i data-lucide="credit-card"></i> <span class="_show_payment_fix ml-2">Pilih Bank
                                     Pembayaran</span>
                             </li>
                         </ul>
@@ -96,6 +114,58 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Ringkasan Belanja</h5>
+
+                        <li class="d-flex justify-content-between mt-3 font-12">
+                            <div class="flex" style="display: flex; flex-direction: row;">
+                                <span>Subtotal </span>
+                            </div>
+                            <div>
+                                <span id="subtotalPrice">Rp 100.000</span>
+                            </div>
+                        </li>
+
+                        <li class="d-flex justify-content-between mt-3 font-12">
+                            <div class="flex" style="display: flex; flex-direction: row;">
+                                <span>Subtotal Pengiriman </span>
+                            </div>
+                            <div>
+                                <span id="subtotalPengiriman">Rp 100.000</span>
+                            </div>
+                        </li>
+
+                        <hr>
+
+                        <li class="d-flex justify-content-between mt-3 font-12">
+                            <div class="flex" style="display: flex; flex-direction: row;">
+                                <span>Total Bayar</span>
+                            </div>
+                            <div>
+                                <span id="total_courier">Rp 100.000</span>
+                            </div>
+                        </li>
+
+                        <button class="mt-4 hover"
+                            style="width: 100%; height: 44px; background-color: #082f49; border-radius: 20px;color:rgb(255, 255, 255)">Bayar
+                            Sekarang</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 mt-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Keranjang <span id="total_cart">()</span></h5>
+
+                        <ul id="list_cart_checkout">
+                            <li class="d-flex justify-content-between">
+                                <div>
+                                    <img src="assets/img/products/1.jpg" alt="product" width="50">
+                                    <span class="ml-2">Product 1</span>
+                                </div>
+                                <div>
+                                    <span>1 x Rp 100.000</span>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -117,7 +187,8 @@
                     <div id="_show_list_payment" style="display: none"></div>
                     <div id="_modal_alamat" style="display: none">
                         <div class="p-1 mb-4 border border-gra2-300 rounded-lg bg-neutral-100 pb-70 text-icon">
-                            <i data-lucide="triangle-alert"></i><span class="ml-2">Mohon lengkapi informasi di bawah
+                            <i data-lucide="triangle-alert"></i><span class="ml-2">Mohon lengkapi informasi di
+                                bawah
                                 ini</span>
                         </div>
 
@@ -147,7 +218,8 @@
                         <div class="p-1 border border-gra2-300 rounded-lg bg-neutral-100 text-icon"
                             id="getLocationButton" style="cursor: auto" onmouseover="this.style.cursor='pointer'"
                             onmouseout="this.style.cursor='auto'">
-                            <i data-lucide="locate-fixed"></i><span class="ml-2 p-1">Gunakan Lokasi Saat ini</span>
+                            <i data-lucide="locate-fixed"></i><span class="ml-2 p-1">Gunakan Lokasi Saat
+                                ini</span>
                         </div>
 
                         <div class="p-1">
@@ -189,9 +261,10 @@
         //get data from local storage)
         getData()
         function getData() {
+            let cart = JSON.parse(localStorage.getItem('cart'));
             let address = JSON.parse(localStorage.getItem('address'));
             let cour = JSON.parse(localStorage.getItem('courier'));
-            let existingBank = JSON.parse(localStorage.getItem('bank'));
+            let existingBank = JSON.parse(localStorage.getItem('selectedBank'));
 
             if (cour) {
                 $('._show_courier_fix').html(`
@@ -226,6 +299,163 @@
                     </iframe>
                 `);
             }
+
+            if (cart) {
+                //diambil dari total qty
+                listCartCheckout(cart)
+                //total price
+                let subtotalPrice = 0;
+                cart.forEach(element => {
+                    subtotalPrice += element.price.consumer * element.qty;
+                });
+
+                $("#total_courier").text(currency(subtotalPrice + cour.rate));
+                $('#subtotalPrice').text(currency(subtotalPrice));
+                $('#subtotalPengiriman').text(currency(cour.rate));
+            }
+        }
+
+        function listCartCheckout(cart) {
+            $('#list_cart_checkout').html('');
+                let total = [];
+                cart.forEach(element => {
+                    total += element.qty;
+                    $('#list_cart_checkout').append(`
+                        <li class="d-flex justify-content-between mt-3 font-12">
+                            <div class="flex" style="display: flex; flex-direction: row;">
+                                <div>
+                                    <img src="${element.image_url}" alt="product" width="60">
+                                </div>
+
+                                <div style="margin-left: 10px;">
+                                    <span>${element.product_name} | ${element.properties.color} | ${element.properties.material} |
+                                        ${element.properties.size}</span>
+                                    <br>
+                                    <span style="margin-top: 5px;">Stok: ${element.stock}</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span>${currency(element.price.consumer * element.qty)}</span><br>
+                                <div style="width: 90px; height: 10px;">
+                                    <div class="input-group input-group-sm" style="border: 1px solid #f2f2f2;">
+                                        <div class="input-group-prepend">
+                                            <span data-code="${element.code}" class="minus"
+                                                onmouseover="this.style.cursor='pointer'" onmouseout="this.style.cursor='auto'"
+                                                style="padding: 4px 8px; font-size: 12px; line-height: 1.5; color: #000; border-radius: 4px;"
+                                                type="button"><i class="fa fa-minus"></i></span>
+                                        </div>
+                                        <input style="height: 50;" type="text" max="${element.stock}" data-code="${element.code}" value="${element.qty}" class="form-control form-control-sm" placeholder="" aria-label=""
+                                            aria-describedby="basic-addon1">
+                                        <div class="input-group-append">
+                                            <span class="plus" data-code="${element.code}"
+                                                onmouseover="this.style.cursor='pointer'" onmouseout="this.style.cursor='auto'"
+                                                style="padding: 4px 8px; font-size: 12px; line-height: 1.5; color: #000; border-radius: 4px;"
+                                                type="button"><i class="fa fa-plus"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    `);
+                });
+                console.log(total);
+                $('#total_cart').text(`(${total})`);
+        }
+
+        let sku = JSON.parse(localStorage.getItem('sku'));
+
+        $(document).on('click', '.plus', function () {
+            let code = $(this).data('code');
+            increaseQty(code);
+        })
+
+        $(document).on('click', '.minus', function () {
+            let code = $(this).data('code');
+            decreaseQty(code);
+        })
+
+         //.form-control-sm only number
+        $(document).on('keypress', '.form-control-sm', function (e) {
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                return false;
+            }
+
+            //update qty
+            $(document).on('change', '.form-control-sm', function () {
+                let code = $(this).data('code');
+                let qty = $(this).val();
+                let cart = getCart();
+                let index = cart.findIndex(p => p.code == code);
+                let item = cart.find(item => item.code === code);
+                if (item.qty < item.stock) {
+                    if (index !== -1) {
+                        cart[index].qty = qty;
+                    }
+                    localStorage.setItem("cart", JSON.stringify(cart));
+                    renderCart();
+                    getData();
+                }else{
+                   message()
+                    $(this).val(item.qty);
+                }
+            })
+        });
+
+        function updateQty(code, qty) {
+
+        }
+
+         //decrease qty
+        function decreaseQty(code) {
+
+            let cart = getCart();
+            let index = cart.findIndex(p => p.code == code);
+            let item = cart.find(item => item.code === code);
+            if (item.qty > 1) {
+                if (index !== -1) {
+                    cart[index].qty -= 1;
+                    if (cart[index].qty <= 0) {
+                        cart.splice(index, 1);
+                    }
+                }
+                localStorage.setItem("cart", JSON.stringify(cart));
+                renderCart();
+                getData();
+            }else{
+                message('Minimal pembelian 1 item!')
+            }
+        }
+
+        function message(text = "Stok tidak mencukupi!") {
+                $.toast({
+                    text: text,
+                    showHideTransition: 'slide',
+                    bgColor: '#f5365c',
+                    textColor: 'white',
+                    allowToastClose: false,
+                    hideAfter: 3000,
+                    stack: 5,
+                    textAlign: 'left',
+                    position: 'bottom-right',
+                    icon: 'error'
+                });
+        }
+
+        // increase qty
+        function increaseQty(code) {
+            let cart = getCart();
+            let index = cart.findIndex(p => p.code == code);
+            let item = cart.find(item => item.code === code);
+            if (item.qty < item.stock) {
+                if (index !== -1) {
+                    cart[index].qty += 1;
+                }
+                localStorage.setItem("cart", JSON.stringify(cart));
+                renderCart();
+                getData();
+            }else{
+                message()
+            }
         }
 
         $('#address').click(function () {
@@ -235,6 +465,7 @@
             $('#_show_list_payment').hide();
             $('#_show_list_courier').hide();
         });
+
         let bank = [];
         $('#payment').click(function () {
             $('#_title_modal').text('Pilih Metode Pembayaran');
@@ -242,7 +473,7 @@
             if (!address) {
                 alert('Silahkan lengkapi alamat terlebih dahulu');
             }else{
-                get('{{ config("app.api_url") }}/payment-method', function (err, data) {
+                get(url+'/payment-method', function (err, data) {
                     if (err) {
                         console.log(err);
                     } else {
@@ -253,17 +484,19 @@
                         $('#_show_list_courier').hide();
                         let html = '';
 
+                        //save bank in local storage
                         bank = data.data;
+                        localStorage.setItem('bank', JSON.stringify(bank));
                         data.data.forEach(element => {
                         //rate idr
                         html += `
-                        <label class="flex justify-between">
-                            <div class="p-1 border border-gra2-300 rounded-lg bg-neutral-100 text-icon flex items-center">
-                                <img src="${element.bank.icon}" width="20%">
-                                <span class="ml-2 p-1"> ${element.account_name} - ${element.account_number}</span>
-                                <input type="radio" name="bank" value="${element.id}" class="ml-2 align-items-end">
-                            </div>
-                        </label>
+                            <label class="flex justify-between">
+                                <div class="p-1 border border-gra2-300 rounded-lg bg-neutral-100 text-icon flex items-center">
+                                    <img src="${element.bank.icon}" width="20%">
+                                    <span class="ml-2 p-1"> ${element.account_name} - ${element.account_number}</span>
+                                    <input type="radio" name="bank" value="${element.id}" class="ml-2 align-items-end">
+                                </div>
+                            </label>
                         `;
                         });
 
@@ -279,7 +512,7 @@
                 alert('Silahkan lengkapi alamat terlebih dahulu');
            }else{
 
-                get('{{ config("app.api_url") }}/check-courier?postal_code='+address.kodepos, function (err, data) {
+                get(url+'/check-courier?postal_code='+address.kodepos, function (err, data) {
                     if (err) {
                         console.log(err);
                     } else {
@@ -292,6 +525,7 @@
 
                         //save courier in variable
                         courier = data.data;
+
                         data.data.forEach(element => {
                             //rate idr
                             html += `
@@ -343,19 +577,26 @@
                 //save to local storage
                 localStorage.setItem('courier', JSON.stringify(selectedCourier));
             }
+            // Ambil ID bank yang dipilih
             let selectedBankId = $('input[name="bank"]:checked').val();
 
-            // Mencari bank yang sesuai dengan ID yang dipilih
-            let selectedBank = bank.find(bank => bank.id == selectedBankId);
+            if (selectedBankId) {
+                // Cari bank dari local storage
+                let selectedBank = bank.find(bank => bank.id == selectedBankId);
 
-            // Memeriksa apakah bank yang dipilih ada dan apakah berbeda dengan bank yang sudah ada sebelumnya
-            if (!selectedBank || (existingBank && selectedBank.id !== existingBank.id)) {
-                // Mengubah HTML untuk menampilkan informasi bank yang dipilih
-                $('._show_bank_fix').html(`Bank ${selectedBank.bank.name} <br> ${selectedBank.account_name} -
-                ${selectedBank.account_number}`);
+                if (selectedBank) {
+                    // Tampilkan detail bank yang dipilih
+                    $('._show_payment_fix').html(`
+                        ${selectedBank.bank.name} <br> ${selectedBank.account_name} - ${selectedBank.account_number}
+                    `);
 
-                // Menyimpan bank yang dipilih ke local storage
-                localStorage.setItem('bank', JSON.stringify(selectedBank));
+                    // Simpan bank yang dipilih ke local storage
+                    localStorage.setItem('selectedBank', JSON.stringify(selectedBank));
+                } else {
+                    console.error('Bank tidak ditemukan');
+                }
+            } else {
+                console.error('ID bank tidak dipilih');
             }
 
           getData()
@@ -377,8 +618,7 @@
                     get(nominatimAPI, function (err, data) {
                         if (err) {
                             console.log(err);
-                        } else {
-                            console.log(data);
+                        } else {;
                             var address = data.display_name;
                             // Display the address on your webpage
                             $("#_address").val(address);
@@ -402,7 +642,7 @@
                 alert("Geolocation tidak didukung oleh browser ini, silahkan masukkan alamat secara manual.");
             }
         });
-    });
 
+    });
 </script>
 @endpush

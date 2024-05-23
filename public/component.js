@@ -1,18 +1,13 @@
 //add to cart
-function AddCart(id, name, price, image) {
+function AddCart(sku, qty = 1) {
     let cart = getCart();
-    let product = {
-        id: id,
-        name: name,
-        price: price,
-        qty: 1,
-        image: image
-    }
-    let index = cart.findIndex(p => p.id == product.id);
-    if (index != -1) {
-        cart[index].qty += 1;
+
+    let index = cart.findIndex(item => item.code === sku.code);
+    if (index !== -1) {
+        cart[index].qty += qty;
     } else {
-        cart.push(product);
+        sku.qty = qty;
+        cart.push(sku);
     }
     localStorage.setItem("cart", JSON.stringify(cart));
     toastCart();
@@ -31,17 +26,17 @@ function renderCart() {
     let total = 0;
     let html = "";
     cart.forEach(p => {
-        total += p.price * p.qty;
+        total += p.price.consumer * p.qty;
         html += `
         <li class="cart-item">
             <div class="minicart-img">
-                <a href="single-product-5.html" class="p-0">
-                    <img src="${p.image}" class="w-100" alt="">
+                <a href="product/" class="p-0">
+                    <img src="${p.image_url}" class="w-100" alt="">
                 </a>
             </div>
             <div class="minicart-desc">
-                <a href="single-product-5.html" class="p-0">${p.name}</a> <br>
-                <strong>${p.qty} × ${currency(p.price ?? 0)}</strong>
+                <a href="product/" class="p-0">${p.product_name}</a> <br>
+                <strong>${p.qty} × ${currency(p.price.consumer ?? 0)}</strong>
             </div>
             <div class="remove" onclick="removeCart(${p.id})">
                 <i class="fal fa-times"></i>
@@ -61,9 +56,9 @@ function renderCart() {
 }
 
 // remove cart
-function removeCart(id) {
+function removeCart(code) {
     let cart = getCart();
-    let index = cart.findIndex(p => p.id == id);
+    let index = cart.findIndex(p => p.code == code);
     if (index !== -1) {
         cart.splice(index, 1);
     }
@@ -136,7 +131,7 @@ function headerSearchProducts(data) {
                 <img src="${p.image_url}" class="w-100" alt="">
             </div>
             <div class="search-result-desc pl-10">
-                <a href="/${p.slug}" class="title px-0">${p.category.name} - ${p.name}</a>
+                <a href="/product/${p.slug}" class="title px-0">${p.category.name} - ${p.name}</a>
                 <div class="price"><span>${currency(p.skus[0].price.consumer)}</span></div>
             </div>
         </li>

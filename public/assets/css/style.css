@@ -697,7 +697,7 @@ header.header ul li a span::after {
   left: 0;
   bottom: 0;
   height: 2px;
-  background-color: #eb2323;
+  background-color: #ffffff;
   content: "";
   width: 0;
   transition: all 0.5s;
@@ -710,7 +710,7 @@ header.header ul li a span::after {
   visibility: hidden;
 }
 header.header ul li a.active span {
-  color: #eb2323;
+  color: #ffffff;
 }
 header.header.bright-turquoise-content ul li a.active span {
   color: #12c1db;
@@ -727,7 +727,7 @@ header.header ul li:hover a span::after {
   visibility: visible;
 }
 header.header ul li a:hover span {
-  color: #eb2323;
+  color: #ffffff;
 }
 header.header.bright-turquoise-content ul li a:hover span {
   color: #12c1db;
@@ -756,7 +756,7 @@ header.header .header-right ul li i {
 }
 
 header.header .header-right ul li a:hover i {
-  color: #eb2323;
+  color: #ffffff;
 }
 
 header.header .header-right ul li a span::after {
@@ -2687,7 +2687,7 @@ ul.color-list li:hover {
   margin-right: 10px;
   display: inline-block;
   background: #eee;
-  border-radius: 50%;
+  border-radius: 20%;
   text-align: center;
   line-height: 32px;
   color: #222;
