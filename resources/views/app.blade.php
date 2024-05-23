@@ -171,7 +171,7 @@
     <script src="{{asset('assets')}}/js/jquery.magnific-popup.min.js"></script>
     <script src="{{asset('assets')}}/js/plugins.js"></script>
     <script src="{{asset('assets')}}/js/main.js"></script>
-    <script src="{{asset('')}}/component.js?date={{ now() }}"></script>
+    <script src="{{asset('')}}/component.js?date={{ time() }}"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
         lucide.createIcons();
@@ -180,54 +180,38 @@
 
     <script>
         function openModal(slug) {
-            // get product details
+            // Remove selectedSku from localStorage
+            localStorage.removeItem('selectedSku');
+            let selectedSku = null;
+
+            // Reset value stock
+            $('#value_stock').text(0);
+
+            // Get product details
             get(url_product + "/all-products?filter[slug]=" + slug, function (err, data) {
+                if (err || !data || !data.data || data.data.length === 0) {
+                    console.error("Error retrieving product data", err);
+                    return;
+                }
+
                 let product = data.data[0];
                 $('#_product_name').text(product.name);
                 $('#exampleModalCenter').modal('show');
                 $('#_modal_single_product').html(`<span>${currency(product.min_price.consumer_price_idr)}</span>–<span>${currency(product.max_price.consumer_price_idr)}</span>`);
                 $('#_warna_modals').html('');
-                $('#v-pills-tabContent').html(``)
-                $('#v-pills-tab').html(``)
+                $('#v-pills-tabContent').html('');
+                $('#v-pills-tab').html('');
 
-                // Membuat objek untuk menyimpan data stok berdasarkan warna, bahan, dan ukuran
-                let stockData = {};
-
-                // Iterasi melalui setiap sku untuk mengelompokkan stok berdasarkan warna, bahan, dan ukuran
-                product.skus.forEach((sku) => {
-                    let color = sku.properties.color;
-                    let material = sku.properties.material;
-                    let size = sku.properties.size;
-
-                    // Membuat kunci unik berdasarkan warna, bahan, dan ukuran
-                    let key = `${color}_${material}_${size}`;
-
-                    // Jika kunci belum ada di objek stockData, buat array kosong untuknya
-                    if (!stockData[key]) {
-                        stockData[key] = [];
-                    }
-
-                    // Tambahkan stok ke dalam array yang sesuai dengan kunci
-                    stockData[key].push({
-                        color: color,
-                        material: material,
-                        size: size,
-                        stock: sku.stock
-                    });
-                });
-
-               // Define a set to keep track of processed colors
                 let processedColors = new Set();
+                let processedSize = new Set();
+                let processedMaterial = new Set();
 
+                // Populate tabs and content for each SKU
                 $.each(product.skus, function (i, sku_) {
                     let colorName = sku_.properties.color.replace(/ /g, '_');
-
-                    // Check if the color has already been processed
                     if (!processedColors.has(colorName)) {
-                        // Add the color to the set
                         processedColors.add(colorName);
 
-                        // Append the tab content
                         $('#v-pills-tabContent').append(`
                             <div class="tab-pane fade show ${processedColors.size == 1 ? "active" : ''}" id="${colorName}">
                                 <div class="product-img">
@@ -238,95 +222,204 @@
                             </div>
                         `);
 
-                        // Append the tab
                         $('#v-pills-tab').append(`
                             <a data-code="${sku_.code}" class="nav-link ${processedColors.size == 1 ? "active" : ''}" id="tab-${colorName}-tab" data-toggle="pill" href="#${colorName}" role="tab" aria-controls="${sku_.properties.color}" aria-selected="${processedColors.size == 1 ? "true" : "false"}">
                                 <img src="${sku_.image_url}" class="" width="20px" alt="">
                             </a>
                         `);
-
                     }
-                });
 
-                let processedSize= new Set();
-                let processedMaterial= new Set();
-                $('#select_size').html('');
-                $('#select_material').html('');
-
-                let sku_modal = product.skus;
-                $.each(product.skus, function (is, sku_s) {
-                    let size = sku_s.properties.size.replace(/ /g, '_');
-                    let material = sku_s.properties.material.replace(/ /g, '_');
-                    // Check if the color has already been processed
+                    let size = sku_.properties.size.replace(/ /g, '_');
+                    let material = sku_.properties.material.replace(/ /g, '_');
                     if (!processedSize.has(size)) {
-                        // Add the color to the set
                         processedSize.add(size);
-                        // Append the tab content
                         $('#select_size').append(`
-                            <label for="${size}" class="size-label ${is == 0 ? "active" : ""}">
-                                <span class="p-1">${sku_s.properties.size}</span>
+                            <label for="${size}" class="size-label">
+                                <span class="p-1">${sku_.properties.size}</span>
                             </label>
                             <input type="radio" class="d-none" id="${size}">
                         `);
                     }
-
                     if (!processedMaterial.has(material)) {
-                        // Add the color to the set
                         processedMaterial.add(material);
-                        // Append the tab content
                         $('#select_material').append(`
-                            <label for="${material}" class="material-label ${is == 0 ? "active" : ""}"><span class="p-1">${sku_s.properties.material}</span></label>
+                            <label for="${material}" class="material-label"><span class="p-1">${sku_.properties.material}</span></label>
                             <input type="radio" class="d-none" id="${material}">
                         `);
                     }
                 });
 
-
-
-                // Tampilkan pilihan warna di modal
+                // Display color options in the modal
                 let warna = Array.from(new Set(product.skus.map((sku) => sku.properties.color)));
                 warna.forEach((colorName) => {
-                    // Find the corresponding color code
                     let colorCode = getColorCode(colorName);
                     let sanitizedColorName = colorName.replace(/ /g, '_');
                     $('#_warna_modals').append(`
                         <div class="color-input" style="cursor: pointer;" data-color="${sanitizedColorName}">
-                            <label for="${sanitizedColorName}" disabled class="color-ok" style="background-color: ${colorCode};"></label>
+                            <label for="${sanitizedColorName}" class="color-ok" style="background-color: ${colorCode};"></label>
                             <input type="radio" class="d-none" id="${sanitizedColorName}" name="color" data-color="${sanitizedColorName}">
                         </div>
                     `);
                 });
-                let selectedSku = [];
+
+                // Update size and material options based on selected color
                 $('#_warna_modals').on('click', '.color-input', function(e) {
                     let selectedColor = $(this).data('color');
+                    filterOptionsByColor(selectedColor);
                     $(`#v-pills-tab a[href="#${selectedColor}"]`).tab('show');
+                    let code = $(`#v-pills-tab a[href="#${selectedColor}"]`).data('code');
+                    let sku_modal = JSON.parse(localStorage.getItem('sku_modal'));
 
-                     selectedSku =  sku_modal.find(sku => sku.code == $(`#v-pills-tab a[href="#${selectedColor}"]`).data('code'));
-                    $('#value_stock').text(selectedSku.stock);
-                    localStorage.setItem('selectedSku', JSON.stringify(selectedSku));
+                    selectedSku = sku_modal.find(sku => sku.code == code);
+                    if (selectedSku) {
+                        localStorage.setItem('selectedSku', JSON.stringify(selectedSku));
+                        $('#value_stock').text(selectedSku.stock);
+                    } else {
+                        console.error("selectedSku is undefined");
+                        $('#value_stock').text(0);
+                    }
                 });
 
+                // Update color and material options based on selected size
+                $('#select_size').on('click', '.size-label', function(e) {
+                    let selectedSize = $(this).find('span').text().replace(/ /g, '_');
+                    filterOptionsBySize(selectedSize);
+                });
+
+                // Update color and size options based on selected material
+                $('#select_material').on('click', '.material-label', function(e) {
+                    let selectedMaterial = $(this).find('span').text().replace(/ /g, '_');
+                    filterOptionsByMaterial(selectedMaterial);
+                });
+
+                function filterOptionsByColor(selectedColor) {
+                    let sku_modal = JSON.parse(localStorage.getItem('sku_modal'));
+                    let filteredSkus = sku_modal.filter(sku => sku.properties.color.replace(/ /g, '_') === selectedColor);
+                    updateSizeAndMaterialOptions(filteredSkus);
+                }
+
+                function filterOptionsBySize(selectedSize) {
+                    let sku_modal = JSON.parse(localStorage.getItem('sku_modal'));
+                    let filteredSkus = sku_modal.filter(sku => sku.properties.size.replace(/ /g, '_') === selectedSize);
+                    updateColorAndMaterialOptions(filteredSkus);
+                }
+
+                function filterOptionsByMaterial(selectedMaterial) {
+                    let sku_modal = JSON.parse(localStorage.getItem('sku_modal'));
+                    let filteredSkus = sku_modal.filter(sku => sku.properties.material.replace(/ /g, '_') === selectedMaterial);
+                    updateColorAndSizeOptions(filteredSkus);
+                }
+
+                function updateSizeAndMaterialOptions(filteredSkus) {
+                    let sizes = new Set();
+                    let materials = new Set();
+                    filteredSkus.forEach(sku => {
+                        sizes.add(sku.properties.size);
+                        materials.add(sku.properties.material);
+                    });
+
+                    $('#select_size').html('');
+                    sizes.forEach(size => {
+                        let sizeId = size.replace(/ /g, '_');
+                        $('#select_size').append(`
+                            <label for="${sizeId}" class="size-label">
+                                <span class="p-1">${size}</span>
+                            </label>
+                            <input type="radio" class="d-none" id="${sizeId}">
+                        `);
+                    });
+
+                    $('#select_material').html('');
+                    materials.forEach(material => {
+                        let materialId = material.replace(/ /g, '_');
+                        $('#select_material').append(`
+                            <label for="${materialId}" class="material-label"><span class="p-1">${material}</span></label>
+                            <input type="radio" class="d-none" id="${materialId}">
+                        `);
+                    });
+                }
+
+                function updateColorAndMaterialOptions(filteredSkus) {
+                    let colors = new Set();
+                    let materials = new Set();
+                    filteredSkus.forEach(sku => {
+                        colors.add(sku.properties.color);
+                        materials.add(sku.properties.material);
+                    });
+
+                    $('#_warna_modals').html('');
+                    colors.forEach(color => {
+                        let colorCode = getColorCode(color);
+                        let colorId = color.replace(/ /g, '_');
+                        $('#_warna_modals').append(`
+                            <div class="color-input" style="cursor: pointer;" data-color="${colorId}">
+                                <label for="${colorId}" class="color-ok" style="background-color: ${colorCode};"></label>
+                                <input type="radio" class="d-none" id="${colorId}" name="color" data-color="${colorId}">
+                            </div>
+                        `);
+                    });
+
+                    $('#select_material').html('');
+                    materials.forEach(material => {
+                        let materialId = material.replace(/ /g, '_');
+                        $('#select_material').append(`
+                            <label for="${materialId}" class="material-label"><span class="p-1">${material}</span></label>
+                            <input type="radio" class="d-none" id="${materialId}">
+                        `);
+                    });
+                }
+
+                function updateColorAndSizeOptions(filteredSkus) {
+                    let colors = new Set();
+                    let sizes = new Set();
+                    filteredSkus.forEach(sku => {
+                        colors.add(sku.properties.color);
+                        sizes.add(sku.properties.size);
+                    });
+
+                    $('#_warna_modals').html('');
+                    colors.forEach(color => {
+                        let colorCode = getColorCode(color);
+                        let colorId = color.replace(/ /g, '_');
+                        $('#_warna_modals').append(`
+                            <div class="color-input" style="cursor: pointer;" data-color="${colorId}">
+                                <label for="${colorId}" class="color-ok" style="background-color: ${colorCode};"></label>
+                                <input type="radio" class="d-none" id="${colorId}" name="color" data-color="${colorId}">
+                            </div>
+                        `);
+                    });
+
+                    $('#select_size').html('');
+                    sizes.forEach(size => {
+                        let sizeId = size.replace(/ /g, '_');
+                        $('#select_size').append(`
+                            <label for="${sizeId}" class="size-label">
+                                <span class="p-1">${size}</span>
+                            </label>
+                            <input type="radio" class="d-none" id="${sizeId}">
+                        `);
+                    });
+                }
+
+                // Add to cart function
+                function AddCart(selectedSku) {
+                    if (!selectedSku) {
+                        console.error("No SKU selected");
+                        return;
+                    }
+                    // Assuming you have a cart object and a method to add items to it
+                    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                    cart.push(selectedSku);
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    alert('Item added to cart successfully!');
+                }
+
+                // Bind AddCart to a button click event
+                $('#add_to_cart').on('click', function() {
+                    AddCart(JSON.parse(localStorage.getItem('selectedSku')));
+                });
             });
         }
-        $(document).on('click', '#add_to_cart', function () {
-            let selectedSku = JSON.parse(localStorage.getItem('selectedSku'));
-            if (selectedSku.stock == 0) {
-                $.toast({
-                    text: "Stok habis",
-                    showHideTransition: 'slide',
-                    bgColor: '#f5365c',
-                    textColor: 'white',
-                    allowToastClose: false,
-                    hideAfter: 3000,
-                    stack: 5,
-                    textAlign: 'left',
-                    position: 'bottom-right',
-                    icon: 'error'
-                });
-            }else{
-                AddCart(selectedSku);
-            }
-        });
 
 
         $(document).on('click', '.size-label', function () {
@@ -359,7 +452,7 @@
                 {name: "Mocca", code: "#6F4E37"},
                 {name: "Browny", code: "#964B00"},
                 {name: "Dusty Pink", code: "#D4A190"},
-                {name: "Milo", code: "#4B5320"}, // Assuming "Milo" should have a unique color code
+                {name: "Milo", code: "#4B5320"},
                 {name: "Rose Brown", code: "#BC8F8F"},
                 {name: "Salem", code: "#BADA55"},
                 {name: "Silver", code: "#C0C0C0"},

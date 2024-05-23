@@ -149,7 +149,7 @@ $('._top-search').click(function (e) {
 
 $('#search-header-top').on('keyup', function (e) {
     if (e.target.value.length >= 3) {
-        get(url + "/all-products?filter[name]=" + e.target.value, function (err, data) {
+        get(url_product + "/all-products?filter[name]=" + e.target.value, function (err, data) {
             headerSearchProducts(data.data);
         });
     }

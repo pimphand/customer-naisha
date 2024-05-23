@@ -248,6 +248,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
                     <button type="button" id="save" class="btn btn-success">Simpan</button>
+                    <button type="button" id="save_courier" class="btn btn-success">Simpan</button>
                 </div>
             </div>
         </div>
@@ -263,9 +264,8 @@
         function getData() {
             let cart = JSON.parse(localStorage.getItem('cart'));
             let address = JSON.parse(localStorage.getItem('address'));
-            let cour = JSON.parse(localStorage.getItem('courier'));
+            let cour = JSON.parse(localStorage.getItem('courierSelected'));
             let existingBank = JSON.parse(localStorage.getItem('selectedBank'));
-
             if (cour) {
                 $('._show_courier_fix').html(`
                     ${cour.logistic_name} - ${cour.rate_name} ${currency(cour.rate)}
@@ -309,9 +309,11 @@
                     subtotalPrice += element.price.consumer * element.qty;
                 });
 
-                $("#total_courier").text(currency(subtotalPrice + cour.rate));
+                if (cour) {
+                    $("#total_courier").text(currency(subtotalPrice + cour.rate));
+                    $('#subtotalPengiriman').text(currency(cour.rate));
+                }
                 $('#subtotalPrice').text(currency(subtotalPrice));
-                $('#subtotalPengiriman').text(currency(cour.rate));
             }
         }
 
@@ -358,7 +360,6 @@
                         </li>
                     `);
                 });
-                console.log(total);
                 $('#total_cart').text(`(${total})`);
         }
 
@@ -400,10 +401,6 @@
                 }
             })
         });
-
-        function updateQty(code, qty) {
-
-        }
 
          //decrease qty
         function decreaseQty(code) {
@@ -459,6 +456,9 @@
         }
 
         $('#address').click(function () {
+            $("#save").show();
+            $("#save_courier").hide();
+            $("#save_bank").hide();
             $('#_checkout_modal').modal('show');
             $('#_title_modal').text('Tambah Alamat');
             $('#_modal_alamat').show();
@@ -468,6 +468,9 @@
 
         let bank = [];
         $('#payment').click(function () {
+            $("#save").hide();
+            $("#save_courier").hide();
+            $("#save_bank").show();
             $('#_title_modal').text('Pilih Metode Pembayaran');
             let address = JSON.parse(localStorage.getItem('address'));
             if (!address) {
@@ -493,7 +496,9 @@
                             <label class="flex justify-between">
                                 <div class="p-1 border border-gra2-300 rounded-lg bg-neutral-100 text-icon flex items-center">
                                     <img src="${element.bank.icon}" width="20%">
-                                    <span class="ml-2 p-1"> ${element.account_name} - ${element.account_number}</span>
+                                    <span class="ml-2 p-1"> ${element.account_name} - ${element.account_number}
+
+                                    </span>
                                     <input type="radio" name="bank" value="${element.id}" class="ml-2 align-items-end">
                                 </div>
                             </label>
@@ -508,11 +513,29 @@
         let courier = [];
         $('#courier').click(function () {
            let address = JSON.parse(localStorage.getItem('address'));
+           $("#save").hide();
+           $("#save_courier").show();
+           $("#save_bank").hide();
            if (!address) {
                 alert('Silahkan lengkapi alamat terlebih dahulu');
            }else{
+                // cart = JSON.stringify(cart);
+                let cart = JSON.parse(localStorage.getItem('cart')) || []; // Pastikan cart selalu array
+                let cartCode = [];
+                let qty = [];
+                // Pastikan cart bukan null atau undefined
+                if (Array.isArray(cart)) {
+                    $.each(cart, function (i, item) {
+                        if (item && item.code) {
+                            cartCode.push(item.code);
+                        }
+                        if (item && item.qty) {
+                            qty.push(item.qty);
+                        }
+                    });
+                }
 
-                get(url+'/check-courier?postal_code='+address.kodepos, function (err, data) {
+                get(url+'/check-courier?postal_code='+address.kodepos+"&cartCode="+cartCode+"&qty="+qty, function (err, data) {
                     if (err) {
                         console.log(err);
                     } else {
@@ -525,14 +548,16 @@
 
                         //save courier in variable
                         courier = data.data;
-
+                        localStorage.setItem('courier', JSON.stringify(courier));
                         data.data.forEach(element => {
                             //rate idr
                             html += `
                             <label class="flex justify-between">
                                 <div class="p-1 border border-gra2-300 rounded-lg bg-neutral-100 text-icon flex items-center ">
                                     <img src="${element.logo}" width="20%">
-                                    <span class="ml-2 p-1">${element.logistic_name} - ${element.rate_name} ${currency(element.rate)}</span>
+                                    <span class="ml-2 p-1">${element.logistic_name} - ${element.rate_name} ${currency(element.rate)} <br>
+                                        Pengiriman ${element.min_day != 0 && element.max_day != 0 ? element.min_day + " - " + element.max_day : "-"} Hari
+                                    </span>
                                     <input type="radio" name="courier" value="${element.logistic_name}-${element.rate_name}" class="ml-2">
                                 </div>
                             </label>
@@ -565,18 +590,40 @@
                 ${$('#_name').val()} | ${$('#_phone').val()} <br>
                 ${$('#_address').val()}
             `);
+            getData()
+
+        });
+
+        $("#save_courier").click(function (e) {
             let existingCourier = JSON.parse(localStorage.getItem('courier'));
-            let existingBank = JSON.parse(localStorage.getItem('bank'));
-            if (!existingCourier) {
-                let selectedCourier = courier.find(courier => courier.logistic_name+'-'+courier.rate_name == $('input[name="courier"]:checked').val());
 
-                $('._show_courier_fix').html(`
-                    ${selectedCourier.logistic_name} - ${selectedCourier.rate_name} ${currency(selectedCourier.rate)}
-                `);
+            // Ambil nama kurir yang dipilih
+            let selectedCourier = $('input[name="courier"]:checked').val();
 
-                //save to local storage
-                localStorage.setItem('courier', JSON.stringify(selectedCourier));
+            if (selectedCourier) {
+                // Cari kurir dari local storage
+                let courierSelected = existingCourier.find(courier => courier.logistic_name + '-' + courier.rate_name == selectedCourier);
+
+                if (courierSelected) {
+                    // Tampilkan detail kurir yang dipilih
+                    $('._show_courier_fix').html(`
+                        ${courierSelected.logistic_name} - ${courierSelected.rate_name} ${currency(courierSelected.rate)}
+                    `);
+
+                    // Simpan kurir yang dipilih ke local storage
+                    localStorage.setItem('courierSelected', JSON.stringify(courierSelected));
+                } else {
+                    console.error('Kurir tidak ditemukan');
+                }
+            } else {
+                console.error('Kurir tidak dipilih');
             }
+            $('#_checkout_modal').modal('hide');
+            getData()
+        })
+
+        $("#save_bank").click(function (e) {
+            let existingBank = JSON.parse(localStorage.getItem('bank'));
             // Ambil ID bank yang dipilih
             let selectedBankId = $('input[name="bank"]:checked').val();
 
@@ -598,10 +645,7 @@
             } else {
                 console.error('ID bank tidak dipilih');
             }
-
-          getData()
-
-        });
+        })
 
         $("#getLocationButton").click(function() {
             // Check if geolocation is supported
