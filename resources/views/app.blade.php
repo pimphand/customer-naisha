@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="{{asset('assets')}}/css/style.css?date={{ now() }}">
     <link rel="stylesheet" href="{{asset('assets')}}/css/responsive.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css">
+
 </head>
 
 <body>
@@ -104,7 +105,7 @@
                                             </div>
 
                                         </div>
-                                        <div class="single-product-component mt-10">
+                                        <div class="single-product-component mt-10" id="_size_show">
                                             <div class="size">
                                                 <h6>Size: <span id="value_size"></span></h6>
                                                 <div id="select_size">
@@ -112,7 +113,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="single-product-component mt-10">
+                                        <div class="single-product-component mt-10" id="_material_show">
                                             <div class="size">
                                                 <h6>Material: <span id="value_material"></span></h6>
                                                 <div id="select_material">
@@ -173,6 +174,7 @@
     <script src="{{asset('assets')}}/js/main.js"></script>
     <script src="{{asset('')}}/component.js?date={{ time() }}"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         lucide.createIcons();
     </script>
@@ -187,14 +189,7 @@
             // Reset value stock
             $('#value_stock').text(0);
 
-            // Get product details
-            get(url_product + "/all-products?filter[slug]=" + slug, function (err, data) {
-                if (err || !data || !data.data || data.data.length === 0) {
-                    console.error("Error retrieving product data", err);
-                    return;
-                }
-
-                let product = data.data[0];
+            fetchProductDetails(slug, function(product) {
                 $('#_product_name').text(product.name);
                 $('#exampleModalCenter').modal('show');
                 $('#_modal_single_product').html(`<span>${currency(product.min_price.consumer_price_idr)}</span>–<span>${currency(product.max_price.consumer_price_idr)}</span>`);
@@ -202,224 +197,272 @@
                 $('#v-pills-tabContent').html('');
                 $('#v-pills-tab').html('');
 
+                let colorData = {}; // Object to store SKU data organized by color
                 let processedColors = new Set();
-                let processedSize = new Set();
-                let processedMaterial = new Set();
-
-                // Populate tabs and content for each SKU
                 $.each(product.skus, function (i, sku_) {
                     let colorName = sku_.properties.color.replace(/ /g, '_');
                     if (!processedColors.has(colorName)) {
                         processedColors.add(colorName);
 
-                        $('#v-pills-tabContent').append(`
-                            <div class="tab-pane fade show ${processedColors.size == 1 ? "active" : ''}" id="${colorName}">
-                                <div class="product-img">
-                                    <a class="popup-image" href="javascript:void(0)">
-                                        <img src="${sku_.image_url}" class="w-100" alt="">
-                                    </a>
-                                </div>
-                            </div>
-                        `);
+                        colorData[colorName] = [];
+                        let skuSave = {
+                            size: sku_.properties.size,
+                            material: sku_.properties.material,
+                            stock: sku_.stock,
+                            code: sku_.code,
+                            image_url: sku_.image_url
+                        };
 
-                        $('#v-pills-tab').append(`
-                            <a data-code="${sku_.code}" class="nav-link ${processedColors.size == 1 ? "active" : ''}" id="tab-${colorName}-tab" data-toggle="pill" href="#${colorName}" role="tab" aria-controls="${sku_.properties.color}" aria-selected="${processedColors.size == 1 ? "true" : "false"}">
-                                <img src="${sku_.image_url}" class="" width="20px" alt="">
-                            </a>
-                        `);
-                    }
-
-                    let size = sku_.properties.size.replace(/ /g, '_');
-                    let material = sku_.properties.material.replace(/ /g, '_');
-                    if (!processedSize.has(size)) {
-                        processedSize.add(size);
-                        $('#select_size').append(`
-                            <label for="${size}" class="size-label">
-                                <span class="p-1">${sku_.properties.size}</span>
-                            </label>
-                            <input type="radio" class="d-none" id="${size}">
-                        `);
-                    }
-                    if (!processedMaterial.has(material)) {
-                        processedMaterial.add(material);
-                        $('#select_material').append(`
-                            <label for="${material}" class="material-label"><span class="p-1">${sku_.properties.material}</span></label>
-                            <input type="radio" class="d-none" id="${material}">
-                        `);
+                        colorData[colorName].push(skuSave);
                     }
                 });
+                localStorage.setItem('sku_modal', JSON.stringify(product.skus));
+                populateColorOptions(product.skus);
+                // populateSizeAndMaterialOptions(colorData);
 
-                // Display color options in the modal
-                let warna = Array.from(new Set(product.skus.map((sku) => sku.properties.color)));
-                warna.forEach((colorName) => {
-                    let colorCode = getColorCode(colorName);
-                    let sanitizedColorName = colorName.replace(/ /g, '_');
-                    $('#_warna_modals').append(`
-                        <div class="color-input" style="cursor: pointer;" data-color="${sanitizedColorName}">
-                            <label for="${sanitizedColorName}" class="color-ok" style="background-color: ${colorCode};"></label>
-                            <input type="radio" class="d-none" id="${sanitizedColorName}" name="color" data-color="${sanitizedColorName}">
-                        </div>
-                    `);
-                });
-
-                // Update size and material options based on selected color
-                $('#_warna_modals').on('click', '.color-input', function(e) {
-                    let selectedColor = $(this).data('color');
-                    filterOptionsByColor(selectedColor);
-                    $(`#v-pills-tab a[href="#${selectedColor}"]`).tab('show');
-                    let code = $(`#v-pills-tab a[href="#${selectedColor}"]`).data('code');
-                    let sku_modal = JSON.parse(localStorage.getItem('sku_modal'));
-
-                    selectedSku = sku_modal.find(sku => sku.code == code);
-                    if (selectedSku) {
-                        localStorage.setItem('selectedSku', JSON.stringify(selectedSku));
-                        $('#value_stock').text(selectedSku.stock);
-                    } else {
-                        console.error("selectedSku is undefined");
-                        $('#value_stock').text(0);
-                    }
-                });
-
-                // Update color and material options based on selected size
-                $('#select_size').on('click', '.size-label', function(e) {
-                    let selectedSize = $(this).find('span').text().replace(/ /g, '_');
-                    filterOptionsBySize(selectedSize);
-                });
-
-                // Update color and size options based on selected material
-                $('#select_material').on('click', '.material-label', function(e) {
-                    let selectedMaterial = $(this).find('span').text().replace(/ /g, '_');
-                    filterOptionsByMaterial(selectedMaterial);
-                });
-
-                function filterOptionsByColor(selectedColor) {
-                    let sku_modal = JSON.parse(localStorage.getItem('sku_modal'));
-                    let filteredSkus = sku_modal.filter(sku => sku.properties.color.replace(/ /g, '_') === selectedColor);
-                    updateSizeAndMaterialOptions(filteredSkus);
-                }
-
-                function filterOptionsBySize(selectedSize) {
-                    let sku_modal = JSON.parse(localStorage.getItem('sku_modal'));
-                    let filteredSkus = sku_modal.filter(sku => sku.properties.size.replace(/ /g, '_') === selectedSize);
-                    updateColorAndMaterialOptions(filteredSkus);
-                }
-
-                function filterOptionsByMaterial(selectedMaterial) {
-                    let sku_modal = JSON.parse(localStorage.getItem('sku_modal'));
-                    let filteredSkus = sku_modal.filter(sku => sku.properties.material.replace(/ /g, '_') === selectedMaterial);
-                    updateColorAndSizeOptions(filteredSkus);
-                }
-
-                function updateSizeAndMaterialOptions(filteredSkus) {
-                    let sizes = new Set();
-                    let materials = new Set();
-                    filteredSkus.forEach(sku => {
-                        sizes.add(sku.properties.size);
-                        materials.add(sku.properties.material);
-                    });
-
-                    $('#select_size').html('');
-                    sizes.forEach(size => {
-                        let sizeId = size.replace(/ /g, '_');
-                        $('#select_size').append(`
-                            <label for="${sizeId}" class="size-label">
-                                <span class="p-1">${size}</span>
-                            </label>
-                            <input type="radio" class="d-none" id="${sizeId}">
-                        `);
-                    });
-
-                    $('#select_material').html('');
-                    materials.forEach(material => {
-                        let materialId = material.replace(/ /g, '_');
-                        $('#select_material').append(`
-                            <label for="${materialId}" class="material-label"><span class="p-1">${material}</span></label>
-                            <input type="radio" class="d-none" id="${materialId}">
-                        `);
-                    });
-                }
-
-                function updateColorAndMaterialOptions(filteredSkus) {
-                    let colors = new Set();
-                    let materials = new Set();
-                    filteredSkus.forEach(sku => {
-                        colors.add(sku.properties.color);
-                        materials.add(sku.properties.material);
-                    });
-
-                    $('#_warna_modals').html('');
-                    colors.forEach(color => {
-                        let colorCode = getColorCode(color);
-                        let colorId = color.replace(/ /g, '_');
-                        $('#_warna_modals').append(`
-                            <div class="color-input" style="cursor: pointer;" data-color="${colorId}">
-                                <label for="${colorId}" class="color-ok" style="background-color: ${colorCode};"></label>
-                                <input type="radio" class="d-none" id="${colorId}" name="color" data-color="${colorId}">
-                            </div>
-                        `);
-                    });
-
-                    $('#select_material').html('');
-                    materials.forEach(material => {
-                        let materialId = material.replace(/ /g, '_');
-                        $('#select_material').append(`
-                            <label for="${materialId}" class="material-label"><span class="p-1">${material}</span></label>
-                            <input type="radio" class="d-none" id="${materialId}">
-                        `);
-                    });
-                }
-
-                function updateColorAndSizeOptions(filteredSkus) {
-                    let colors = new Set();
-                    let sizes = new Set();
-                    filteredSkus.forEach(sku => {
-                        colors.add(sku.properties.color);
-                        sizes.add(sku.properties.size);
-                    });
-
-                    $('#_warna_modals').html('');
-                    colors.forEach(color => {
-                        let colorCode = getColorCode(color);
-                        let colorId = color.replace(/ /g, '_');
-                        $('#_warna_modals').append(`
-                            <div class="color-input" style="cursor: pointer;" data-color="${colorId}">
-                                <label for="${colorId}" class="color-ok" style="background-color: ${colorCode};"></label>
-                                <input type="radio" class="d-none" id="${colorId}" name="color" data-color="${colorId}">
-                            </div>
-                        `);
-                    });
-
-                    $('#select_size').html('');
-                    sizes.forEach(size => {
-                        let sizeId = size.replace(/ /g, '_');
-                        $('#select_size').append(`
-                            <label for="${sizeId}" class="size-label">
-                                <span class="p-1">${size}</span>
-                            </label>
-                            <input type="radio" class="d-none" id="${sizeId}">
-                        `);
-                    });
-                }
-
-                // Add to cart function
-                function AddCart(selectedSku) {
-                    if (!selectedSku) {
-                        console.error("No SKU selected");
-                        return;
-                    }
-                    // Assuming you have a cart object and a method to add items to it
-                    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-                    cart.push(selectedSku);
-                    localStorage.setItem('cart', JSON.stringify(cart));
-                    alert('Item added to cart successfully!');
-                }
-
-                // Bind AddCart to a button click event
-                $('#add_to_cart').on('click', function() {
-                    AddCart(JSON.parse(localStorage.getItem('selectedSku')));
-                });
+                //save skuModalColors to local storag
+                populateModalTabs(product.skus);
+                $('#_warna_modals').on('click', '.color-input', selectColorHandler);
             });
         }
+
+        function fetchProductDetails(slug, callback) {
+            get(url_product + "/all-products?filter[slug]=" + slug, function(err, data) {
+                if (err || !data || !data.data || data.data.length === 0) {
+                    console.error("Error retrieving product data", err);
+                    return;
+                }
+                let product = data.data[0];
+                callback(product);
+            });
+        }
+
+        function populateModalTabs(skus) {
+            let processedColors = new Set();
+
+            $.each(skus, function (i, sku_) {
+                let colorName = sku_.properties.color.replace(/ /g, '_');
+
+                if (!processedColors.has(colorName)) {
+                    processedColors.add(colorName);
+
+                    $('#v-pills-tabContent').append(`
+                        <div class="tab-pane fade show ${processedColors.size == 1 ? "active" : ''}" id="${sku_.code}">
+                            <div class="product-img">
+                                <a class="popup-image" href="javascript:void(0)">
+                                    <img src="${sku_.image_url}" class="w-100" alt="">
+                                </a>
+                            </div>
+                        </div>
+                    `);
+
+                    $('#v-pills-tab').append(`
+                        <a data-code="${sku_.code}" class="nav-link ${processedColors.size == 1 ? "active" : ''}" id="tab-${sku_.code}-tab" data-toggle="pill" href="#${sku_.code}" role="tab" aria-controls="${sku_.properties.color}" aria-selected="${processedColors.size == 1 ? "true" : "false"}">
+                            <img src="${sku_.image_url}" class="" width="20px" alt="">
+                        </a>
+                    `);
+                }
+            });
+
+        }
+
+
+        function populateColorOptions(skus) {
+            $('#select_size').html('');
+            $('#select_material').html('');
+
+            let skusByColorCode = {};
+
+            $.each(skus, function (i, sku) {
+
+                let colorName = sku.properties.color.replace(/ /g, '_');
+                // If the color doesn't exist in the skusByColor object, create a new array for it
+                if (!skusByColorCode[colorName]) {
+                    skusByColorCode[colorName] = [];
+                }
+                skusByColorCode[colorName].push(sku);
+            });
+
+            localStorage.setItem('colorData', JSON.stringify(skusByColorCode));
+
+            $.each(skusByColorCode, function (colorName, sku) {
+                    //sum stock
+                    let sumStock = sku.reduce((acc, curr) => acc + curr.stock, 0);
+                    let skusCode = sku.map(s => s.code);
+
+                    let colorNames = colorName.replace(/_/g, ' ');
+                    let colorCode = getColorCode(colorNames);
+                    $('#_warna_modals').append(`
+                        <div class="color-input" data-color="${colorName}" onclick="getSize('${skusCode}')">
+                            <label for="${colorName}" class="color-ok"
+                                style="background-color: ${sumStock > 0 ? colorCode : colorCode}; position: relative; display: inline-block;">
+                                ${sumStock > 0 ? '' : ' <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size:30px;color:red">X</span>'}
+                            </label>
+                            <input type="radio" class="d-none" id="${colorName}" name="color" data-color="${colorName}">
+                        </div>
+                    `);
+            });
+
+            //click first color with stock > 0
+            $('#_warna_modals .color-input').first().click();
+            $('#select_size .size-label').first().click();
+            $('#select_material .material-label').first().click();
+        }
+
+        function whereIn(array, values) {
+            return array.filter(function(item) {
+                return values.includes(item.code);
+            });
+        }
+
+        function getSize(skus) {
+            //get sku_modal from local storage
+            let data = JSON.parse(localStorage.getItem('sku_modal'));
+            var valuesToSearch = skus.split(",");
+            var filteredData = whereIn(data, valuesToSearch);
+            let filter = filteredData.map(s => {
+                return {
+                    size: s.properties.size,
+                    material: s.properties.material,
+                    stock: s.stock,
+                    code: s.code
+                };
+            });
+            var addedSizes = {};
+            $('#select_size').html('');
+            $('#select_material').html('');
+            $.each(filter, function (i, sku) {
+                if (sku.stock > 0) {
+                    $('#select_size').append(`
+                        <label for="${sku.size}" class="size-label" onClick="getMaterial('${sku.code}')">
+                            <span class="p-1">${sku.size}</span>
+                        </label>
+                        <input type="radio" class="d-none" id="${sku.size}">
+                    `);
+               }
+            });
+
+            $('#select_material .material-label').first().click();
+        }
+
+        function getMaterial(sku) {
+            let data = JSON.parse(localStorage.getItem('sku_modal'));
+            var filteredData = whereIn(data, sku);
+            console.log("getMaterial", sku);
+            let filter = filteredData.map(s => {
+                return {
+                    size: s.properties.size,
+                    material: s.properties.material,
+                    stock: s.stock,
+                    code: s.code
+                };
+            });
+
+            $('#select_material').html('');
+            $.each(filter, function (i, sku) {
+                $('#select_material').append(`
+                    <label for="${sku.material}" class="material-label" onClick="getStock('${sku.code}')">
+                        <span class="p-1">${sku.material}</span>
+                    </label>
+                    <input type="radio" class="d-none" id="${sku.material}">
+                `);
+
+                $('#value_stock').text(sku.stock);
+            });
+        }
+
+        function getStock(sku) {
+            let data = JSON.parse(localStorage.getItem('sku_modal'));
+            var filteredData = whereIn(data, sku);
+            localStorage.setItem('selectedSku',  JSON.stringify(filteredData[0]));
+        }
+
+
+        function populateSizeAndMaterialOptions(skus) {
+            let processedSize = new Set();
+            var addedSizes = {};
+            var addMaterial = {};
+            $('#select_size').html('');
+            $('#select_material').html('');
+            $.each(skus, function (i, sku) {
+                var size = sku[0].size;
+                var material = sku[0].material;
+                if (!addedSizes[size]) { // Periksa apakah ukuran belum ditambahkan
+                    // Tambahkan label dan radio button untuk ukuran yang belum ditambahkan
+                    $('#select_size').append(`
+                        <label for="${size}" class="size-label">
+                            <span class="p-1">${size}</span>
+                        </label>
+                        <input type="radio" class="d-none" id="${size}">
+                    `);
+                    addedSizes[size] = true; // Tandai ukuran sebagai sudah ditambahkan
+                }
+
+                if (addMaterial[material]) {
+                    $('#select_material').append(`
+                        <label for="${material}" class="material-label">
+                            <span class="p-1">${material}</span>
+                        </label>
+                        <input type="radio" class="d-none" id="${material}">
+                    `);
+                    addMaterial[material] = true;
+                }
+            });
+        }
+
+
+        function selectColorHandler(e) {
+            let selectedColor = $(this).data('color');
+            $(`#v-pills-tab a[href="#${selectedColor}"]`).tab('show');
+            let code = $(`#v-pills-tab a[href="#${selectedColor}"]`).data('code');
+            let sku_modal = JSON.parse(localStorage.getItem('colorData'));
+
+            $('.color-input').find('label').css('border','');
+            $(this).find('label').css('border', '2px solid #e174b8');
+        }
+
+        function sizeHandler(e) {
+            let selectedSize = $(this).data('code');
+            let sku_modal = JSON.parse(localStorage.getItem('sku_modal'));
+            selectedSku = sku_modal.find(sku => sku.code == code);
+        }
+
+
+        $(document).on('click', '#add_to_cart', function () {
+            let selectedSku = localStorage.getItem('selectedSku');
+            if (selectedSku == null) {
+                return $.toast({
+                    text: "Pilih warna, ukuran, dan material terlebih dahulu",
+                    showHideTransition: 'slide',
+                    bgColor: '#f5365c',
+                    textColor: 'white',
+                    allowToastClose: false,
+                    hideAfter: 3000,
+                    stack: 5,
+                    textAlign: 'left',
+                    position: 'bottom-right',
+                    icon: 'error'
+                });
+            }
+
+            selectedSku = JSON.parse(selectedSku);
+            if (selectedSku.stock == 0) {
+                $.toast({
+                    text: "Stok habis",
+                    showHideTransition: 'slide',
+                    bgColor: '#f5365c',
+                    textColor: 'white',
+                    allowToastClose: false,
+                    hideAfter: 3000,
+                    stack: 5,
+                    textAlign: 'left',
+                    position: 'bottom-right',
+                    icon: 'error'
+                });
+            }else{
+                AddCart(selectedSku);
+            }
+        });
 
 
         $(document).on('click', '.size-label', function () {
@@ -450,11 +493,11 @@
                 {name: "Black", code: "#000000"},
                 {name: "Mauve", code: "#E0B0FF"},
                 {name: "Mocca", code: "#6F4E37"},
-                {name: "Browny", code: "#964B00"},
+                {name: "Browny", code: "#8d726b"},
                 {name: "Dusty Pink", code: "#D4A190"},
-                {name: "Milo", code: "#4B5320"},
+                {name: "Milo", code: "#c6a699"},
                 {name: "Rose Brown", code: "#BC8F8F"},
-                {name: "Salem", code: "#BADA55"},
+                {name: "Salem", code: "#e2b1ac"},
                 {name: "Silver", code: "#C0C0C0"},
             ];
 

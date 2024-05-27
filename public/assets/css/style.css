@@ -2671,9 +2671,9 @@ ul.color-list li:hover {
   height: 32px;
   border-radius: 50%;
 }
-.color-input label {
-  border: 1px solid #ddd;
-}
+/* .color-input label { */
+  /* border: 1px solid #ddd; */
+/* } */
 
 .color-input span {
   color: #666;
@@ -2696,7 +2696,7 @@ ul.color-list li:hover {
 }
 
 .single-product-component .size label.active {
-  background-color: #222;
+  background-color: #e174b8;
   color: #fff;
 }
 .has-border-img img {

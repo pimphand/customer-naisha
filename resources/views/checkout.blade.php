@@ -144,7 +144,7 @@
                             </div>
                         </li>
 
-                        <button class="mt-4 hover"
+                        <button class="mt-4 hover" id="_save_order"
                             style="width: 100%; height: 44px; background-color: #082f49; border-radius: 20px;color:rgb(255, 255, 255)">Bayar
                             Sekarang</button>
                     </div>
@@ -249,6 +249,7 @@
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
                     <button type="button" id="save" class="btn btn-success">Simpan</button>
                     <button type="button" id="save_courier" class="btn btn-success">Simpan</button>
+                    <button type="button" id="save_bank" class="btn btn-success">Simpan</button>
                 </div>
             </div>
         </div>
@@ -263,6 +264,20 @@
         getData()
         function getData() {
             let cart = JSON.parse(localStorage.getItem('cart'));
+
+            if (cart.length == 0) {
+                Swal.fire({
+                    title: "keranjang kosong",
+                    text: "silahkan pilih produk terlebih dahulu",
+                    icon: "warning",
+                    allowOutsideClick: false,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/";
+                    }
+                })
+            }
+
             let address = JSON.parse(localStorage.getItem('address'));
             let cour = JSON.parse(localStorage.getItem('courierSelected'));
             let existingBank = JSON.parse(localStorage.getItem('selectedBank'));
@@ -572,27 +587,48 @@
         });
 
         $('#save').click(function () {
-            $('#_checkout_modal').modal('hide');
 
-            //save to local storage
-            let addresss = {
-                name: $('#_name').val(),
-                phone: $('#_phone').val(),
-                address: $('#_address').val(),
-                provinsi: $('#_address_provinsi').val(),
-                kota: $('#_address_kota').val(),
-                kodepos: $('#_address_kodepos').val(),
-                latitude: $('#_latitude').val(),
-                longitude: $('#_longitude').val()
+            // Validasi data agar tidak kosong
+            const name = $('#_name').val().trim();
+            const phone = $('#_phone').val().trim();
+            const address = $('#_address').val().trim();
+            const provinsi = $('#_address_provinsi').val().trim();
+            const kota = $('#_address_kota').val().trim();
+            const kodepos = $('#_address_kodepos').val().trim();
+            const latitude = $('#_latitude').val().trim();
+            const longitude = $('#_longitude').val().trim();
+
+            if (!name || !phone || !address || !provinsi || !kota || !kodepos || !latitude || !longitude) {
+                // Menampilkan pesan kesalahan jika ada data yang kosong
+                message("Semua kolom alamat harus diisi!");
+                return;
+            }
+
+            // Menyimpan data alamat dalam objek
+            const addressData = {
+                name,
+                phone,
+                address,
+                provinsi,
+                kota,
+                kodepos,
+                latitude,
+                longitude
             };
-            localStorage.setItem('address', JSON.stringify(addresss));
-            $('._show_address_fix').html(`
-                ${$('#_name').val()} | ${$('#_phone').val()} <br>
-                ${$('#_address').val()}
-            `);
-            getData()
 
+            // Menyimpan data alamat dalam localStorage
+            localStorage.setItem('address', JSON.stringify(addressData));
+
+            // Menampilkan alamat di elemen HTML
+            $('._show_address_fix').html(`
+                ${name} | ${phone} <br>
+                ${address}
+            `);
+            $('#_checkout_modal').modal('hide');
+            // Panggil fungsi getData() jika diperlukan
+            getData();
         });
+
 
         $("#save_courier").click(function (e) {
             let existingCourier = JSON.parse(localStorage.getItem('courier'));
@@ -639,6 +675,7 @@
 
                     // Simpan bank yang dipilih ke local storage
                     localStorage.setItem('selectedBank', JSON.stringify(selectedBank));
+                    $('#_checkout_modal').modal('hide');
                 } else {
                     console.error('Bank tidak ditemukan');
                 }
@@ -687,6 +724,44 @@
             }
         });
 
+        $('#_save_order').click(function (e) {
+            e.preventDefault();
+            saveOrder()
+        });
+
+        function saveOrder() {
+            //get cart
+            let cart = JSON.parse(localStorage.getItem('cart'));
+            let address = JSON.parse(localStorage.getItem('address'));
+            let courier = JSON.parse(localStorage.getItem('courierSelected'));
+            let bank = JSON.parse(localStorage.getItem('selectedBank'));
+
+            if (!address) {
+                message('Silahkan lengkapi alamat terlebih dahulu')
+            } else if (!courier) {
+                message('Silahkan pilih kurir terlebih dahulu')
+            } else if (!bank) {
+                message('Silahkan pilih bank terlebih dahulu')
+            } else {
+
+                let data = {
+                    _token:"{{ csrf_token() }}",
+                    cart: cart,
+                    address: address,
+                    shipping: courier,
+                    payment: bank
+                }
+
+                $.ajax({
+                    type: "post",
+                    url: '{{ route("createOrder") }}',
+                    data: data,
+                    success: function (response) {
+                        return response;
+                    }
+                });
+            }
+        }
     });
 </script>
 @endpush

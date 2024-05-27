@@ -38,7 +38,7 @@ function renderCart() {
                 <a href="product/" class="p-0">${p.product_name}</a> <br>
                 <strong>${p.qty} × ${currency(p.price.consumer ?? 0)}</strong>
             </div>
-            <div class="remove" onclick="removeCart(${p.id})">
+            <div class="remove" onclick="removeCart('${p.code}')" style="color:#08090d">
                 <i class="fal fa-times"></i>
             </div>
         </li>
