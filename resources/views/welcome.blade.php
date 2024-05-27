@@ -4,7 +4,7 @@
 <section class="slider">
     <div class="slider-active center-dots number-dots white-dot">
         <div class="single-slider  h-950 d-flex align-items-center"
-            data-background="{{asset('assets')}}/img/slider/10.jpg">
+            data-background="{{asset('assets')}}/img/slider/12.png">
             <div class="container">
                 <div class="single-slider-inner">
                     <div class="single-slider-content style-2 white-content text-left light-content">
@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="single-slider  h-950 d-flex align-items-center"
-            data-background="{{asset('assets')}}/img/slider/11.jpg">
+            data-background="{{asset('assets')}}/img/slider/12.png">
             <div class="container">
                 <div class="single-slider-inner">
                     <div class="single-slider-content style-2 white-content text-left light-content">
