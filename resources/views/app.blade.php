@@ -269,7 +269,7 @@
 
                     $('#v-pills-tab').append(`
                         <a data-code="${sku_.code}" class="nav-link ${processedColors.size == 1 ? "active" : ''}" id="tab-${sku_.code}-tab" data-toggle="pill" href="#${sku_.code}" role="tab" aria-controls="${sku_.properties.color}" aria-selected="${processedColors.size == 1 ? "true" : "false"}">
-                            <img src="${sku_.image_url}" class="" width="20px" alt="">
+                            <img src="${sku_.image_url}" class="" width="100px" alt="">
                         </a>
                     `);
                 }
@@ -309,7 +309,6 @@
                                 style="background-color: ${sumStock > 0 ? colorCode : colorCode}; position: relative; display: inline-block;">
                                 ${sumStock > 0 ? '' : ' <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size:30px;color:red">X</span>'}
                             </label>
-                            <span>${colorNames}</span>
                             <input type="radio" class="d-none" id="${colorName}" name="color" data-color="${colorName}">
                         </div>
                     `);

@@ -17,7 +17,7 @@
     <div class="slider-active center-dots number-dots white-dot">
         <div class="single-slider  h-950 d-flex align-items-center" data-background="{{ $images[0] }}">
             <div class="container">
-                <div class="single-slider-inner">
+                <div class="single-slider-inner d-none">
                     <div class="single-slider-content style-2 white-content text-left light-content">
                         <div class="slider-heading" data-animation="fadeInUp" data-delay=".4s"
                             style="animation-delay: 0.4s;">
@@ -38,7 +38,7 @@
         </div>
         <div class="single-slider  h-950 d-flex align-items-center" data-background="{{ $images[1] }}">
             <div class="container">
-                <div class="single-slider-inner">
+                <div class="single-slider-inner d-none">
                     <div class="single-slider-content style-2 white-content text-left light-content">
                         <div class="slider-heading" data-animation="fadeInUp" data-delay=".4s"
                             style="animation-delay: 0.4s;">
@@ -59,7 +59,7 @@
         </div>
         <div class="single-slider  h-950 d-flex align-items-center" data-background="{{ $images[2] }}">
             <div class="container">
-                <div class="single-slider-inner">
+                <div class="single-slider-inner d-none">
                     <div class="single-slider-content style-2 white-content text-left light-content">
                         <div class="slider-heading" data-animation="fadeInUp" data-delay=".4s"
                             style="animation-delay: 0.4s;">
@@ -117,6 +117,8 @@
                 let list = '';
                 for (var i = 0; i < product.length; i++) {
                     var item = product[i];
+                    let url = "/product/" + item.slug;
+
                     list += `
                         <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
                             <div class="product-box mb-40">
@@ -128,7 +130,7 @@
                                                 <img src="${item.image_url}" alt="" class="w-100">
                                             </div>
                                         </a>
-                                        <a href="javascript:void(0)" class="product-img-link quick-view-1 text-capitalize">${item.name}</a>
+                                        <a href="${url}" class="product-img-link quick-view-1 text-capitalize">${item.name}</a>
                                     </div>
                                     <div class="product-desc pb-20">
                                         <div class="product-desc-top">
