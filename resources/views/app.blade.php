@@ -22,10 +22,23 @@
     <link rel="stylesheet" href="{{asset('assets')}}/css/meanmenu.css">
     <link rel="stylesheet" href="{{asset('assets')}}/css/slick.css">
     <link rel="stylesheet" href="{{asset('assets')}}/css/default.css">
-    <link rel="stylesheet" href="{{asset('assets')}}/css/style.css?date={{ now() }}">
-    <link rel="stylesheet" href="{{asset('assets')}}/css/responsive.css">
+    <link rel="stylesheet" href="{{asset('assets')}}/css/style.css?date={{ time() }}">
+    <link rel="stylesheet" href="{{asset('assets')}}/css/responsive.css?date={{ time() }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css">
 
+
+    <style>
+        #product-list .col-xl-3,
+        #product-list .col-lg-3,
+        #product-list .col-md-4,
+        #product-list .col-sm-6,
+        #product-list .col-12 {
+            display: block !important;
+            /* Pastikan elemen tampil */
+            visibility: none !important;
+            /* Pastikan elemen terlihat */
+        }
+    </style>
 </head>
 
 <body>
@@ -34,7 +47,6 @@
     <div id="loader-wrapper">
         <div id="loader"></div>
     </div>
-
 
     <!-- header section start -->
     <x-header></x-header>
@@ -149,7 +161,6 @@
             </div>
         </div>
     </div>
-
     <!-- footer section end -->
 
     <!-- JS here -->
@@ -513,6 +524,24 @@
             }
         }
 
+
+        //sticky
+        $(window).on('scroll', function () {
+            var scroll = $(window).scrollTop();
+            if (scroll < 245) {
+                //set background black
+                $('.header').css({
+                   'background': '#ffffff',
+                    'color': 'rgb(255, 255, 255)'
+                });
+            } else {
+                //set background transparent
+                $('.header').css({
+                    'background': 'transparent',
+                    'color': 'rgb(0, 0, 0)'
+                });
+            }
+        });
     </script>
 </body>
 

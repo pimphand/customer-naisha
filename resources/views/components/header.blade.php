@@ -1,29 +1,32 @@
 <header class="header header-2 pt-30 pb-20  header-sticky header-static"
-    style="padding-top: 30px; padding-bottom: 15px; top: 0px; background:#e174b8; color:white">
+    style="padding-top: 30px; padding-bottom: 15px; top: 0px; background:#ffffff; color:rgb(0, 0, 0)">
     <div class="container-fluid">
         <div class="header-nav header-nav-2 position-relative">
             <div class="row align-items-center">
-                <div class="col-xl-5 col-lg-6 hidden-md position-static" style="color:white">
-                    <div class="header-nav">
+                <div class="col-xl-5 col-lg-6 hidden-md position-static" style="color:rgb(0, 0, 0)">
+                    <div class=" header-nav">
                         <nav>
-                            <ul style="color:white">
-                                <li><a href="/" class="active"><span>Home </span></a></li>
-                                <li><a href="/"><span style="color:white">Kategori?</span></a></li>
+                            <ul style="color:rgb(0, 0, 0)">
+                                <li><a href=" /" class="active"><span style="color:rgb(0, 0, 0)">Home</span></a></li>
+                                <li><a href="/"><span style="color:rgb(0, 0, 0)">New Drop</span></a></li>
+                                <li><a href="/"><span style="color:rgb(0, 0, 0)">Available Items</span></a></li>
                             </ul>
                         </nav>
                     </div>
                 </div>
-                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-3">
-                    <div class="logo">
-                        <a href="/"><img src="{{asset('')}}/logo.png" alt=""></a>
+                <div class=" col-xl-3 col-lg-3 col-md-6 col-sm-6 col-3">
+                    <div class="logo text-center">
+                        <a href="/">
+                            <h3 style="color:rgb(0, 0, 0)">Naisha</h3>
+                        </a>
                     </div>
                 </div>
 
                 <div class="col-xl-4 col-lg-3 col-6 col-md-6 col-sm-6 col-9">
                     <div class="header-right">
-                        <ul class="text-right" style="color:white">
-                            <li><a href="javascript:void(0)" class="_top-search" style="color:white"><i
-                                        class="fal fa-search"></i></a>
+                        <ul class="text-right" style="color:rgb(0, 0, 0)">
+                            <li><a href=" javascript:void(0)" class="_top-search" style="color:rgb(0, 0, 0)"><i
+                                        class=" fal fa-search"></i></a>
 
                                 <!-- search popup -->
                                 <div id="search-popup">
@@ -42,8 +45,8 @@
                             </li>
 
                             <li>
-                                <a href="javascript:void(0)" style="color:white"><i class="fal fa-shopping-bag"><span
-                                            id="cart-count"></span></i></a>
+                                <a href="javascript:void(0)" style="color:rgb(0, 0, 0)"><i class=" fal
+                                    fa-shopping-bag"><span id="cart-count"></span></i></a>
                                 <div class="minicart">
                                     <div class="minicart-body">
                                         <div class="minicart-content">
@@ -72,10 +75,12 @@
                 </div>
             </div>
         </div>
-        <div class="mobile-menu visible-sm " style="color:white">
+        <div class="mobile-menu visible-sm " style="color:rgb(0, 0, 0)">
             <div id="mobile-menu" style="display: block;">
-                <ul>
-
+                <ul style="color:rgb(0, 0, 0)">
+                    <li><a href=" /" class="active"><span style="color:rgb(0, 0, 0)">Home</span></a></li>
+                    <li><a href="/"><span style="color:rgb(0, 0, 0)">New Drop</span></a></li>
+                    <li><a href="/"><span style="color:rgb(0, 0, 0)">Available Items</span></a></li>
                 </ul>
             </div>
         </div>
