@@ -16,4 +16,9 @@ class FrontendController extends Controller
 
         return view('welcome', compact('images'));
     }
+
+    public function detailProduct($slug)
+    {
+        return view('product', compact('slug'));
+    }
 }

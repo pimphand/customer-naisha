@@ -25,8 +25,10 @@
                 <div class="col-xl-4 col-lg-3 col-6 col-md-6 col-sm-6 col-9">
                     <div class="header-right">
                         <ul class="text-right" style="color:rgb(0, 0, 0)">
-                            <li><a href=" javascript:void(0)" class="_top-search" style="color:rgb(0, 0, 0)"><i
-                                        class=" fal fa-search"></i></a>
+                            <li>
+                                <a href=" javascript:void(0)" class="_top-search" style="color:rgb(0, 0, 0)">
+                                    <i class=" fal fa-search"></i>
+                                </a>
 
                                 <!-- search popup -->
                                 <div id="search-popup">

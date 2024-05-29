@@ -9,9 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [FrontendController::class, 'index'])->name('home');
 
-Route::get('/product/{id}', function () {
-    return view('product');
-});
+Route::get('/product/{id}', [FrontendController::class, 'detailProduct'])->name('product');
 
 Route::get('/checkout', function () {
     return view('checkout');

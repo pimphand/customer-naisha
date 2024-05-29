@@ -232,9 +232,6 @@
                 });
                 localStorage.setItem('sku_modal', JSON.stringify(product.skus));
                 populateColorOptions(product.skus);
-                // populateSizeAndMaterialOptions(colorData);
-
-                //save skuModalColors to local storag
                 populateModalTabs(product.skus);
                 $('#_warna_modals').on('click', '.color-input', selectColorHandler);
             });
@@ -312,6 +309,7 @@
                                 style="background-color: ${sumStock > 0 ? colorCode : colorCode}; position: relative; display: inline-block;">
                                 ${sumStock > 0 ? '' : ' <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size:30px;color:red">X</span>'}
                             </label>
+                            <span>${colorNames}</span>
                             <input type="radio" class="d-none" id="${colorName}" name="color" data-color="${colorName}">
                         </div>
                     `);
@@ -337,7 +335,6 @@
             let filter = filteredData.map(s => {
                 return {
                     size: s.properties.size,
-                    material: s.properties.material,
                     stock: s.stock,
                     code: s.code
                 };
@@ -346,12 +343,14 @@
             $('#select_size').html('');
             $('#select_material').html('');
             $.each(filter, function (i, sku) {
+                let size = sku.size.replace(/[^a-zA-Z0-9]/g, '_');
+                let escapedSize = size.replace(/([!"#$%&'()*+,./:;<=>?@[\\\]^`{|}~])/g, '\\$1');
                 if (sku.stock > 0) {
                     $('#select_size').append(`
-                        <label for="${sku.size}" class="size-label" onClick="getMaterial('${sku.code}')">
+                        <label for="${escapedSize}" class="size-label" onClick="getMaterial('${sku.code}')">
                             <span class="p-1">${sku.size}</span>
                         </label>
-                        <input type="radio" class="d-none" id="${sku.size}">
+                        <input type="radio" class="d-none" id="${escapedSize}">
                     `);
                }
             });
@@ -362,7 +361,6 @@
         function getMaterial(sku) {
             let data = JSON.parse(localStorage.getItem('sku_modal'));
             var filteredData = whereIn(data, sku);
-            console.log("getMaterial", sku);
             let filter = filteredData.map(s => {
                 return {
                     size: s.properties.size,
@@ -374,13 +372,20 @@
 
             $('#select_material').html('');
             $.each(filter, function (i, sku) {
-                $('#select_material').append(`
-                    <label for="${sku.material}" class="material-label" onClick="getStock('${sku.code}')">
-                        <span class="p-1">${sku.material}</span>
-                    </label>
-                    <input type="radio" class="d-none" id="${sku.material}">
-                `);
+                // Check if material is valid
+                if (sku.material) {
+                    let material = sku.material.replace(/ /g, '_');
+                    $('#select_material').append(`
+                        <label for="${sku.material}" class="material-label" onClick="getStock('${sku.code}')">
+                            <span class="p-1">${sku.material}</span>
+                        </label>
+                        <input type="radio" class="d-none" id="${material}">
+                    `);
+                } else {
+                    console.warn('Encountered null or undefined material for SKU code: ', sku.code);
+                }
 
+                // Display stock information
                 $('#value_stock').text(sku.stock);
             });
         }
@@ -399,15 +404,16 @@
             $('#select_size').html('');
             $('#select_material').html('');
             $.each(skus, function (i, sku) {
-                var size = sku[0].size;
+                let size = sku[0].size.replace(/[^a-zA-Z0-9]/g, '_');
+                let escapedSize = size.replace(/([!"#$%&'()*+,./:;<=>?@[\\\]^`{|}~])/g, '\\$1');
                 var material = sku[0].material;
                 if (!addedSizes[size]) { // Periksa apakah ukuran belum ditambahkan
                     // Tambahkan label dan radio button untuk ukuran yang belum ditambahkan
                     $('#select_size').append(`
-                        <label for="${size}" class="size-label">
+                        <label for="${material}" class="size-label">
                             <span class="p-1">${size}</span>
                         </label>
-                        <input type="radio" class="d-none" id="${size}">
+                        <input type="radio" class="d-none" id="${escapedSize}">
                     `);
                     addedSizes[size] = true; // Tandai ukuran sebagai sudah ditambahkan
                 }
@@ -426,7 +432,7 @@
 
 
         function selectColorHandler(e) {
-            let selectedColor = $(this).data('color');
+            let selectedColor = $(this).data('code');
             $(`#v-pills-tab a[href="#${selectedColor}"]`).tab('show');
             let code = $(`#v-pills-tab a[href="#${selectedColor}"]`).data('code');
             let sku_modal = JSON.parse(localStorage.getItem('colorData'));
@@ -498,24 +504,62 @@
         });
 
         function getColorCode(name) {
+            const colorName = name.split(/[\(\)]/)[0].trim();
             var colors = [
-                {name: "Cream", code: "#FFFDD0"},
-                {name: "Navy", code: "#000080"},
-                {name: "Soft Pink", code: "#FFB6C1"},
-                {name: "Baby Blue", code: "#89CFF0"},
-                {name: "Army", code: "#4B5320"},
-                {name: "Black", code: "#000000"},
-                {name: "Mauve", code: "#E0B0FF"},
-                {name: "Mocca", code: "#6F4E37"},
-                {name: "Browny", code: "#8d726b"},
-                {name: "Dusty Pink", code: "#D4A190"},
-                {name: "Milo", code: "#c6a699"},
-                {name: "Rose Brown", code: "#BC8F8F"},
-                {name: "Salem", code: "#e2b1ac"},
-                {name: "Silver", code: "#C0C0C0"},
+            {name: "Cream", code: "#FFFDD0"},
+            {name: "Navy", code: "#000080"},
+            {name: "Soft Pink", code: "#FFB6C1"},
+            {name: "Baby Blue", code: "#89CFF0"},
+            {name: "Army", code: "#4B5320"},
+            {name: "Black", code: "#000000"},
+            {name: "Mauve", code: "#E0B0FF"},
+            {name: "Mocca", code: "#6F4E37"},
+            {name: "Browny", code: "#8d726b"},
+            {name: "Dusty Pink", code: "#D4A190"},
+            {name: "Milo", code: "#c6a699"},
+            {name: "Rose Brown", code: "#BC8F8F"},
+            {name: "Salem", code: "#e2b1ac"},
+            {name: "Silver", code: "#C0C0C0"},
+            {name: "Abalone", code: "#aea2b0"},
+            {name: "Alpha", code: "#A5A5A5"},
+            {name: "Blissful", code: "#F0F8FF"},
+            {name: "Calm", code: "#AFEEEE"},
+            {name: "Elegant", code: "#87CEEB"},
+            {name: "Lovely", code: "#FFA07A"},
+            {name: "Charcoal", code: "#2a2927"},
+            {name: "Indigo Blue", code: "#4c4b5d"},
+            {name: "Ivory", code: "#dedad7"},
+            {name: "Skirt Black", code: "#000000"},
+            {name: "Tunic Black", code: "#000000"},
+            {name: "Tunic Browny", code: "#92807c"},
+            {name: "Tunic Dark Grey", code: "#85848a"},
+            {name: "Tunic Dusty Pink", code: "#dcc0bf"},
+            {name: "Tunic Golden Brown", code: "#d4b7a3"},
+            {name: "Skirt Steel Grey", code: "#d9d8dd"},
+            {name: "Tunic Black + Skirt Steel Grey", code: "#d9d8dd"},
+            {name: "Tunic Browny + Skirt Black", code: "#91807c"},
+            {name: "Tunic Dark Grey + Skirt Steel Grey", code: "#FFA07A"},
+            {name: "Tunic Dusty Pink + Skirt Steel Grey", code: "#dbbfbe"},
+            {name: "Tunic Golden Brown + Skirt Black", code: "#d4b6a3"},
+            // New colors
+            {name: "Beige", code: "#F5F5DC"},
+            {name: "Butter", code: "#FFD700"},
+            {name: "Caramel", code: "#D2691E"},
+            {name: "Coffee", code: "#6F4E37"},
+            {name: "Dark Coffee", code: "#4B3621"},
+            {name: "Dusty Purple", code: "#AF868E"},
+            {name: "Light Beige", code: "#F5F5DC"},
+            {name: "Smoke Grey", code: "#7D7F7D"},
+            {name: "Broken White", code: "#EEE8AA"}, // Assuming a shade for Broken White
+            {name: "Golden Brown", code: "#996515"},
+            {name: "Light Grey", code: "#D3D3D3"},
+            {name: "RANDOM", code: "#D3D3D3"},
+            {name: "Choco", code: "#7B3F00"}, // Assuming a shade for Choco
+            {name: "Grey", code: "#808080"},
+            {name: "Wood", code: "#C19A6B"},
             ];
 
-            var foundColor = colors.find((color) => color.name === name);
+            var foundColor = colors.find((color) => color.name === colorName);
             if (foundColor) {
                 return foundColor.code;
             } else {
