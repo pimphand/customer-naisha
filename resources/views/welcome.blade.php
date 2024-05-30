@@ -170,10 +170,10 @@
                     <div class="category-box">
                         <div class="category-wrapper">
                             <div class="category-img">
-                                <img src="{{asset('assets')}}/img/banner/categorie_1.jpg" class="w-100" alt="">
+                                <img src="{{ $categories[0] }}" class="w-100" alt="">
                             </div>
                             <div class="category-content">
-                                <a href="shop2.html" class="title">Clothing</a>
+                                <a href="" class="title">Gamis</a>
                                 <p class="category-item">(<span>8</span> items)</p>
                             </div>
                         </div>
@@ -187,10 +187,10 @@
                                     <div class="category-box">
                                         <div class="category-wrapper">
                                             <div class="category-img">
-                                                <img src="{{asset('assets')}}/img/banner/categorie_2.jpg" class="w-100" alt="">
+                                                <img src="{{ $categories[1] }}" class="w-100" alt="">
                                             </div>
                                             <div class="category-content">
-                                                <a href="shop2.html" class="title">Handbag</a>
+                                                <a href="javascript:void(0)" class="title">Aksesoris</a>
                                                 <p class="category-item">(<span>20</span> items)</p>
                                             </div>
                                         </div>
@@ -200,10 +200,10 @@
                                     <div class="category-box">
                                         <div class="category-wrapper">
                                             <div class="category-img">
-                                                <img src="{{asset('assets')}}/img/banner/categorie_3.jpg" class="w-100" alt="">
+                                                <img src="{{ $categories[2] }}" class="w-100" alt="">
                                             </div>
                                             <div class="category-content">
-                                                <a href="shop2.html" class="title">Sneaker</a>
+                                                <a href="javascript:void(0)" class="title">Khimar</a>
                                                 <p class="category-item">(<span>11</span> items)</p>
                                             </div>
                                         </div>
@@ -215,10 +215,10 @@
                             <div class="category-box">
                                 <div class="category-wrapper">
                                     <div class="category-img">
-                                        <img src="{{asset('assets')}}/img/banner/categorie_4.jpg" class="w-100" alt="">
+                                        <img src="{{ $categories[3] }}" class="w-100" alt="">
                                     </div>
                                     <div class="category-content">
-                                        <a href="shop2.html" class="title">Women</a>
+                                        <a href="javascript:void(0)" class="title">Koko</a>
                                         <p class="category-item">(<span>17</span> items)</p>
                                     </div>
                                 </div>

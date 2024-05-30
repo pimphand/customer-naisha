@@ -63,10 +63,7 @@
                                             <span class="price float-right" id="total-cart-ammount">Rp.0</span>
                                         </div>
                                         <div class="minicart-checkout-links">
-                                            <a href="cart"
-                                                class="generic-btn black-hover-btn text-uppercase w-100 mb-20">View
-                                                cart</a>
-                                            <a href="checkout"
+                                            <a href="{{ route('checkout') }}"
                                                 class="generic-btn black-hover-btn text-uppercase w-100 mb-20">Checkout</a>
                                         </div>
                                     </div>
