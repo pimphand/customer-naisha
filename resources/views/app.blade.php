@@ -25,20 +25,8 @@
     <link rel="stylesheet" href="{{asset('assets')}}/css/style.css?date={{ time() }}">
     <link rel="stylesheet" href="{{asset('assets')}}/css/responsive.css?date={{ time() }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css">
-
-
-    <style>
-        #product-list .col-xl-3,
-        #product-list .col-lg-3,
-        #product-list .col-md-4,
-        #product-list .col-sm-6,
-        #product-list .col-12 {
-            display: block !important;
-            /* Pastikan elemen tampil */
-            visibility: none !important;
-            /* Pastikan elemen terlihat */
-        }
-    </style>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    @stack('css')
 </head>
 
 <body>
@@ -189,6 +177,7 @@
     <script src="{{asset('')}}/component.js?date={{ time() }}"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
         lucide.createIcons();
     </script>
@@ -234,6 +223,7 @@
                 populateColorOptions(product.skus);
                 populateModalTabs(product.skus);
                 $('#_warna_modals').on('click', '.color-input', selectColorHandler);
+                $('#v-pills-tab').on('click', '.tab_color', selectColorHandler);
             });
         }
 
@@ -268,8 +258,10 @@
                     `);
 
                     $('#v-pills-tab').append(`
-                        <a data-code="${sku_.code}" class="nav-link ${processedColors.size == 1 ? "active" : ''}" id="tab-${sku_.code}-tab" data-toggle="pill" href="#${sku_.code}" role="tab" aria-controls="${sku_.properties.color}" aria-selected="${processedColors.size == 1 ? "true" : "false"}">
-                            <img src="${sku_.image_url}" class="" width="100px" alt="">
+                        <a data-code="${sku_.code}"
+                            onclick="getSize('${sku_.code}')" onClick="getStock('${sku_.code}')" onClick="getMaterial('${sku_.code}')"
+                            class="tab_color nav-link ${processedColors.size == 1 ? "active" : ''}" id="tab-${sku_.code}-tab" data-toggle="pill" href="#${sku_.code}" role="tab" aria-controls="${sku_.properties.color}" aria-selected="${processedColors.size == 1 ? "true" : "false"}">
+                            <img src="${sku_.image_url}" class="" width="40px" alt="">
                         </a>
                     `);
                 }
@@ -304,8 +296,8 @@
                     let colorNames = colorName.replace(/_/g, ' ');
                     let colorCode = getColorCode(colorNames);
                     $('#_warna_modals').append(`
-                        <div class="color-input" data-color="${colorName}" onclick="getSize('${skusCode}')">
-                            <label for="${colorName}" class="color-ok"
+                        <div class="color-input"data-code="${skusCode}" data-color="${colorName}" onclick="getSize('${skusCode}')">
+                            <label for="${colorName}" class="color-ok" data-code="${skusCode}"
                                 style="background-color: ${sumStock > 0 ? colorCode : colorCode}; position: relative; display: inline-block;">
                                 ${sumStock > 0 ? '' : ' <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size:30px;color:red">X</span>'}
                             </label>
@@ -430,14 +422,32 @@
         }
 
 
-        function selectColorHandler(e) {
-            let selectedColor = $(this).data('code');
-            $(`#v-pills-tab a[href="#${selectedColor}"]`).tab('show');
-            let code = $(`#v-pills-tab a[href="#${selectedColor}"]`).data('code');
-            let sku_modal = JSON.parse(localStorage.getItem('colorData'));
+        let isColorHandlerRunning = false;
 
-            $('.color-input').find('label').css('border','');
-            $(this).find('label').css('border', '2px solid #e174b8');
+        function selectColorHandler(e) {
+            if (isColorHandlerRunning) return;
+            isColorHandlerRunning = true;
+
+            try {
+                let selectedColor = $(this).data('code');
+                let $selectedTab = $(`#v-pills-tab a[href="#${selectedColor}"]`).click();
+
+                let sku_modal = JSON.parse(localStorage.getItem('colorData'));
+
+                $('.color-input label').css('border', '');
+                $(this).find('label').css('border', '2px solid #e174b8');
+
+                $('#value_stock').text(0);
+
+                $('#select_size .size-label:first').click();
+                $('#select_material .material-label:first').click();
+
+                //find label
+                let cek = $(`#_warna_modals label[data-code="${selectedColor}"]`).css('border', '2px solid #e174b8');
+
+            } finally {
+                isColorHandlerRunning = false;
+            }
         }
 
         function sizeHandler(e) {
@@ -574,8 +584,8 @@
             if (scroll < 245) {
                 //set background black
                 $('.header').css({
-                   'background': '#ffffff',
-                    'color': 'rgb(255, 255, 255)'
+                    'background': '#dfded7',
+                    'color': '#dfded7'
                 });
             } else {
                 //set background transparent

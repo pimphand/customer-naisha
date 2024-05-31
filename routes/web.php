@@ -8,8 +8,11 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [FrontendController::class, 'index'])->name('home');
+Route::get('/catalog', [FrontendController::class, 'catalog'])->name('catalog');
 
 Route::get('/product/{id}', [FrontendController::class, 'detailProduct'])->name('product');
+Route::get('/order/{id}', [FrontendController::class, 'detailOrder'])->name('order');
+
 
 Route::get('/checkout', function () {
     return view('checkout');
@@ -84,21 +87,17 @@ Route::post('create-order', function (Request $request) {
         ],
     ];
 
-    Log::info('Create Order', $data);
-
     $response = Http::post(config('app.api_url') . '/customer/create-order', $data);
 
     if ($response->status() == 200) {
         return response()->json([
             'status' => 'success',
             'message' => 'Order created successfully',
-            'data' => $response->json(),
         ]);
     } else {
         return response()->json([
             'status' => 'error',
             'message' => $response['message'],
-            'request' => $request->all(),
         ], 422);
     }
 })->name('createOrder');

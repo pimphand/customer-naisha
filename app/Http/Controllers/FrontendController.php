@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class FrontendController extends Controller
 {
@@ -27,5 +28,17 @@ class FrontendController extends Controller
     public function detailProduct($slug)
     {
         return view('product', compact('slug'));
+    }
+
+    public function detailOrder($id)
+    {
+        Http::get(config('app.api_url') . '/customer/order/' . $id);
+
+        return view('checkout', compact('id'));
+    }
+
+    public function catalog()
+    {
+        return view('catalog.index');
     }
 }

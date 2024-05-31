@@ -710,7 +710,7 @@ header.header ul li a span::after {
   visibility: hidden;
 }
 header.header ul li a.active span {
-  color: #ffffff;
+  color: #bcbcbc;
 }
 header.header.bright-turquoise-content ul li a.active span {
   color: #12c1db;
@@ -727,7 +727,7 @@ header.header ul li:hover a span::after {
   visibility: visible;
 }
 header.header ul li a:hover span {
-  color: #ffffff;
+  color: #bcbcbc;
 }
 header.header.bright-turquoise-content ul li a:hover span {
   color: #12c1db;

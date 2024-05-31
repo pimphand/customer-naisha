@@ -756,8 +756,37 @@
                     type: "post",
                     url: '{{ route("createOrder") }}',
                     data: data,
-                    success: function (response) {
-                        return response;
+                    success: function (data) {
+                        if (data.status == 'success') {
+                            localStorage.removeItem('cart');
+                            localStorage.removeItem('address');
+                            localStorage.removeItem('courierSelected');
+                            localStorage.removeItem('selectedBank');
+                            Swal.fire({
+                                title: "Berhasil",
+                                text: data.message,
+                                icon: "success",
+                                allowOutsideClick: false,
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = "/";
+                                }
+                            })
+                        } else {
+                            Swal.fire({
+                                title: "Gagal",
+                                text: data.message,
+                                icon: "error",
+                                allowOutsideClick: false,
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = "/";
+                                }
+                            })
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr.responseText);
                     }
                 });
             }

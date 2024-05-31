@@ -1,17 +1,6 @@
 @extends('app')
 
 @section('content')
-<style>
-    @media (min-width: 768px) {
-        .new-arrival-wrapper .row {
-            /* Atur properti CSS untuk tampilan mobile di sini */
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        /* Atur properti CSS lainnya sesuai kebutuhan */
-    }
-</style>
 
 <section class="slider">
     <div class="slider-active center-dots number-dots white-dot">

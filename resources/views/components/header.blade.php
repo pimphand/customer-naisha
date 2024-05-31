@@ -1,20 +1,28 @@
 <header class="header header-2 pt-30 pb-20  header-sticky header-static"
-    style="padding-top: 30px; padding-bottom: 15px; top: 0px; background:#ffffff; color:rgb(0, 0, 0)">
+    style="padding-top: 30px; padding-bottom: 15px; top: 0px; background:#dbdad4; color:rgb(0, 0, 0)">
     <div class="container-fluid">
         <div class="header-nav header-nav-2 position-relative">
             <div class="row align-items-center">
-                <div class="col-xl-5 col-lg-6 hidden-md position-static" style="color:rgb(0, 0, 0)">
+                <div class="col-12 align-items-center" style="text-align: center;">
+                    <h6 style="color:rgb(0, 0, 0)">Free ongkir 15.000 minimal order 250.000</h6>
+                </div>
+            </div>
+        </div>
+        <div class="header-nav header-nav-2 position-relative">
+            <div class="row align-items-center">
+                <div class="col-xl-4 col-lg-6 hidden-md position-static" style="color:rgb(0, 0, 0)">
                     <div class=" header-nav">
                         <nav>
                             <ul style="color:rgb(0, 0, 0)">
-                                <li><a href=" /" class="active"><span style="color:rgb(0, 0, 0)">Home</span></a></li>
+                                <li><a href="/" class="active"><span style="color:rgb(0, 0, 0)">Home</span></a></li>
+                                <li><a href="/"><span style="color:rgb(0, 0, 0)">CATALOG</span></a></li>
                                 <li><a href="/"><span style="color:rgb(0, 0, 0)">New Drop</span></a></li>
                                 <li><a href="/"><span style="color:rgb(0, 0, 0)">Available Items</span></a></li>
                             </ul>
                         </nav>
                     </div>
                 </div>
-                <div class=" col-xl-3 col-lg-3 col-md-6 col-sm-6 col-3">
+                <div class=" col-xl-4 col-lg-4 col-md-6 col-sm-6 col-4">
                     <div class="logo text-center">
                         <a href="/">
                             <h3 style="color:rgb(0, 0, 0)">Naisha</h3>
@@ -22,7 +30,7 @@
                     </div>
                 </div>
 
-                <div class="col-xl-4 col-lg-3 col-6 col-md-6 col-sm-6 col-9">
+                <div class="col-xl-4 col-lg-4 col-6 col-md-6 col-sm-6 col-9">
                     <div class="header-right">
                         <ul class="text-right" style="color:rgb(0, 0, 0)">
                             <li>
