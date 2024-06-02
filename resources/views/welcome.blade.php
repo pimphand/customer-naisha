@@ -70,9 +70,7 @@
     </div>
 </section>
 <!-- category section start -->
-<section class="category mt-100">
-
-</section>
+<section class="category mt-100"></section>
 <!-- new arrival section start -->
 <section class="new-arrival mt-120">
     <div class="container container-1430">
@@ -162,7 +160,7 @@
                                 <img src="{{ $categories[0] }}" class="w-100" alt="">
                             </div>
                             <div class="category-content">
-                                <a href="" class="title">Gamis</a>
+                                <a href="{{ route('catalog') }}?category=gamis" class="title">Gamis</a>
                                 <p class="category-item">(<span>8</span> items)</p>
                             </div>
                         </div>

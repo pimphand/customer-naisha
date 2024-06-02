@@ -14,8 +14,15 @@
                     <div class=" header-nav">
                         <nav>
                             <ul style="color:rgb(0, 0, 0)">
-                                <li><a href="/" class="active"><span style="color:rgb(0, 0, 0)">Home</span></a></li>
-                                <li><a href="/"><span style="color:rgb(0, 0, 0)">CATALOG</span></a></li>
+                                <li>
+                                    <a href="/" class="{{ request()->routeIs('home') ? " active" : "" }}">
+                                        <span style="color:rgb(0, 0, 0)">Home</span>
+                                    </a>
+                                </li>
+                                <li><a class="{{ request()->routeIs('catalog') ? " active" : "" }}"
+                                        href="{{ route('catalog') }}">
+                                        <span style="color:rgb(0, 0, 0)">CATALOG</span></a>
+                                </li>
                                 <li><a href="/"><span style="color:rgb(0, 0, 0)">New Drop</span></a></li>
                                 <li><a href="/"><span style="color:rgb(0, 0, 0)">Available Items</span></a></li>
                             </ul>

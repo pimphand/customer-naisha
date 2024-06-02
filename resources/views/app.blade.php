@@ -517,7 +517,7 @@
             var colors = [
             {name: "Cream", code: "#FFFDD0"},
             {name: "Navy", code: "#000080"},
-            {name: "Soft Pink", code: "#FFB6C1"},
+            {name: "Soft pink", code: "#FFB6C1"},
             {name: "Baby Blue", code: "#89CFF0"},
             {name: "Army", code: "#4B5320"},
             {name: "Black", code: "#000000"},
@@ -566,6 +566,12 @@
             {name: "Choco", code: "#7B3F00"}, // Assuming a shade for Choco
             {name: "Grey", code: "#808080"},
             {name: "Wood", code: "#C19A6B"},
+            {name: "Blue black", code: "#31354c"},
+            {name: "Ginger bread", code: "#e38371"},
+            {name: "Magenta", code: "#b75765"},
+            {name: "Soft Punk", code: "#cfabb1"},
+            {name: "Sage", code: "#c5b8a7"},
+            {name: "Wallnut", code: "#c5b8a7"},
             ];
 
             var foundColor = colors.find((color) => color.name === colorName);

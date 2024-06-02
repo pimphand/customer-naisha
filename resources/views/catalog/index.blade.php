@@ -74,7 +74,7 @@
                         <div class="row">
                             <div class="col-xl-4 col-lg-4 col-md-4 col-12">
                                 <div class="filter-shown-item">
-                                    <p class="mb-0">Showing <span>1</span>–<span>24</span> of <span
+                                    <p class="mb-0">Showing <span>1</span>–<span id="to_">24</span> of <span
                                             class="total_count">56</span> results</p>
                                 </div>
                             </div>
@@ -104,7 +104,7 @@
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-12">
                                 <div class="filter-shown-item search-container">
-                                    <input type="text" id="" placeholder="Search Products...">
+                                    <input type="text" id="search_" placeholder="Search Products...">
                                     {{-- <button type="submit"><i class="fal fa-search"></i></button> --}}
                                 </div>
                             </div>
@@ -221,8 +221,9 @@
                                     <div class="row" id="_tab_3">
 
                                     </div>
+
                                     <div class="text-center mt-20">
-                                        <a href="shop.html" class="load-more">LOAD MORE...</a>
+                                        <a href="javascript:void(0)" class="load-more">LOAD MORE...</a>
                                     </div>
                                 </div>
                             </div>
@@ -326,15 +327,36 @@
     var per_page = 12;
     var page = 1;
     function getData(per_page, page) {
-        get(url_product + "/all-products?paginate=" + per_page + "&page=" + page, function (err, data) {
+        let query = window.location.search;
+
+        if ($("#slider-range").length) {
+            query += "&filter[price_range]=" + $("#price").val();
+        }
+
+        if ($('#search_').val() != '') {
+            query += "&filter[name]=" + $('#search_').val();
+        }
+
+        if ($('#promo_').val() != '') {
+            query += "&filter[promo]=" + $('#promo_').val();
+        }
+
+        if ($('#tag_').val() != '') {
+            query += "&filter[tags]=" + $('#tag_').val();
+        }
+
+        get(url_product + "/all-products?paginate=" + per_page + "&page=" + page + "&filter[category.name]={{ request()->category }}&"+query, function (err, data) {
             if (err) {
                 console.log(err);
             } else {
-                tab_3(data);
+                if (data.data.length > 0) {
+                    tab_3(data);
+                }else{
+                    $('#_tab_3').html('<div class="col-12 text-center">No data found</div>');
+                }
             }
         });
     }
-    getData(per_page, page);
 
     function tab_3(data) {
         var product = data.data;
@@ -342,7 +364,6 @@
         for (var i = 0; i < product.length; i++) {
             var item = product[i];
             let url = "/product/" + item.slug;
-
             list += `
             <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
                 <div class="product-box mb-40">
@@ -377,7 +398,31 @@
             </div>
             `;
         }
-        $('#_tab_3').append(list);
+        $("#from_").text(data.meta.from);
+        $("#to_").text(data.meta.to);
+        $('.total_count').text(data.meta.total);
+        $('#_tab_3').html(list);
+
+        if (data.data.length < 0) {
+            $('.load-more').hide();
+        }
     }
+    // Initial load
+    getData(per_page, page);
+    // Load more event
+    $('.load-more').click(function () {
+        page++;
+        getData(per_page, page);
+    });
+
+
+    $('#search_').on('keyup', function () {
+        //min 3 caracters
+        if ($(this).val().length >= 3 || $(this).val().length == 0) {
+            setTimeout(function() {
+                getData(per_page, page);
+            }, 500);
+        }
+    });
 </script>
 @endpush
