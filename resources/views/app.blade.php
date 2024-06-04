@@ -184,7 +184,7 @@
     @stack('js')
 
     <script>
-        function openModal(slug) {
+        function openModal(slug, close = null) {
             // Remove selectedSku from localStorage
             localStorage.removeItem('selectedSku');
             let selectedSku = null;
@@ -194,7 +194,6 @@
 
             fetchProductDetails(slug, function(product) {
                 $('#_product_name').text(product.name);
-                $('#exampleModalCenter').modal('show');
                 $('#_modal_single_product').html(`<span>${currency(product.min_price.consumer_price_idr)}</span>–<span>${currency(product.max_price.consumer_price_idr)}</span>`);
                 $('#_warna_modals').html('');
                 $('#v-pills-tabContent').html('');
@@ -224,6 +223,10 @@
                 populateModalTabs(product.skus);
                 $('#_warna_modals').on('click', '.color-input', selectColorHandler);
                 $('#v-pills-tab').on('click', '.tab_color', selectColorHandler);
+                if (!close) {
+                    $('#exampleModalCenter').modal('show');
+                }
+                $("#_name_product").text(product.name);
             });
         }
 
@@ -515,63 +518,75 @@
         function getColorCode(name) {
             const colorName = name.split(/[\(\)]/)[0].trim();
             var colors = [
-            {name: "Cream", code: "#FFFDD0"},
-            {name: "Navy", code: "#000080"},
-            {name: "Soft pink", code: "#FFB6C1"},
-            {name: "Baby Blue", code: "#89CFF0"},
-            {name: "Army", code: "#4B5320"},
-            {name: "Black", code: "#000000"},
-            {name: "Mauve", code: "#E0B0FF"},
-            {name: "Mocca", code: "#6F4E37"},
-            {name: "Browny", code: "#8d726b"},
-            {name: "Dusty Pink", code: "#D4A190"},
-            {name: "Milo", code: "#c6a699"},
-            {name: "Rose Brown", code: "#BC8F8F"},
-            {name: "Salem", code: "#e2b1ac"},
-            {name: "Silver", code: "#C0C0C0"},
-            {name: "Abalone", code: "#aea2b0"},
-            {name: "Alpha", code: "#A5A5A5"},
-            {name: "Blissful", code: "#F0F8FF"},
-            {name: "Calm", code: "#AFEEEE"},
-            {name: "Elegant", code: "#87CEEB"},
-            {name: "Lovely", code: "#FFA07A"},
-            {name: "Charcoal", code: "#2a2927"},
-            {name: "Indigo Blue", code: "#4c4b5d"},
-            {name: "Ivory", code: "#dedad7"},
-            {name: "Skirt Black", code: "#000000"},
-            {name: "Tunic Black", code: "#000000"},
-            {name: "Tunic Browny", code: "#92807c"},
-            {name: "Tunic Dark Grey", code: "#85848a"},
-            {name: "Tunic Dusty Pink", code: "#dcc0bf"},
-            {name: "Tunic Golden Brown", code: "#d4b7a3"},
-            {name: "Skirt Steel Grey", code: "#d9d8dd"},
-            {name: "Tunic Black + Skirt Steel Grey", code: "#d9d8dd"},
-            {name: "Tunic Browny + Skirt Black", code: "#91807c"},
-            {name: "Tunic Dark Grey + Skirt Steel Grey", code: "#FFA07A"},
-            {name: "Tunic Dusty Pink + Skirt Steel Grey", code: "#dbbfbe"},
-            {name: "Tunic Golden Brown + Skirt Black", code: "#d4b6a3"},
-            // New colors
-            {name: "Beige", code: "#F5F5DC"},
-            {name: "Butter", code: "#FFD700"},
-            {name: "Caramel", code: "#D2691E"},
-            {name: "Coffee", code: "#6F4E37"},
-            {name: "Dark Coffee", code: "#4B3621"},
-            {name: "Dusty Purple", code: "#AF868E"},
-            {name: "Light Beige", code: "#F5F5DC"},
-            {name: "Smoke Grey", code: "#7D7F7D"},
-            {name: "Broken White", code: "#EEE8AA"}, // Assuming a shade for Broken White
-            {name: "Golden Brown", code: "#996515"},
-            {name: "Light Grey", code: "#D3D3D3"},
-            {name: "RANDOM", code: "#D3D3D3"},
-            {name: "Choco", code: "#7B3F00"}, // Assuming a shade for Choco
-            {name: "Grey", code: "#808080"},
-            {name: "Wood", code: "#C19A6B"},
-            {name: "Blue black", code: "#31354c"},
-            {name: "Ginger bread", code: "#e38371"},
-            {name: "Magenta", code: "#b75765"},
-            {name: "Soft Punk", code: "#cfabb1"},
-            {name: "Sage", code: "#c5b8a7"},
-            {name: "Wallnut", code: "#c5b8a7"},
+                {name: "Cream", code: "#FFFDD0"},
+                {name: "Navy", code: "#000080"},
+                {name: "Soft pink", code: "#FFB6C1"},
+                {name: "Soft Pink", code: "#FFB6C1"},
+                {name: "Soft_Pink", code: "#FFB6C1"},
+                {name: "Baby Blue", code: "#89CFF0"},
+                {name: "Army", code: "#4B5320"},
+                {name: "Black", code: "#000000"},
+                {name: "Mauve", code: "#E0B0FF"},
+                {name: "Mocca", code: "#6F4E37"},
+                {name: "Browny", code: "#8d726b"},
+                {name: "Dusty Pink", code: "#D4A190"},
+                {name: "Milo", code: "#c6a699"},
+                {name: "Rose Brown", code: "#BC8F8F"},
+                {name: "Salem", code: "#e2b1ac"},
+                {name: "Silver", code: "#C0C0C0"},
+                {name: "Abalone", code: "#aea2b0"},
+                {name: "Alpha", code: "#A5A5A5"},
+                {name: "Blissful", code: "#F0F8FF"},
+                {name: "Calm", code: "#AFEEEE"},
+                {name: "Elegant", code: "#87CEEB"},
+                {name: "Lovely", code: "#FFA07A"},
+                {name: "Charcoal", code: "#2a2927"},
+                {name: "Indigo Blue", code: "#4c4b5d"},
+                {name: "Ivory", code: "#dedad7"},
+                {name: "Skirt Black", code: "#000000"},
+                {name: "Tunic Black", code: "#000000"},
+                {name: "Tunic Browny", code: "#92807c"},
+                {name: "Tunic Dark Grey", code: "#85848a"},
+                {name: "Tunic Dusty Pink", code: "#dcc0bf"},
+                {name: "Tunic Golden Brown", code: "#d4b7a3"},
+                {name: "Skirt Steel Grey", code: "#d9d8dd"},
+                {name: "Tunic Black + Skirt Steel Grey", code: "#d9d8dd"},
+                {name: "Tunic Browny + Skirt Black", code: "#91807c"},
+                {name: "Tunic Dark Grey + Skirt Steel Grey", code: "#FFA07A"},
+                {name: "Tunic Dusty Pink + Skirt Steel Grey", code: "#dbbfbe"},
+                {name: "Tunic Golden Brown + Skirt Black", code: "#d4b6a3"},
+                // New colors
+                {name: "Beige", code: "#F5F5DC"},
+                {name: "Butter", code: "#FFD700"},
+                {name: "Caramel", code: "#D2691E"},
+                {name: "Coffee", code: "#6F4E37"},
+                {name: "Dark Coffee", code: "#4B3621"},
+                {name: "Dusty Purple", code: "#AF868E"},
+                {name: "Light Beige", code: "#F5F5DC"},
+                {name: "Smoke Grey", code: "#7D7F7D"},
+                {name: "Broken White", code: "#EEE8AA"}, // Assuming a shade for Broken White
+                {name: "Golden Brown", code: "#996515"},
+                {name: "Golden brown", code: "#996515"},
+                {name: "Light Grey", code: "#D3D3D3"},
+                {name: "RANDOM", code: "#D3D3D3"},
+                {name: "Choco", code: "#7B3F00"}, // Assuming a shade for Choco
+                {name: "Grey", code: "#808080"},
+                {name: "Wood", code: "#C19A6B"},
+                {name: "Blue black", code: "#31354c"},
+                {name: "Ginger bread", code: "#e38371"},
+                {name: "Magenta", code: "#b75765"},
+                {name: "Soft Punk", code: "#cfabb1"},
+                {name: "Sage", code: "#c5b8a7"},
+                {name: "Wallnut", code: "#c5b8a7"},
+                {name: "Olive", code: "#a89c68"},
+                {name: "Denim", code: "#9aa5c1"},
+                {name: "Sky Blue", code: "#b5c9d2"},
+                {name: "Golden", code: "#dcc1ae"},
+                {name: "potong gamis", code: "#dcc1ae"},
+                {name: "Purple", code: "#9b93a8"},
+                {name: "Smoke grey", code: "#939e9a"},
+                {name: "Soft green", code: "#929c99"},
+                {name: "Grape", code: "#996c73"},
             ];
 
             var foundColor = colors.find((color) => color.name === colorName);
@@ -593,15 +608,25 @@
                     'background': '#dfded7',
                     'color': '#dfded7'
                 });
+
+                // $('#promo_').css({
+                //     'color': '#ffff'
+                // });
             } else {
                 //set background transparent
                 $('.header').css({
                     'background': '#ffff',
                     'color': 'rgb(0, 0, 0)'
                 });
+
+                // $('#promo_').css({
+                //     'color': '#dfded7'
+                // });
             }
         });
     </script>
+
+    @stack('script')
 </body>
 
 </html>

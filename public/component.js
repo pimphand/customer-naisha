@@ -5,8 +5,10 @@ function AddCart(sku, qty = 1) {
     let index = cart.findIndex(item => item.code === sku.code);
     if (index !== -1) {
         cart[index].qty += qty;
+        cart[index].stock -= qty;
     } else {
         sku.qty = qty;
+        sku.stock -= qty;
         cart.push(sku);
     }
     localStorage.setItem("cart", JSON.stringify(cart));

@@ -326,10 +326,22 @@
 <script src="{{asset('assets')}}/js/jquery-ui.js"></script>
 
 <script>
+    $("#category_").val("{{ request()->category }}");
+
+    $(document).ready(function() {
+        // Check if the URL contains the query parameter ?category=Khimara
+        if (window.location.search.includes('?category=')) {
+            // Construct a new URL without the query parameter
+            var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+
+            // Use the History API to update the URL without reloading the page
+            window.history.replaceState({path: newUrl}, '', newUrl);
+        }
+    });
     var per_page = 12;
     var page = 1;
     function getData(per_page, page) {
-        let query = window.location.search;
+        let query = '';
 
         if ($("#slider-range").length) {
             query += "&filter[price_range]=" + $("#price").val();
@@ -351,7 +363,7 @@
             query += "&filter[category.name]=" + $('#category_').val();
         }
 
-        get(url_product + "/all-products?paginate=" + per_page + "&page=" + page +query, function (err, data) {
+        get(url_product + "/all-products?paginate=" + per_page + "&page=" + page + query, function (err, data) {
             if (err) {
                 console.log(err);
             } else {

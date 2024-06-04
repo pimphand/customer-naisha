@@ -49,7 +49,7 @@
     }
 
     .custom-radio:hover .radio-circle {
-        background-color: pink;
+        background-color: #e174b8;
         /* Warna ketika dihover */
     }
 
@@ -78,10 +78,56 @@
     }
 
     .hover:hover {
-        background-color: #b2cfed;
+        background-color: #e174b8;
         /* Warna latar belakang saat dihover */
-        color: black;
+        /* color: black !important; */
         /* Warna teks saat dihover */
+    }
+
+    .hover-pink:hover .p-1 {
+        background-color: #e174b8;
+        color: white;
+    }
+
+    .hidden-radio {
+        display: none;
+    }
+
+    .custom-radio-label {
+        cursor: pointer;
+    }
+
+    .input-container {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    #voucher {
+        width: 100%;
+        padding: 6px;
+        border: 1px solid #d1d1d1;
+        border-radius: 0 4px 4px 0;
+        font-size: 16px;
+        outline: none;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.12);
+    }
+
+    #voucher-button {
+        padding: 6px 20px;
+        border: 1px solid #d1d1d1;
+        border-left: none;
+        border-radius: 4px 0 0 4px;
+        background-color: #082f49;
+        cursor: pointer;
+        font-size: 16px;
+        outline: none;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.12);
+    }
+
+    #voucher-button:hover {
+        background-color: #e6e6e6;
+        color: black !important;
     }
 </style>
 
@@ -133,6 +179,17 @@
                             </div>
                         </li>
 
+                        <li class="d-flex justify-content-between mt-3 font-12">
+                            <div class="flex" style="display: flex; flex-direction: row;">
+                                <div class="input-container">
+                                    <button id="voucher-button" style="color: white">Apply</button>
+                                    <input type="text" id="voucher" placeholder="Masukan kode voucher">
+                                </div>
+                            </div>
+                            <div class="input-container">
+                                <span style="margin-left: auto;" id="discount_"></span>
+                            </div>
+                        </li>
                         <hr>
 
                         <li class="d-flex justify-content-between mt-3 font-12">
@@ -200,11 +257,9 @@
 
                             </div>
                             <div class="col-6">
-
                                 <span class="">Nomor HP penerima</span>
                                 <input type="text" id="_phone" class="form-control"
                                     placeholder="Masukkan Nomor HP penerima">
-
                             </div>
                         </div>
 
@@ -265,7 +320,7 @@
         function getData() {
             let cart = JSON.parse(localStorage.getItem('cart'));
 
-            if (cart.length == 0) {
+            if (cart == null || cart.length == 0) {
                 Swal.fire({
                     title: "keranjang kosong",
                     text: "silahkan pilih produk terlebih dahulu",
@@ -334,7 +389,7 @@
 
         function listCartCheckout(cart) {
             $('#list_cart_checkout').html('');
-                let total = [];
+                let total = 0;
                 cart.forEach(element => {
                     total += element.qty;
                     $('#list_cart_checkout').append(`
@@ -348,7 +403,7 @@
                                     <span>${element.product_name} | ${element.properties.color} | ${element.properties.material} |
                                         ${element.properties.size}</span>
                                     <br>
-                                    <span style="margin-top: 5px;">Stok: ${element.stock}</span>
+                                    <span style="margin-top: 5px;">Stok: <span id="stock_${element.code}">${element.stock}</span></span>
                                 </div>
                             </div>
                             <div>
@@ -424,8 +479,10 @@
             let index = cart.findIndex(p => p.code == code);
             let item = cart.find(item => item.code === code);
             if (item.qty > 1) {
+                console.log(item.stock);
                 if (index !== -1) {
                     cart[index].qty -= 1;
+                    cart[index].stock += 1;
                     if (cart[index].qty <= 0) {
                         cart.splice(index, 1);
                     }
@@ -433,8 +490,34 @@
                 localStorage.setItem("cart", JSON.stringify(cart));
                 renderCart();
                 getData();
+                //add delay
+                setTimeout(() => {
+                    reloadCourier()
+                }, 1000);
             }else{
                 message('Minimal pembelian 1 item!')
+            }
+        }
+
+        // increase qty
+        function increaseQty(code) {
+            let cart = getCart();
+            let index = cart.findIndex(p => p.code == code);
+            let item = cart.find(item => item.code === code);
+            if (item.stock > 0){
+                if (index !== -1) {
+                    cart[index].qty += 1;
+                    cart[index].stock -= 1;
+                }
+                localStorage.setItem("cart", JSON.stringify(cart));
+                renderCart();
+                getData();
+                //add delay
+                setTimeout(() => {
+                     reloadCourier()
+                }, 1000);
+            }else{
+                message()
             }
         }
 
@@ -451,23 +534,6 @@
                     position: 'bottom-right',
                     icon: 'error'
                 });
-        }
-
-        // increase qty
-        function increaseQty(code) {
-            let cart = getCart();
-            let index = cart.findIndex(p => p.code == code);
-            let item = cart.find(item => item.code === code);
-            if (item.qty < item.stock) {
-                if (index !== -1) {
-                    cart[index].qty += 1;
-                }
-                localStorage.setItem("cart", JSON.stringify(cart));
-                renderCart();
-                getData();
-            }else{
-                message()
-            }
         }
 
         $('#address').click(function () {
@@ -508,13 +574,11 @@
                         data.data.forEach(element => {
                         //rate idr
                         html += `
-                            <label class="flex justify-between">
+                            <label class="flex justify-between hover-pink select_bank" data-data="${element.id}">
                                 <div class="p-1 border border-gra2-300 rounded-lg bg-neutral-100 text-icon flex items-center">
                                     <img src="${element.bank.icon}" width="20%">
                                     <span class="ml-2 p-1"> ${element.account_name} - ${element.account_number}
-
                                     </span>
-                                    <input type="radio" name="bank" value="${element.id}" class="ml-2 align-items-end">
                                 </div>
                             </label>
                         `;
@@ -528,6 +592,9 @@
         let courier = [];
         $('#courier').click(function () {
            let address = JSON.parse(localStorage.getItem('address'));
+           //add loading button
+           this.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Loading...';
+           this.disabled = true;
            $("#save").hide();
            $("#save_courier").show();
            $("#save_bank").hide();
@@ -552,7 +619,10 @@
 
                 get(url+'/check-courier?postal_code='+address.kodepos+"&cartCode="+cartCode+"&qty="+qty, function (err, data) {
                     if (err) {
-                        console.log(err);
+                        message("Pastikan kode pos sudah diisi dengan benar!");
+
+                        //remove loading button
+                        this.innerHTML = 'Pilih Kurir';
                     } else {
                         $('#_checkout_modal').modal('show');
                         $('#_title_modal').text('Pilih Kurir');
@@ -565,25 +635,39 @@
                         courier = data.data;
                         localStorage.setItem('courier', JSON.stringify(courier));
                         data.data.forEach(element => {
-                            //rate idr
                             html += `
-                            <label class="flex justify-between">
+                            <label class="flex justify-between hover-pink select_courier" data-data="${element.logistic_name}-${element.rate_name}">
                                 <div class="p-1 border border-gra2-300 rounded-lg bg-neutral-100 text-icon flex items-center ">
                                     <img src="${element.logo}" width="20%">
                                     <span class="ml-2 p-1">${element.logistic_name} - ${element.rate_name} ${currency(element.rate)} <br>
                                         Pengiriman ${element.min_day != 0 && element.max_day != 0 ? element.min_day + " - " + element.max_day : "-"} Hari
                                     </span>
-                                    <input type="radio" name="courier" value="${element.logistic_name}-${element.rate_name}" class="ml-2">
                                 </div>
                             </label>
                             `;
                         });
 
                         $('#_show_list_courier').html(html);
+                        this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="truck"
+                            class="lucide lucide-truck">
+                            <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path>
+                            <path d="M15 18H9"></path>
+                            <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path>
+                            <circle cx="17" cy="18" r="2"></circle>
+                            <circle cx="7" cy="18" r="2"></circle>
+                        </svg>`;
                     }
-                });
 
-           }
+                });           }
+
+        });
+        $('#_show_list_courier').on('click','.select_courier',function (e) {
+            saveCourier($(this).data('data'));
+        });
+
+        $('#_show_list_payment').on('click','.select_bank',function (e) {
+            saveBank($(this).data('data'));
         });
 
         $('#save').click(function () {
@@ -616,7 +700,7 @@
                 longitude
             };
 
-            // Menyimpan data alamat dalam localStorage
+            // Menyimpan data alamat dalam localStorage`
             localStorage.setItem('address', JSON.stringify(addressData));
 
             // Menampilkan alamat di elemen HTML
@@ -626,19 +710,19 @@
             `);
             $('#_checkout_modal').modal('hide');
             // Panggil fungsi getData() jika diperlukan
+            reloadCourier()
             getData();
         });
 
-
-        $("#save_courier").click(function (e) {
+        function saveCourier(selectedCourier) {
             let existingCourier = JSON.parse(localStorage.getItem('courier'));
-
-            // Ambil nama kurir yang dipilih
-            let selectedCourier = $('input[name="courier"]:checked').val();
+            let courierSelected;
 
             if (selectedCourier) {
                 // Cari kurir dari local storage
-                let courierSelected = existingCourier.find(courier => courier.logistic_name + '-' + courier.rate_name == selectedCourier);
+                courierSelected = existingCourier.find(courier =>
+                    courier.logistic_name + '-' + courier.rate_name == selectedCourier
+                );
 
                 if (courierSelected) {
                     // Tampilkan detail kurir yang dipilih
@@ -649,19 +733,29 @@
                     // Simpan kurir yang dipilih ke local storage
                     localStorage.setItem('courierSelected', JSON.stringify(courierSelected));
                 } else {
-                    console.error('Kurir tidak ditemukan');
+                    message('Kurir tidak ditemukan');
                 }
             } else {
-                console.error('Kurir tidak dipilih');
+                message('Kurir tidak dipilih');
             }
-            $('#_checkout_modal').modal('hide');
-            getData()
-        })
 
-        $("#save_bank").click(function (e) {
+            $('#_checkout_modal').modal('hide');
+            courierSelected = JSON.parse(localStorage.getItem('courierSelected'));
+            $("#courier").html(`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="truck"
+                class="lucide lucide-truck">
+                <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path>
+                <path d="M15 18H9"></path>
+                <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path>
+                <circle cx="17" cy="18" r="2"></circle>
+                <circle cx="7" cy="18" r="2"></circle>
+            </svg> <span class="ml-2">${courierSelected.logistic_name} - ${courierSelected.rate_name} ${currency(courierSelected.rate)}</span>`);
+
+            getData();
+        }
+
+        function saveBank(selectedBankId) {
             let existingBank = JSON.parse(localStorage.getItem('bank'));
-            // Ambil ID bank yang dipilih
-            let selectedBankId = $('input[name="bank"]:checked').val();
 
             if (selectedBankId) {
                 // Cari bank dari local storage
@@ -682,7 +776,7 @@
             } else {
                 console.error('ID bank tidak dipilih');
             }
-        })
+        };
 
         $("#getLocationButton").click(function() {
             // Check if geolocation is supported
@@ -728,6 +822,55 @@
             e.preventDefault();
             saveOrder()
         });
+
+        //reload courier
+        function reloadCourier() {
+            $("#courier").html('<i class="fa fa-spinner fa-spin"></i> Loading...');
+            let address = JSON.parse(localStorage.getItem('address'));
+            let cart = JSON.parse(localStorage.getItem('cart')) || []; // Pastikan cart selalu array
+            let cartCode = [];
+            let qty = [];
+                // Pastikan cart bukan null atau undefined
+            if (Array.isArray(cart)) {
+                $.each(cart, function (i, item) {
+                    if (item && item.code) {
+                        cartCode.push(item.code);
+                    }
+                    if (item && item.qty) {
+                            qty.push(item.qty);
+                    }
+                });
+            }
+
+            if (address) {
+                get(url+'/check-courier?postal_code='+address.kodepos+"&cartCode="+cartCode+"&qty="+qty, function (err, data) {
+                    if (err) {
+                        message("Pastikan kode pos sudah diisi dengan benar!");
+                    } else {
+                        courier = data.data;
+                        localStorage.setItem('courier', JSON.stringify(courier));
+                        existingCourier = JSON.parse(localStorage.getItem('courierSelected'));
+                        courierSelected = courier.find(courier => courier.logistic_name + '-' + courier.rate_name == existingCourier.logistic_name + '-' + existingCourier.rate_name);
+
+                        localStorage.setItem('courierSelected', JSON.stringify(courierSelected));
+
+                        let courierSelectednwe = JSON.parse(localStorage.getItem('courierSelected'));
+                        $("#courier").html(`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="truck"
+                            class="lucide lucide-truck">
+                            <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path>
+                            <path d="M15 18H9"></path>
+                            <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path>
+                            <circle cx="17" cy="18" r="2"></circle>
+                            <circle cx="7" cy="18" r="2"></circle>
+                        </svg> <span class="ml-2">${courierSelectednwe.logistic_name} - ${courierSelectednwe.rate_name}
+                            ${currency(courierSelected.rate)}</span>`);
+
+                        getData();
+                    }
+                })
+            }
+        }
 
         function saveOrder() {
             //get cart
@@ -791,6 +934,9 @@
                 });
             }
         }
+
+        //add voucher
+
     });
 </script>
 @endpush

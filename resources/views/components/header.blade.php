@@ -1,10 +1,19 @@
+<style>
+    .hr {
+        border-bottom: 1px solid #eceff8;
+        border-top: 0 none;
+        margin: 0px 0;
+        padding: 0;
+    }
+</style>
 <header class="header header-2 pt-30 pb-20  header-sticky header-static"
     style="padding-top: 30px; padding-bottom: 15px; top: 0px; background:#dbdad4; color:rgb(0, 0, 0)">
     <div class="container-fluid">
         <div class="header-nav header-nav-2 position-relative">
             <div class="row align-items-center">
                 <div class="col-12 align-items-center" style="text-align: center;">
-                    <h6 style="color:rgb(0, 0, 0)">Free ongkir 15.000 minimal order 250.000</h6>
+                    <h6 style="color:rgb(0, 0, 0)" id="promo_">Free ongkir 15.000 minimal order 250.000</h6>
+                    <hr class="hr">
                 </div>
             </div>
         </div>
