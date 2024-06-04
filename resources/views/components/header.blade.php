@@ -89,7 +89,7 @@
                 </div>
             </div>
         </div>
-        <div class="mobile-menu visible-sm " style="color:rgb(0, 0, 0)">
+        <div class="mobile-menu visible-sm " style="color:rgb(255, 255, 255)">
             <div id="mobile-menu" style="display: block;">
                 <ul style="color:rgb(0, 0, 0)">
                     <li><a href=" /" class="active"><span style="color:rgb(0, 0, 0)">Home</span></a></li>

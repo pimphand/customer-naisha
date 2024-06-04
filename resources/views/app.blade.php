@@ -596,7 +596,7 @@
             } else {
                 //set background transparent
                 $('.header').css({
-                    'background': 'transparent',
+                    'background': '#ffff',
                     'color': 'rgb(0, 0, 0)'
                 });
             }

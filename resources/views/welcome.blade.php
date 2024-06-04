@@ -177,7 +177,7 @@
                                                 <img src="{{ $categories[1] }}" class="w-100" alt="">
                                             </div>
                                             <div class="category-content">
-                                                <a href="javascript:void(0)" class="title">Aksesoris</a>
+                                                <a href="{{ route('catalog') }}?category=aksesoris" class="title">Aksesoris</a>
                                                 <p class="category-item">(<span>20</span> items)</p>
                                             </div>
                                         </div>
@@ -190,7 +190,7 @@
                                                 <img src="{{ $categories[2] }}" class="w-100" alt="">
                                             </div>
                                             <div class="category-content">
-                                                <a href="javascript:void(0)" class="title">Khimar</a>
+                                                <a href="{{ route('catalog') }}?category=Khimar" class="title">Khimar</a>
                                                 <p class="category-item">(<span>11</span> items)</p>
                                             </div>
                                         </div>
@@ -205,7 +205,7 @@
                                         <img src="{{ $categories[3] }}" class="w-100" alt="">
                                     </div>
                                     <div class="category-content">
-                                        <a href="javascript:void(0)" class="title">Koko</a>
+                                        <a href="{{ route('catalog') }}?category=Koko" class="title">Koko</a>
                                         <p class="category-item">(<span>17</span> items)</p>
                                     </div>
                                 </div>

@@ -158,10 +158,33 @@
         $("#resetButton").click(function() {
             $("#slider-range").slider("values", [minPrice, maxPrice]);
             $("#amount").val("Rp." + minPrice + "K - Rp." + maxPrice + "K");
+            $("#promo_").val('');
+            $("#tag_").val('');
+            $("#price").val('');
+            $('#search_').val('');
+            $('#category_').val('');
+            $('.promo').removeClass('active').css({
+                'border': '',
+                'color': '',
+                'background-color': ''
+            });
+
+            $('.tag').removeClass('active').css({
+                'border': '',
+                'color': '',
+                'background-color': ''
+            });
+
+            setTimeout(function() {
+                getData(per_page, page);
+            }, 500); // Delay in milliseconds
+
         });
     });
+    $("#tag_").val('');
     $("#price").val('');
-    $("#promo_").val('');
+    $('#search_').val('');
+    $('#category_').val('');
 
     $('.promo').click(function() {
         var $this = $(this);

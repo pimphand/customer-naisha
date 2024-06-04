@@ -318,6 +318,8 @@
         </div>
     </div>
 </div>
+
+<input type="text" id="category_" hidden value="{{ request()->category }}">
 @endsection
 
 @push('js')
@@ -345,7 +347,11 @@
             query += "&filter[tags]=" + $('#tag_').val();
         }
 
-        get(url_product + "/all-products?paginate=" + per_page + "&page=" + page + "&filter[category.name]={{ request()->category }}&"+query, function (err, data) {
+        if ($('#category_').val() != '') {
+            query += "&filter[category.name]=" + $('#category_').val();
+        }
+
+        get(url_product + "/all-products?paginate=" + per_page + "&page=" + page +query, function (err, data) {
             if (err) {
                 console.log(err);
             } else {
