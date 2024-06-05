@@ -152,6 +152,12 @@
                                 <i data-lucide="credit-card"></i> <span class="_show_payment_fix ml-2">Pilih Bank
                                     Pembayaran</span>
                             </li>
+
+                            <li class="list-group-item mb-1 element text-icon mt-20" style="cursor: auto" id="payment"
+                                onmouseover="this.style.cursor='pointer'" onmouseout="this.style.cursor='auto'">
+                                <textarea name="note" id="note" cols="100%" rows="3" class="form-control"
+                                    placeholder="Catatan untuk penjual"></textarea>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -336,6 +342,7 @@
             let address = JSON.parse(localStorage.getItem('address'));
             let cour = JSON.parse(localStorage.getItem('courierSelected'));
             let existingBank = JSON.parse(localStorage.getItem('selectedBank'));
+            let voucher = JSON.parse(localStorage.getItem('voucher')) ?? 0;
             if (cour) {
                 $('._show_courier_fix').html(`
                     ${cour.logistic_name} - ${cour.rate_name} ${currency(cour.rate)}
@@ -346,6 +353,10 @@
                 $('._show_payment_fix').html(`
                     ${existingBank.bank.name} <br> ${existingBank.account_name} - ${existingBank.account_number}
                 `);
+            }
+
+            if (voucher) {
+                $('#discount_').text(`- ${currency(voucher)}`);
             }
 
             if (address) {
@@ -380,7 +391,7 @@
                 });
 
                 if (cour) {
-                    $("#total_courier").text(currency(subtotalPrice + cour.rate));
+                    $("#total_courier").text(currency(subtotalPrice + cour.rate - voucher));
                     $('#subtotalPengiriman').text(currency(cour.rate));
                 }
                 $('#subtotalPrice').text(currency(subtotalPrice));
@@ -491,9 +502,11 @@
                 renderCart();
                 getData();
                 //add delay
-                setTimeout(() => {
+                existingCourier = JSON.parse(localStorage.getItem('courierSelected'));
+                if (existingCourier) { setTimeout(() => {
                     reloadCourier()
                 }, 1000);
+                }
             }else{
                 message('Minimal pembelian 1 item!')
             }
@@ -513,9 +526,11 @@
                 renderCart();
                 getData();
                 //add delay
-                setTimeout(() => {
-                     reloadCourier()
+                existingCourier = JSON.parse(localStorage.getItem('courierSelected'));
+                if (existingCourier) { setTimeout(() => {
+                reloadCourier()
                 }, 1000);
+                }
             }else{
                 message()
             }
@@ -710,7 +725,12 @@
             `);
             $('#_checkout_modal').modal('hide');
             // Panggil fungsi getData() jika diperlukan
-            reloadCourier()
+            // reloadCourier()
+            existingCourier = JSON.parse(localStorage.getItem('courierSelected'));
+            if (existingCourier) { setTimeout(() => {
+                reloadCourier()
+                }, 1000);
+            }
             getData();
         });
 
@@ -878,7 +898,7 @@
             let address = JSON.parse(localStorage.getItem('address'));
             let courier = JSON.parse(localStorage.getItem('courierSelected'));
             let bank = JSON.parse(localStorage.getItem('selectedBank'));
-
+            let voucher = JSON.parse(localStorage.getItem('voucher'));
             if (!address) {
                 message('Silahkan lengkapi alamat terlebih dahulu')
             } else if (!courier) {
@@ -887,12 +907,15 @@
                 message('Silahkan pilih bank terlebih dahulu')
             } else {
 
+            const voucher = $('#voucher').val();
                 let data = {
                     _token:"{{ csrf_token() }}",
                     cart: cart,
                     address: address,
                     shipping: courier,
-                    payment: bank
+                    payment: bank,
+                    voucher: voucher,
+                    note: $('#note').val()
                 }
 
                 $.ajax({
@@ -905,6 +928,7 @@
                             localStorage.removeItem('address');
                             localStorage.removeItem('courierSelected');
                             localStorage.removeItem('selectedBank');
+                            localStorage.removeItem('voucher');
                             Swal.fire({
                                 title: "Berhasil",
                                 text: data.message,
@@ -936,7 +960,24 @@
         }
 
         //add voucher
-
+        $('#voucher-button').click(function () {
+            let voucher = $('#voucher').val();
+            if (voucher == '') {
+                message('Voucher tidak boleh kosong');
+            } else {
+                get(url+'/vouchers/claim?code='+voucher, function (err, data) {
+                    if (err) {
+                        message('Voucher tidak ditemukan');
+                    } else {
+                        let discount = data.amount;
+                        localStorage.setItem("voucher", discount);
+                        let total = $('#total_courier').text();
+                        let total_ = total.replace('Rp ', '');
+                        $('#discount_').text(`- ${currency(discount)}`);
+                    }
+                })
+            }
+        });
     });
 </script>
 @endpush

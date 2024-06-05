@@ -84,6 +84,8 @@ Route::post('create-order', function (Request $request) {
             "customer" => $customer,
             "order" => $order,
             "payment_method" => $bank['id'],
+            "voucher" => $request->voucher,
+            "note" => $request->note,
         ],
     ];
 
