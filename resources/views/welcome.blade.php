@@ -216,5 +216,23 @@
             </div>
         </div>
     `)
+
+    $(document).ready(function() {
+        $(window).scroll(function() {
+            console.log($(window).scrollTop() + $(window).height() - 0.5, $(document).height());
+            // Periksa apakah pengguna telah menggulir ke bagian bawah halaman
+            if ($(window).scrollTop() + $(window).height() - 0.5 == $(document).height()) {
+                // Temukan elemen dengan class 'load-more' dan klik secara otomatis
+                var loadMoreButton = $('.load-more');
+                if (loadMoreButton.length > 0) {
+                    loadMoreButton.text('Loading...');
+                    page++;
+                    getData(per_page, page);
+                } else {
+                    console.log('Load more button not found!');
+                }
+            }
+        });
+    });
 </script>
 @endpush

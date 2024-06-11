@@ -6,17 +6,21 @@
         padding: 0;
     }
 </style>
-<header class="header header-2 pt-30 pb-20  header-sticky header-static"
-    style="padding-top: 30px; padding-bottom: 15px; top: 0px; background:#dbdad4; color:rgb(0, 0, 0)">
-    <div class="container-fluid">
-        <div class="header-nav header-nav-2 position-relative">
-            <div class="row align-items-center">
-                <div class="col-12 align-items-center" style="text-align: center;">
-                    <h6 style="color:rgb(0, 0, 0)" id="promo_">Free ongkir 15.000 minimal order 250.000</h6>
-                    <hr class="hr">
-                </div>
+
+<header class=""
+    style="padding-top: 30px; padding-bottom: 10px;background:#000000; color:rgb(255, 255, 255)">
+    <div class="header-nav header-nav-2 position-relative">
+        <div class="row align-items-center">
+            <div class="col-12 align-items-center" style="text-align: center;">
+                <h6 style="color:rgb(255, 255, 255)" id="promo_">Free ongkir 15.000 minimal order 250.000</h6>
             </div>
         </div>
+    </div>
+</header>
+
+<header class="header header-2  header-sticky header-static" style="padding-top: 20px; padding-bottom: 1px;">
+    <div class="container-fluid"  style="background:#ffffff; color:rgb(0, 0, 0)">
+
         <div class="header-nav header-nav-2 position-relative">
             <div class="row align-items-center">
                 <div class="col-xl-4 col-lg-6 hidden-md position-static" style="color:rgb(0, 0, 0)">

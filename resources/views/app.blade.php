@@ -27,6 +27,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     @stack('css')
+    <style>
+        .strikethrough {
+            text-decoration: line-through;
+        }
+    </style>
 </head>
 
 <body>
@@ -293,16 +298,22 @@
 
             $.each(skusByColorCode, function (colorName, sku) {
                     //sum stock
+
                     let sumStock = sku.reduce((acc, curr) => acc + curr.stock, 0);
                     let skusCode = sku.map(s => s.code);
+                    let colorArray = sku.map(s => s.properties.color);
+
+                    // Convert array to a comma-separated string
+                    let uniqueColors = [...new Set(colorArray)];
+                    let color = uniqueColors.join(',');
 
                     let colorNames = colorName.replace(/_/g, ' ');
                     let colorCode = getColorCode(colorNames);
                     $('#_warna_modals').append(`
                         <div class="color-input"data-code="${skusCode}" data-color="${colorName}" onclick="getSize('${skusCode}')">
-                            <label for="${colorName}" class="color-ok" data-code="${skusCode}"
-                                style="background-color: ${sumStock > 0 ? colorCode : colorCode}; position: relative; display: inline-block;">
-                                ${sumStock > 0 ? '' : ' <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size:30px;color:red">X</span>'}
+                            <label for="${colorName}" class="color-ok border  ${sumStock > 0 ? '' :'strikethrough'} " data-code="${skusCode}"
+                                position: relative; display: inline-block;">
+                                ${color.split(',')[0]}
                             </label>
                             <input type="radio" class="d-none" id="${colorName}" name="color" data-color="${colorName}">
                         </div>
@@ -437,16 +448,17 @@
 
                 let sku_modal = JSON.parse(localStorage.getItem('colorData'));
 
-                $('.color-input label').css('border', '');
-                $(this).find('label').css('border', '2px solid #e174b8');
 
-                $('#value_stock').text(0);
+                //add active class color white and remove active class
+                $('#_warna_modals label').removeClass('active').css('color', 'black'); // hapus kelas active dan atur warna teks menjadi hitam
+                $(this).find('label').addClass('active').css('color', 'white')
+
+                $('#value_stock').text("Sold Out");
 
                 $('#select_size .size-label:first').click();
                 $('#select_material .material-label:first').click();
 
                 //find label
-                let cek = $(`#_warna_modals label[data-code="${selectedColor}"]`).css('border', '2px solid #e174b8');
 
             } finally {
                 isColorHandlerRunning = false;
@@ -605,18 +617,14 @@
             if (scroll < 245) {
                 //set background black
                 $('.header').css({
-                    'background': '#dfded7',
-                    'color': '#dfded7'
+                    'background': '#fff',
+                    'color': '#000'
                 });
-
-                // $('#promo_').css({
-                //     'color': '#ffff'
-                // });
             } else {
                 //set background transparent
                 $('.header').css({
                     'background': '#ffff',
-                    'color': 'rgb(0, 0, 0)'
+                    'color': '#000'
                 });
 
                 // $('#promo_').css({
