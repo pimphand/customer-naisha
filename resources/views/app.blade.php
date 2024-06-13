@@ -170,7 +170,7 @@
         </div>
     </div>
     <!-- footer section end -->
-    <a href="https://wa.me/6288221766320" class="whatsapp-button" target="_blank">
+    <a href="https://wa.me/6282242436562" class="whatsapp-button" target="_blank">
         <img src="https://png.pngtree.com/png-clipart/20190516/original/pngtree-whatsapp-icon-png-image_3584844.jpg" alt="WhatsApp">
     </a>
     <!-- JS here -->
