@@ -10,8 +10,8 @@ class FrontendController extends Controller
     public function index()
     {
         $images = [
-            "https://sgp1.vultrobjects.com/naisha-s3/customer/1@4x.webp",
-            "https://sgp1.vultrobjects.com/naisha-s3/customer/2@4x.webp",
+            "https://sgp1.vultrobjects.com/naisha-s3/customer/header_1_2x_1_4x.webp",
+            "https://sgp1.vultrobjects.com/naisha-s3/customer/header_2_2x_1_4x.webp",
             "https://sgp1.vultrobjects.com/naisha-s3/customer/3@4x.webp",
         ];
 

@@ -31,6 +31,21 @@
         .strikethrough {
             text-decoration: line-through;
         }
+        .whatsapp-button {
+            position: fixed;
+            bottom: 20px;
+            right: 55px;
+            z-index: 1000;
+        }
+        .whatsapp-button img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .whatsapp-button img:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 
@@ -155,12 +170,18 @@
         </div>
     </div>
     <!-- footer section end -->
-
+    <a href="https://wa.me/6288221766320" class="whatsapp-button" target="_blank">
+        <img src="https://png.pngtree.com/png-clipart/20190516/original/pngtree-whatsapp-icon-png-image_3584844.jpg" alt="WhatsApp">
+    </a>
     <!-- JS here -->
     <script src="{{asset('assets')}}/js/vendor/jquery-1.12.4.min.js"></script>
     <script>
         let url = "{{ config('app.api_url') }}/customer";
         let url_product = "{{ config('app.api_url') }}";
+
+        document.querySelector('.whatsapp-button').addEventListener('click', function() {
+            console.log('WhatsApp button clicked!');
+        });
     </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>

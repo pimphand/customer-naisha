@@ -2021,7 +2021,7 @@ ul.post-entry-data li:not(:last-child) {
 .has-breadcrumb-bg {
 	min-height: 600px;
 	background-size: cover;
-	background-position: center;
+	/* background-position: center; */
 	display: flex;
 	align-items: center;
 	justify-content: center;

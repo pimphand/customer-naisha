@@ -36,8 +36,8 @@
                                         href="{{ route('catalog') }}">
                                         <span style="color:rgb(0, 0, 0)">CATALOG</span></a>
                                 </li>
-                                <li><a href="/"><span style="color:rgb(0, 0, 0)">New Drop</span></a></li>
-                                <li><a href="/"><span style="color:rgb(0, 0, 0)">Available Items</span></a></li>
+                                <li><a href="{{ route('catalog') }}?filter[from_newest]=1"><span style="color:rgb(0, 0, 0)">New Drop</span></a></li>
+                                <li><a href="{{ route('catalog') }}"><span style="color:rgb(0, 0, 0)">Available Items</span></a></li>
                             </ul>
                         </nav>
                     </div>

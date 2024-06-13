@@ -51,7 +51,7 @@
 @endpush
 
 @section('content')
-<div class="has-breadcrumb-bg mb-120" data-background="{{ asset('mazia') }}/img/bg/3.jpg">
+<div class="has-breadcrumb-bg mb-120" data-background="https://sgp1.vultrobjects.com/naisha-s3/customer/header_1_2x_1_4x.webp">
     <div class="breadcrumb-content d-flex justify-content-center align-items-center" style="flex-direction: column;">
         <h2 class="title">Shop</h2>
         <nav aria-label="breadcrumb" class="mb-40">
@@ -338,6 +338,16 @@
             window.history.replaceState({path: newUrl}, '', newUrl);
         }
     });
+
+    function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
     var per_page = 12;
     var page = 1;
     function getData(per_page, page) {
@@ -361,6 +371,11 @@
 
         if ($('#category_').val() != '') {
             query += "&filter[category.name]=" + $('#category_').val();
+        }
+
+        var fromNewest = getParameterByName('filter[from_newest]');
+        if (fromNewest) {
+            query += "&filter[from_newest]=" + fromNewest;
         }
 
         get(url_product + "/all-products?paginate=" + per_page + "&page=" + page + query, function (err, data) {

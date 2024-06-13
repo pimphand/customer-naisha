@@ -46,7 +46,7 @@
                 </div>
             </div>
         </div>
-        <div class="single-slider  h-950 d-flex align-items-center" data-background="{{ $images[2] }}">
+        {{-- <div class="single-slider  h-950 d-flex align-items-center" data-background="{{ $images[2] }}">
             <div class="container">
                 <div class="single-slider-inner d-none">
                     <div class="single-slider-content style-2 white-content text-left light-content">
@@ -66,7 +66,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 </section>
 <!-- category section start -->
@@ -219,7 +219,6 @@
 
     $(document).ready(function() {
         $(window).scroll(function() {
-            console.log($(window).scrollTop() + $(window).height() - 0.5, $(document).height());
             // Periksa apakah pengguna telah menggulir ke bagian bawah halaman
             if ($(window).scrollTop() + $(window).height() - 0.5 == $(document).height()) {
                 // Temukan elemen dengan class 'load-more' dan klik secara otomatis
@@ -229,7 +228,6 @@
                     page++;
                     getData(per_page, page);
                 } else {
-                    console.log('Load more button not found!');
                 }
             }
         });
