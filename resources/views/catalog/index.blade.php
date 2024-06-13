@@ -79,28 +79,7 @@
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-12">
-                                <div class="shop-filter-tab">
-                                    <ul class="nav nav-pills" role="tablist">
-                                        <li><span>Views</span></li>
-                                        <li class="nav-item">
-                                            <a data-toggle="pill" href="#shop-tab-1" data-toggle="tooltip"
-                                                data-placement="top" title="2 grid"><i
-                                                    class="fal fa-line-columns"></i></a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a data-toggle="pill" href="#shop-tab-2" data-placement="top"
-                                                title="3 grid"><i class="fal fa-border-none"></i></a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="active" data-toggle="pill" href="#shop-tab-3" data-placement="top"
-                                                title="4 grid"><i class="fal fa-border-center-v"></i></a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a data-toggle="pill" href="#shop-tab-4" data-placement="top"
-                                                title="list view"><i class="fal fa-list"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
+
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-12">
                                 <div class="filter-shown-item search-container">
