@@ -9,10 +9,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png"
         href="https://s3-ap-southeast-1.amazonaws.com/technoidea%2Fgallery/favicon-25464-cc3b915a-499c-41ed-bd52-39d1dd57e610.png" />
-    {{--
-    <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets')}}/img/favicon.ico"> --}}
-    <!-- Place favicon.ico in the root directory -->
-    <!-- CSS here -->
+    <meta name="description" content="NAISHA INSPIRASI MUSLIMAH"/>
+    <meta name="keywords" content="NAISHA INSPIRASI MUSLIMAH"/>
+    <meta name="author" content="NAISHA INSPIRASI MUSLIMAH"/>
+    <meta property="og:title" content="NAISHA INSPIRASI MUSLIMAH"/>
+    <meta property="og:description" content="NAISHA INSPIRASI MUSLIMAH"/>
+    <meta property="og:image" content="https://s3-ap-southeast-1.amazonaws.com/technoidea%2Fgallery/favicon-25464-cc3b915a-499c-41ed-bd52-39d1dd57e610.png"/>
+    <meta property="og:url" content="https://naisha.co.id"/>
+    <meta property="og:site_name" content="NAISHA INSPIRASI MUSLIMAH"/>
+    <meta property="og:type" content="website"/>
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:title" content="NAISHA INSPIRASI MUSLIMAH"/>
+    <meta name="twitter:description" content="NAISHA INSPIRASI MUSLIMAH"/>
+    <meta name="twitter:image" content="https://s3-ap-southeast-1.amazonaws.com/technoidea%2Fgallery/favicon-25464-cc3b915a-499c-41ed-bd52-39d1dd57e610.png"/>
+
     <link rel="stylesheet" href="{{asset('assets')}}/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{asset('assets')}}/css/owl.carousel.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.4.1/css/all.min.css">
@@ -26,6 +36,13 @@
     <link rel="stylesheet" href="{{asset('assets')}}/css/responsive.css?date={{ time() }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MPT93JHS');</script>
+<!-- End Google Tag Manager -->
     @stack('css')
     <style>
         .strikethrough {
@@ -656,6 +673,10 @@
     </script>
 
     @stack('script')
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MPT93JHS"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
 </body>
 
 </html>
