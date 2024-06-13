@@ -51,7 +51,7 @@
 @endpush
 
 @section('content')
-<div class="has-breadcrumb-bg mb-120" data-background="https://sgp1.vultrobjects.com/naisha-s3/customer/header_1_2x_1_4x.webp">
+<div class="has-breadcrumb-bg mb-120" data-background="https://sgp1.vultrobjects.com/naisha-s3/customer/header-2@4x.webp">
     <div class="breadcrumb-content d-flex justify-content-center align-items-center" style="flex-direction: column;">
         <h2 class="title">Shop</h2>
         <nav aria-label="breadcrumb" class="mb-40">
@@ -326,6 +326,15 @@
 <script src="{{asset('assets')}}/js/jquery-ui.js"></script>
 
 <script>
+    $.ajax({
+        type: "get",
+        url: url_product + "/all-products?stock=1",
+        success: function (response) {
+            $("#in_stock").text(response.in_stock)
+            $("#out_stock").text(response.out_of_stock)
+        }
+    });
+
     $("#category_").val("{{ request()->category }}");
 
     $(document).ready(function() {
@@ -391,6 +400,7 @@
         });
     }
 
+
     function tab_3(data) {
         var product = data.data;
         let list = '';
@@ -410,7 +420,7 @@
                             </a>
                             <a href="javascript:void(0)" onclick="openModal('${item.slug}')" class="product-img-link quick-view-1 text-capitalize">Quick
                                 view</a>
-                            <span class="sale bg-red text-white">sale!</span>
+                            <span class="sale">On sale</span>
                         </div>
 
                         <div class="product-desc pb-20">

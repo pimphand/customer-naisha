@@ -1,73 +1,20 @@
 <div class="col-xl-3 hidden-xl">
     <!-- widget -->
     <div class="widget">
-        <h4 class="mb-30">Katalog</h4>
+        <h4 class="mb-20">Availability</h4>
         <div class="accordion" id="accordionExample">
             <div class="list">
-                <a href="javascript:void(0)">Accessories <span>(0)</span></a>
-                <button class="float-right text-right" type="button" data-toggle="collapse" data-target="#collapse-1">
-                    <span class="float-right"><i class="fal fa-angle-right"></i></span>
-                </button>
-                <div id="collapse-1" class="collapse show">
-                    <div class="sidebar-list">
-                        <ul>
-                            <li><a href="shop3.html">Camera 1</a></li>
-                        </ul>
-                    </div>
-                </div>
+                <a href="javascript:void(0)">In stock (<span id="in_stock">68</span>)</a>
             </div>
 
             <div class="list">
-                <a href="javascript:void(0)">Char & Table <span>(10)</span></a>
-                <button class="float-right text-right" type="button" data-toggle="collapse" data-target="#collapse-2">
-                    <span class="float-right"><i class="fal fa-angle-right"></i></span>
-                </button>
-                <div id="collapse-2" class="collapse">
-                    <div class="sidebar-list">
-                        <ul>
-                            <li><a href="shop.html">Chair <span>(30)</span></a></li>
-                            <li><a href="shop4.html">Clothing <span>(45)</span></a></li>
-                            <li><a href="shop4.html">Decore <span>(20)</span></a></li>
-                        </ul>
-                    </div>
-                </div>
+                <a href="javascript:void(0)">Out of Stock (<span id="out_stock">10</span>)</a>
             </div>
 
-            <div class="list">
-                <a href="javascript:void(0)">Handbag <span>(10)</span></a>
-                <button class="float-right text-right" type="button" data-toggle="collapse" data-target="#collapse-3">
-                    <span class="float-right"><i class="fal fa-angle-right"></i></span>
-                </button>
-                <div id="collapse-3" class="collapse">
-                    <div class="sidebar-list">
-                        <ul>
-                            <li><a href="shop4.html">Camerass <span>(1)</span></a></li>
-                            <li><a href="shop4.html">Gift Cards <span>(5)</span></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="list">
-                <a href="javascript:void(0)">Kids <span>(15)</span></a>
-                <button class="float-right text-right" type="button" data-toggle="collapse" data-target="#collapse-4">
-                    <span class="float-right"><i class="fal fa-angle-right"></i></span>
-                </button>
-                <div id="collapse-4" class="collapse">
-                    <div class="sidebar-list">
-                        <ul>
-                            <li><a href="shop3.html">Lightings <span>(1)</span></a></li>
-                            <li><a href="shop3.html">Managed <span>(5)</span></a></li>
-                            <li><a href="shop3.html">Printers <span>(32)</span></a></li>
-                            <li><a href="shop3.html">Shoes <span>(32)</span></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
-    <div class="widget mt-50">
-        <h4 class="mb-30">Filter By Price</h4>
+    <div class="widget mt-20">
+        <h4 class="mb-20">Price</h4>
         <div class="price-filter">
             <div id="slider-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content">
                 <div class="ui-slider-range ui-corner-all ui-widget-header" style="left: 15%; width: 46.4%;"></div>
@@ -84,21 +31,31 @@
             </div>
         </div>
     </div>
-    {{-- <div class="widget mt-50">
-        <h4 class="mb-30">Filter By Color</h4>
-        <ul class="color-list">
-            <li style="background-color: #000;"></li>
-            <li style="background-color: #1E73BE;"></li>
-            <li style="background-color: #FFD700;"></li>
-            <li style="background-color: #C9C9C9;"></li>
-            <li style="background-color: #008000;"></li>
-            <li style="background-color: #FFFF00;"></li>
-            <li style="background-color: #FFFFFF;"></li>
-            <li style="background-color: #DD3333;"></li>
-        </ul>
-    </div> --}}
+
+    <div class="widget  mt-20">
+        <h4 class="mb-20">Product type</h4>
+        <div class="accordion" id="accordionExample">
+            <div class="list">
+                <a href="javascript:void(0)">Aksesories (6) </a>
+            </div>
+
+            <div class="list">
+                <a href="javascript:void(0)">Gamis (38) </a>
+            </div>
+
+            <div class="list">
+                <a href="javascript:void(0)">Gamis Khimar Set (14) </a>
+            </div>
+
+            <div class="list">
+                <a href="javascript:void(0)">Khimar & Bergo (12)</a>
+            </div>
+
+        </div>
+    </div>
+
     <div class="widget mt-30">
-        <h4 class="mb-30">Promo</h4>
+        <h4 class="mb-10">Promo</h4>
         <div class="size-link">
             <a href="javascript:void(0)" class="promo" data-promo="bundlings">Bundling</a>
             <a href="javascript:void(0)" class="promo" data-promo="grosirs">Grosir</a>
