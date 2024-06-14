@@ -286,7 +286,7 @@
   }
   .mean-nav ul li a:hover {
     background-color: #eeeeee !important;
-    color: #eb2323 !important;
+    color: #000 !important;
   }
   .mean-nav ul li a i {
     font-size: 25px;
