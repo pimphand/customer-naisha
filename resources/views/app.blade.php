@@ -9,19 +9,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png"
         href="https://s3-ap-southeast-1.amazonaws.com/technoidea%2Fgallery/favicon-25464-cc3b915a-499c-41ed-bd52-39d1dd57e610.png" />
-    <meta name="description" content="NAISHA INSPIRASI MUSLIMAH"/>
-    <meta name="keywords" content="NAISHA INSPIRASI MUSLIMAH"/>
-    <meta name="author" content="NAISHA INSPIRASI MUSLIMAH"/>
-    <meta property="og:title" content="NAISHA INSPIRASI MUSLIMAH"/>
-    <meta property="og:description" content="NAISHA INSPIRASI MUSLIMAH"/>
-    <meta property="og:image" content="https://s3-ap-southeast-1.amazonaws.com/technoidea%2Fgallery/favicon-25464-cc3b915a-499c-41ed-bd52-39d1dd57e610.png"/>
-    <meta property="og:url" content="https://naisha.co.id"/>
-    <meta property="og:site_name" content="NAISHA INSPIRASI MUSLIMAH"/>
-    <meta property="og:type" content="website"/>
-    <meta name="twitter:card" content="summary_large_image"/>
-    <meta name="twitter:title" content="NAISHA INSPIRASI MUSLIMAH"/>
-    <meta name="twitter:description" content="NAISHA INSPIRASI MUSLIMAH"/>
-    <meta name="twitter:image" content="https://s3-ap-southeast-1.amazonaws.com/technoidea%2Fgallery/favicon-25464-cc3b915a-499c-41ed-bd52-39d1dd57e610.png"/>
+    <meta name="description" content="NAISHA INSPIRASI MUSLIMAH" />
+    <meta name="keywords" content="NAISHA INSPIRASI MUSLIMAH" />
+    <meta name="author" content="NAISHA INSPIRASI MUSLIMAH" />
+    <meta property="og:title" content="NAISHA INSPIRASI MUSLIMAH" />
+    <meta property="og:description" content="NAISHA INSPIRASI MUSLIMAH" />
+    <meta property="og:image"
+        content="https://s3-ap-southeast-1.amazonaws.com/technoidea%2Fgallery/favicon-25464-cc3b915a-499c-41ed-bd52-39d1dd57e610.png" />
+    <meta property="og:url" content="https://naisha.co.id" />
+    <meta property="og:site_name" content="NAISHA INSPIRASI MUSLIMAH" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="NAISHA INSPIRASI MUSLIMAH" />
+    <meta name="twitter:description" content="NAISHA INSPIRASI MUSLIMAH" />
+    <meta name="twitter:image"
+        content="https://s3-ap-southeast-1.amazonaws.com/technoidea%2Fgallery/favicon-25464-cc3b915a-499c-41ed-bd52-39d1dd57e610.png" />
 
     <link rel="stylesheet" href="{{asset('assets')}}/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{asset('assets')}}/css/owl.carousel.min.css">
@@ -37,29 +39,34 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    <script>
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-MPT93JHS');</script>
-<!-- End Google Tag Manager -->
+})(window,document,'script','dataLayer','GTM-MPT93JHS');
+    </script>
+    <!-- End Google Tag Manager -->
     @stack('css')
     <style>
         .strikethrough {
             text-decoration: line-through;
         }
+
         .whatsapp-button {
             position: fixed;
             bottom: 20px;
             right: 55px;
             z-index: 1000;
         }
+
         .whatsapp-button img {
             width: 50px;
             height: 50px;
             border-radius: 50%;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
+
         .whatsapp-button img:hover {
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
@@ -166,16 +173,25 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                                 <h6>Stok: <span id="value_stock"></span></h6>
                                             </div>
                                         </div>
-                                        <div class="quick-quantity mt-60">
-                                            <form action="#" method="POST">
-                                                <button type="button" id="add_to_cart"
-                                                    class="list-add-cart-btn primary-hover-btn border-0"
-                                                    style="padding-left: 80px;padding-right: 80px;transition: all .5s;">
-                                                    Tambah ke keranjang
-                                                </button>
-                                            </form>
-                                        </div>
+                                        <div class="quick-quantity mt-20">
 
+                                            <button type="button" id="add_to_cart"
+                                                class="list-add-cart-btn primary-hover-btn">
+                                                Tambah ke keranjang
+                                            </button>
+
+
+
+                                        </div>
+                                        <div class="quick-quantity mt-2">
+
+
+                                            <button type="button" id="checkout_now"
+                                                class="list-add-cart-btn primary-hover-btn">
+                                                Checkout Sekarang
+                                            </button>
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -188,7 +204,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </div>
     <!-- footer section end -->
     <a href="https://wa.me/6282242436562" class="whatsapp-button" target="_blank">
-        <img src="https://png.pngtree.com/png-clipart/20190516/original/pngtree-whatsapp-icon-png-image_3584844.jpg" alt="WhatsApp">
+        <img src="https://png.pngtree.com/png-clipart/20190516/original/pngtree-whatsapp-icon-png-image_3584844.jpg"
+            alt="WhatsApp">
     </a>
     <!-- JS here -->
     <script src="{{asset('assets')}}/js/vendor/jquery-1.12.4.min.js"></script>
@@ -546,6 +563,45 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             }
         });
 
+        $(document).on('click', '#checkout_now', function () {
+            let selectedSku = localStorage.getItem('selectedSku');
+            if (selectedSku == null) {
+                return $.toast({
+                    text: "Pilih warna, ukuran, dan material terlebih dahulu",
+                    showHideTransition: 'slide',
+                    bgColor: '#f5365c',
+                    textColor: 'white',
+                    allowToastClose: false,
+                    hideAfter: 3000,
+                    stack: 5,
+                    textAlign: 'left',
+                    position: 'bottom-right',
+                    icon: 'error'
+                });
+            }
+
+            selectedSku = JSON.parse(selectedSku);
+            if (selectedSku.stock == 0) {
+                $.toast({
+                    text: "Stok habis",
+                    showHideTransition: 'slide',
+                    bgColor: '#f5365c',
+                    textColor: 'white',
+                    allowToastClose: false,
+                    hideAfter: 3000,
+                    stack: 5,
+                    textAlign: 'left',
+                    position: 'bottom-right',
+                    icon: 'error'
+                });
+            }else{
+                AddCart(selectedSku);
+
+                // Redirect to checkout page
+                window.location.href = "{{ route('checkout') }}";
+            }
+        });
+
 
         $(document).on('click', '.size-label', function () {
             // Remove active class from all labels
@@ -674,8 +730,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     @stack('script')
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MPT93JHS"
-        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MPT93JHS" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 </body>
 
