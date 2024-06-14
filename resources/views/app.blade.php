@@ -70,14 +70,35 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .whatsapp-button img:hover {
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
+
+        #loader-wrapper-new {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            /* Semi-transparent background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            /* Ensure it is above all other elements */
+        }
+
+        #loader-wrapper-new img {
+            width: 100px;
+            /* Adjust the size as needed */
+            height: auto;
+        }
     </style>
 </head>
 
 <body>
 
     <!-- preloader -->
-    <div id="loader-wrapper">
-        <div id="loader"></div>
+    <div id="loader-wrapper-new">
+        <img src="{{ asset('newAssets/reload-cat.gif') }}" alt="">
     </div>
 
     <!-- header section start -->
@@ -730,6 +751,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MPT93JHS" height="0" width="0"
             style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
+
+    {{-- new loading --}}
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+    var loader = document.getElementById('loader-wrapper-new');
+    loader.style.display = 'none';
+    });
+    </script>
 </body>
 
 </html>
