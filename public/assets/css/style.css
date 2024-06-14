@@ -36,9 +36,18 @@
 /* 1. Theme default css */
 
 /* @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap"); */
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@300,400..900;1,100..900&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@300,400..900;1,100..900&display=swap"); */
+
+/* @import url("assets/newAssets/font/LoewNext-Medium-BF63fd638a9ff86.otf"); */
 /* font-family: 'Rubik', sans-serif; */
 /* preloader */
+
+@font-face {
+    font-family: 'Loew Next Medium';
+    src: url('/newAssets/font/LoewNext-Medium-BF63fd638a9ff86.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
 
 #loader-wrapper {
   position: fixed;
@@ -58,7 +67,7 @@
   width: 200px;
   height: 200px;
   margin: -100px 0 0 -100px;
-  border-top: 3px solid #3498db;
+  border-top: 3px solid #b7b7b7;
   border-radius: 50%;
 
   -webkit-animation: spin 3.5s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
@@ -72,7 +81,7 @@
   left: 5px;
   bottom: 5px;
   right: 5px;
-  border-top: 3px solid #e74c3c;
+  border-top: 3px solid #787878;
   border-radius: 50%;
 
   -webkit-animation: spin 2.5s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
@@ -86,7 +95,7 @@
   left: 15px;
   bottom: 15px;
   right: 15px;
-  border-top: 3px solid #f9c922;
+  border-top: 3px solid #202020;
   border-radius: 50%;
 
   -webkit-animation: spin 1.5s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
@@ -119,7 +128,7 @@
 }
 
 body {
-  font-family: "Rubik", sans-serif;
+    font-family: 'Loew Next Medium', sans-serif;
   font-weight: normal;
   font-style: normal;
 }
@@ -213,7 +222,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Rubik", sans-serif;
+  font-family: 'Loew Next Medium', sans-serif;
   font-weight: normal;
   color: #333333;
   margin-top: 0px;
@@ -1138,7 +1147,7 @@ header.header ul li .search-result-list ul li {
   line-height: 22px;
   font-weight: 400;
   letter-spacing: 0px;
-  font-family: Rubik;
+  font-family: 'Loew Next Medium', sans-serif;
   text-transform: uppercase;
   padding-left: 85px;
   position: relative;
@@ -2355,7 +2364,7 @@ ul.color-list li:hover {
 .filter-shown-item p {
   color: #666;
   font-size: 14px;
-  font-family: "Rubik", sans-serif;
+  font-family: 'Loew Next Medium', sans-serif;
   line-height: 25.2px;
   font-weight: 300;
 }
