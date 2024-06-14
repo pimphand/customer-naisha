@@ -45,7 +45,7 @@
                 <div class=" col-xl-4 col-lg-4 col-md-6 col-sm-6 col-4">
                     <div class="logo text-center">
                         <a href="/">
-                            <h3 style="color:rgb(0, 0, 0)">Naisha</h3>
+                            <img src="{{ asset('Logo-Naisha-Hitam.png') }}" alt="logo" width="100%">
                         </a>
                     </div>
                 </div>

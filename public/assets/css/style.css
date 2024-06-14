@@ -2673,7 +2673,8 @@ ul.color-list li:hover {
   padding: 2px;
   margin-bottom: 12px;
   height: 100%;
-  border-radius:25%;
+  color: #000;
+  /* border-radius:25%; */
 }
 /* .color-input label { */
   /* border: 1px solid #ddd; */
