@@ -175,18 +175,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                         </div>
                                         <div class="quick-quantity mt-20">
 
-                                            <button type="button" id="add_to_cart"
+                                            <button type="button" id="add_to_cart" style="width: 100%"
                                                 class="list-add-cart-btn primary-hover-btn">
                                                 Tambah ke keranjang
                                             </button>
-
-
-
                                         </div>
                                         <div class="quick-quantity mt-2">
 
 
-                                            <button type="button" id="checkout_now"
+                                            <button type="button" id="checkout_now" style="width: 100%"
                                                 class="list-add-cart-btn primary-hover-btn">
                                                 Checkout Sekarang
                                             </button>

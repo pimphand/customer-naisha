@@ -86,14 +86,21 @@
                                         <h6>Stok: <span id="value_stock"></span></h6>
                                     </div>
                                 </div>
-                                <div class="quick-quantity mt-60">
-                                    <form action="#" method="POST">
-                                        <button type="button" id="add_to_cart"
-                                            class="list-add-cart-btn primary-hover-btn border-0"
-                                            style="padding-left: 80px;padding-right: 80px;transition: all .5s;">
-                                            Tambah ke keranjang
-                                        </button>
-                                    </form>
+                                <div class="quick-quantity mt-20">
+
+                                    <button type="button" id="add_to_cart" style="width: 50%"
+                                        class="list-add-cart-btn primary-hover-btn">
+                                        Tambah ke keranjang
+                                    </button>
+
+                                </div>
+                                <div class="quick-quantity mt-2">
+
+                                    <button type="button" id="checkout_now" style="width: 50%"
+                                        class="list-add-cart-btn primary-hover-btn">
+                                        Checkout Sekarang
+                                    </button>
+
                                 </div>
 
                             </div>
