@@ -87,7 +87,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }
 
         #loader-wrapper-new img {
-            width: 100px;
+            width: 500px;
             /* Adjust the size as needed */
             height: auto;
         }
@@ -165,7 +165,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                         <div class="single-product-component">
                                             <h6>Pilih Warna</h6>
                                             <div style="overflow: hidden;" class="mt-2" id="_warna_modals">
-                                                <div class="color-input">
+                                                <div class="color-input size-label">
                                                     <label for="gold"></label>
                                                     <input type="radio" class="d-none" id="gold">
                                                     <span>Gold</span>
@@ -386,7 +386,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <div class="color-input"data-code="${skusCode}" data-color="${colorName}" onclick="getSize('${skusCode}')">
                             <label for="${colorName}" class="color-ok border  ${sumStock > 0 ? '' :'strikethrough'} " data-code="${skusCode}"
                                 position: relative; display: inline-block;">
-                                ${color.split(',')[0]}
+                                <span class="p-1">${color.split(',')[0]}</span>
                             </label>
                             <input type="radio" class="d-none" id="${colorName}" name="color" data-color="${colorName}">
                         </div>
@@ -521,10 +521,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
                 let sku_modal = JSON.parse(localStorage.getItem('colorData'));
 
-
                 //add active class color white and remove active class
-                $('#_warna_modals label').removeClass('active').css('color', 'black'); // hapus kelas active dan atur warna teks menjadi hitam
-                $(this).find('label').addClass('active').css('color', 'white')
+                $('#_warna_modals label').removeClass('active').css({
+                    'color': 'black',
+                    'background-color': 'white'
+                });
+
+                $('#_warna_modals span').removeClass('active').css({
+                    'color': 'black',
+                });
+
+                $(this).find('label').addClass('active').css({
+                    'color': 'black',
+                    'background-color': 'black'
+                });
+
+                $(this).find('span').addClass('active').css({
+                    'color': 'white',
+                });
 
                 $('#value_stock').text("Sold Out");
 
