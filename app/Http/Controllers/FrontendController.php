@@ -35,9 +35,15 @@ class FrontendController extends Controller
 
     public function detailOrder($id)
     {
-        Http::get(config('app.api_url') . '/customer/order/' . $id);
+        $order =  Http::get(config('app.api_url') . '/customer/order/' . $id);
 
-        return view('checkout', compact('id'));
+        if ($order->status() == 200) {
+            $order = $order['data'];
+        } else {
+            abort(404, 'Order not found');
+        }
+        // dd($order);
+        return view('order', compact('order'));
     }
 
     public function catalog()
