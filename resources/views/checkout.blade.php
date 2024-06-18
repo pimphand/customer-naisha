@@ -363,19 +363,23 @@ $encodedData = json_encode($user['customers']);
                     }
                 })
             }
-
+            let subtotalPrice = 0;
+            cart.forEach(element => {
+                subtotalPrice += element.price.consumer * element.qty;
+            });
             let address = JSON.parse(localStorage.getItem('address'));
             let cour = JSON.parse(localStorage.getItem('courierSelected'));
             let existingBank = JSON.parse(localStorage.getItem('selectedBank'));
             let voucher = JSON.parse(localStorage.getItem('voucher')) ?? 0;
             if (cour) {
                 $('._show_courier_fix').html(`
-                    ${cour.logistic_name} - ${cour.rate_name} ${currency(cour.rate)}
+                    ${cour.logistic_name} - ${cour.rate_name} ${subtotalPrice >= 250000
+                    ? `<s style="color:black">${currency(cour.rate_show)}</s> Rp. 0`
+                    : `${currency(cour.rate)}`}
                 `);
             }
 
             if (address) {
-                console.log(address);
                 $("._show_address_fix").html(`
                     ${address.name} | ${address.phone} <br> ${address.address} <br> ${address.village} - ${address.district} - ${address.province} - ${address.province},  ${address.kodepos}
                 `);
@@ -395,10 +399,6 @@ $encodedData = json_encode($user['customers']);
                 //diambil dari total qty
                 listCartCheckout(cart)
                 //total price
-                let subtotalPrice = 0;
-                cart.forEach(element => {
-                    subtotalPrice += element.price.consumer * element.qty;
-                });
 
                 if (cour) {
                     $("#total_courier").text(currency(subtotalPrice + cour.rate - voucher));
@@ -459,11 +459,13 @@ $encodedData = json_encode($user['customers']);
         $(document).on('click', '.plus', function () {
             let code = $(this).data('code');
             increaseQty(code);
+            getData()
         })
 
         $(document).on('click', '.minus', function () {
             let code = $(this).data('code');
             decreaseQty(code);
+            getData()
         })
 
          //.form-control-sm only number
@@ -500,7 +502,6 @@ $encodedData = json_encode($user['customers']);
             let index = cart.findIndex(p => p.code == code);
             let item = cart.find(item => item.code === code);
             if (item.qty > 1) {
-                console.log(item.stock);
                 if (index !== -1) {
                     cart[index].qty -= 1;
                     cart[index].stock += 1;
@@ -588,7 +589,7 @@ $encodedData = json_encode($user['customers']);
                         console.log(err);
                     } else {
                         $('#_checkout_modal').modal('show');
-                        $('#_title_modal').text('Pilih Kurir');
+                        $('#_title_modal').text('Pilih Bank');
                         $('#_modal_alamat').hide();
                         $('#_show_list_payment').show();
                         $('#_show_list_courier').hide();
@@ -664,7 +665,11 @@ $encodedData = json_encode($user['customers']);
                         $('#_show_list_payment').hide();
                         $('#_show_list_courier').show();
                         let html = '';
-
+                        let cart = JSON.parse(localStorage.getItem('cart'));
+                        let subtotalPrice = 0;
+                        cart.forEach(element => {
+                            subtotalPrice += element.price.consumer * element.qty;
+                        });
                         //save courier in variable
                         courier = data.data;
                         localStorage.setItem('courier', JSON.stringify(courier));
@@ -673,7 +678,12 @@ $encodedData = json_encode($user['customers']);
                             <label class="flex justify-between hover-pink select_courier" data-data="${element.logistic_name}-${element.rate_name}">
                                 <div class="p-1 border border-gra2-300 rounded-lg bg-neutral-100 text-icon flex items-center ">
                                     <img src="${element.logo}" width="20%">
-                                    <span class="ml-2 p-1">${element.logistic_name} - ${element.rate_name} ${currency(element.rate)} <br>
+                                    <span class="ml-2 p-1">
+                                        ${element.logistic_name} - ${element.rate_name}
+                                        ${subtotalPrice >= 250000
+                                        ? `<br> <s style="color:black">${currency(element.rate)}</s> Rp. 0`
+                                        : `${currency(element.rate)}`}
+                                        <br>
                                         Pengiriman ${element.min_day != 0 && element.max_day != 0 ? element.min_day + " - " + element.max_day : "-"} Hari
                                     </span>
                                 </div>
@@ -753,6 +763,7 @@ $encodedData = json_encode($user['customers']);
 
         function saveCourier(selectedCourier) {
             let existingCourier = JSON.parse(localStorage.getItem('courier'));
+            let cart = JSON.parse(localStorage.getItem('cart')) || []; // Pastikan cart selalu array
             let courierSelected;
 
             if (selectedCourier) {
@@ -767,6 +778,18 @@ $encodedData = json_encode($user['customers']);
                         ${courierSelected.logistic_name} - ${courierSelected.rate_name} ${currency(courierSelected.rate)}
                     `);
 
+                    let subtotalPrice = 0;
+                    cart.forEach(element => {
+                        subtotalPrice += element.price.consumer * element.qty;
+                    });
+
+                    if (subtotalPrice >= 250000) {
+                        courierSelected.rate_show = courierSelected.rate;
+                        courierSelected.rate = 0;
+                    }else{
+                        courierSelected.rate_show = 0;
+                    }
+                    console.log(courierSelected);
                     // Simpan kurir yang dipilih ke local storage
                     localStorage.setItem('courierSelected', JSON.stringify(courierSelected));
                 } else {
@@ -885,10 +908,21 @@ $encodedData = json_encode($user['customers']);
                         message("Pastikan kode pos sudah diisi dengan benar!");
                     } else {
                         courier = data.data;
+                        let subtotalPrice = 0;
+                        cart.forEach(element => {
+                            subtotalPrice += element.price.consumer * element.qty;
+                        });
                         localStorage.setItem('courier', JSON.stringify(courier));
                         existingCourier = JSON.parse(localStorage.getItem('courierSelected'));
                         courierSelected = courier.find(courier => courier.logistic_name + '-' + courier.rate_name == existingCourier.logistic_name + '-' + existingCourier.rate_name);
 
+                        //change rate if subtotal price > 250000
+                        if (subtotalPrice >= 250000) {
+                            courierSelected.rate_show = courierSelected.rate;
+                            courierSelected.rate = 0;
+                        }else{
+                            courierSelected.rate_show = 0;
+                        }
                         localStorage.setItem('courierSelected', JSON.stringify(courierSelected));
 
                         let courierSelectednwe = JSON.parse(localStorage.getItem('courierSelected'));
@@ -909,7 +943,7 @@ $encodedData = json_encode($user['customers']);
         }
 
         function saveOrder() {
-            //get cart
+
             let cart = JSON.parse(localStorage.getItem('cart'));
             let address = JSON.parse(localStorage.getItem('address'));
             let courier = JSON.parse(localStorage.getItem('courierSelected'));
@@ -1076,7 +1110,7 @@ $encodedData = json_encode($user['customers']);
             let existing_address = JSON.parse(localStorage.getItem('existing_address'));
             let html = '';
             existing_address.forEach(address => {
-                console.log(address);
+
                 html += `
                     <li class="list-group-item mb-1 hover-pink" style="cursor: pointer;" onmouseover="this.style.cursor='pointer'"
                         data-name="${address.name}"
@@ -1111,7 +1145,6 @@ $encodedData = json_encode($user['customers']);
                     province,
                     kodepos
                 };
-                console.log(addressData);
                 localStorage.setItem('address', JSON.stringify(addressData));
                 $('#_checkout_modal').modal('hide');
                 getData();

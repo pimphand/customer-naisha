@@ -90,7 +90,7 @@ function currency(price) {
         minimumFractionDigits: 0
     });
     if (!price) {
-        return "";
+        return "Rp. 0";
     } else if (typeof formatter === "object" && typeof formatter.format === "function") {
         return formatter.format(price);
     } else {

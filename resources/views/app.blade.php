@@ -770,9 +770,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-    var loader = document.getElementById('loader-wrapper-new');
-    loader.style.display = 'none';
-    });
+            var loader = document.getElementById('loader-wrapper-new');
+            loader.style.display = 'none';
+        });
     </script>
 </body>
 
