@@ -2,9 +2,7 @@
 
 use App\Http\Controllers\FrontendController;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [FrontendController::class, 'index'])->name('home');
@@ -12,6 +10,7 @@ Route::get('/catalog', [FrontendController::class, 'catalog'])->name('catalog');
 
 Route::get('/product/{id}', [FrontendController::class, 'detailProduct'])->name('product');
 Route::get('/order/{id}', [FrontendController::class, 'detailOrder'])->name('order');
+Route::get('/region', [FrontendController::class, 'region'])->name('region');
 
 
 Route::get('/checkout', function () {
@@ -103,3 +102,6 @@ Route::post('create-order', function (Request $request) {
         ], 422);
     }
 })->name('createOrder');
+
+
+Route::post('login', [FrontendController::class, 'login'])->name('login');

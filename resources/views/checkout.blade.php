@@ -49,7 +49,7 @@
     }
 
     .custom-radio:hover .radio-circle {
-        background-color: #e174b8;
+        background-color: #7e7e7e;
         /* Warna ketika dihover */
     }
 
@@ -70,7 +70,7 @@
         width: 100%;
         height: 44px;
         background-color: #082f49;
-        border-radius: 20px;
+        border-radius: 10px;
         color: white;
         /* Warna teks tombol */
         transition: background-color 0.3s, color 0.3s;
@@ -78,14 +78,14 @@
     }
 
     .hover:hover {
-        background-color: #e174b8;
+        background-color: #7e7e7e;
         /* Warna latar belakang saat dihover */
         /* color: black !important; */
         /* Warna teks saat dihover */
     }
 
     .hover-pink:hover .p-1 {
-        background-color: #e174b8;
+        background-color: #7e7e7e;
         color: white;
     }
 
@@ -130,13 +130,19 @@
         color: black !important;
     }
 </style>
-
+@php
+$user = request()->session()->get('loginUser');
+if ($user) {
+$encodedData = json_encode($user['customers']);
+}
+@endphp
 <section class="checkout-area pb-70">
     <div class="container custom-padding">
         <div class="row">
             <div class="col-lg-8">
                 <div class="card">
                     <div class="card-body">
+                        @if (Illuminate\Support\Facades\Session::get('loginUser'))
                         <h5 class="card-title">Pengiriman & Pembayaran</h5>
                         <ul class="list-group mt-2 font-12">
                             <li class="list-group-item mb-1 element text-icon" style="cursor: auto" id="address"
@@ -159,6 +165,24 @@
                                     placeholder="Catatan untuk penjual"></textarea>
                             </li>
                         </ul>
+                        @else
+                        <div id="_form_checkout">
+
+                        </div>
+
+                        <div id="button_checkout">
+                            <button class="hover mt-1" id="_checkout"
+                                style="width: 100%; height: 44px; background-color: #082f49;color:rgb(255, 255, 255)">
+                                Checkout Sekarang
+                            </button>
+
+                            <button class="mt-1 hover" id="login"
+                                style="width: 100%; height: 44px; background-color: #ffffff;color:#082f49">
+                                Udah punya akun? Login
+                            </button>
+                        </div>
+                        @endif
+
                     </div>
                 </div>
             </div>
@@ -172,7 +196,7 @@
                                 <span>Subtotal </span>
                             </div>
                             <div>
-                                <span id="subtotalPrice">Rp 100.000</span>
+                                <span id="subtotalPrice"></span>
                             </div>
                         </li>
 
@@ -181,7 +205,7 @@
                                 <span>Subtotal Pengiriman </span>
                             </div>
                             <div>
-                                <span id="subtotalPengiriman">Rp 100.000</span>
+                                <span id="subtotalPengiriman"></span>
                             </div>
                         </li>
 
@@ -203,13 +227,15 @@
                                 <span>Total Bayar</span>
                             </div>
                             <div>
-                                <span id="total_courier">Rp 100.000</span>
+                                <span id="total_courier"></span>
                             </div>
                         </li>
-
+                        @if (Illuminate\Support\Facades\Session::get('loginUser'))
                         <button class="mt-4 hover" id="_save_order"
                             style="width: 100%; height: 44px; background-color: #082f49; border-radius: 20px;color:rgb(255, 255, 255)">Bayar
-                            Sekarang</button>
+                            Sekarang
+                        </button>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -217,18 +243,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Keranjang <span id="total_cart">()</span></h5>
-
-                        <ul id="list_cart_checkout">
-                            <li class="d-flex justify-content-between">
-                                <div>
-                                    <img src="assets/img/products/1.jpg" alt="product" width="50">
-                                    <span class="ml-2">Product 1</span>
-                                </div>
-                                <div>
-                                    <span>1 x Rp 100.000</span>
-                                </div>
-                            </li>
-                        </ul>
+                        <ul id="list_cart_checkout"></ul>
                     </div>
                 </div>
             </div>
@@ -246,6 +261,8 @@
                     </button>
                 </div>
                 <div class="modal-body" id="_modal_body">
+                    <ul class="list-group mt-2 font-12" style="max-height: 400px; overflow-y: auto;" id="_list_address">
+                    </ul>
                     <div id="_show_list_courier" style="display: none"></div>
                     <div id="_show_list_payment" style="display: none"></div>
                     <div id="_modal_alamat" style="display: none">
@@ -269,20 +286,6 @@
                             </div>
                         </div>
 
-                        <div id="map">
-                            <iframe width="100%" height="170" frameborder="0" scrolling="no" marginheight="0"
-                                marginwidth="0" id="map"
-                                src="https://maps.google.com/maps?q=-7.76500673204135,110.44047756698187&hl=es&z=15&amp;output=embed">
-                            </iframe>
-                        </div>
-
-                        <div class="p-1 border border-gra2-300 rounded-lg bg-neutral-100 text-icon"
-                            id="getLocationButton" style="cursor: auto" onmouseover="this.style.cursor='pointer'"
-                            onmouseout="this.style.cursor='auto'">
-                            <i data-lucide="locate-fixed"></i><span class="ml-2 p-1">Gunakan Lokasi Saat
-                                ini</span>
-                        </div>
-
                         <div class="p-1">
                             <span class="ml-2">Alamat lengkap</span>
                             <textarea type="text" id="_address" class="form-control"
@@ -290,35 +293,57 @@
                         </div>
 
                         <div class="p-1">
-                            <span class="">Provinsi</span>
-                            <input type="text" id="_address_provinsi" class="form-control"
-                                placeholder="Masukkan Provinsi">
+                            <span class="ml-2">Kecamatan</span>
+                            <input type="text" id="district" class="form-control" list="districts"
+                                placeholder="Cari Kecamatan">
+                            <datalist id="districts" style="color: rgb(255, 255, 255); background-color: #b5b5b5;">
+                            </datalist>
                         </div>
+
                         <div class="p-1">
-                            <span class="">Kota</span>
-                            <input type="text" id="_address_kota" class="form-control" placeholder="Masukkan Kota">
+                            <span class="ml-2">Kelurahan/Desa</span>
+                            <select type="text" id="village" class="form-control" placeholder="Cari Kelurahan/Desa">
+                            </select>
+
                         </div>
-                        <input id="_latitude" hidden type="text"><input id="_longitude" hidden type="text">
+
                         <div class="p-1">
-                            <span class="">Kode Pos</span>
-                            <input type="text" id="_address_kodepos" class="form-control"
-                                placeholder="Masukkan Kode Pos">
+                            <span class="ml-2">Kode Post</span>
+                            <input type="text" id="kodepos" class="form-control" placeholder="Cari Kecamatan">
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
-                    <button type="button" id="save" class="btn btn-success">Simpan</button>
-                    <button type="button" id="save_courier" class="btn btn-success">Simpan</button>
-                    <button type="button" id="save_bank" class="btn btn-success">Simpan</button>
+                    <button type="button" id="add_address" class="btn"
+                        style="width: 100%;  background-color: #082f49; border-radius: 10px;color:rgb(255, 255, 255)">Tambah
+                        Alamat
+                    </button>
+                    <div class="row justify-center" style="display: none" id="button_address">
+                        <div class="col-6">
+                            <button type="button" id="save" class="btn"
+                                style=" background-color: #082f49; border-radius: 10px;color:rgb(255, 255, 255);">
+                                Simpan
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <button type="button" class="btn" data-dismiss="modal"
+                                style=" background-color: #989494; border-radius: 10px;color:#ffffff;">
+                                Batal
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 @endsection
+@push('css')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+@endpush
 
 @push('js')
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     $(document).ready(function () {
         //get data from local storage)
@@ -349,6 +374,13 @@
                 `);
             }
 
+            if (address) {
+                console.log(address);
+                $("._show_address_fix").html(`
+                    ${address.name} | ${address.phone} <br> ${address.address} <br> ${address.village} - ${address.district} - ${address.province} - ${address.province},  ${address.kodepos}
+                `);
+            }
+
             if (existingBank) {
                 $('._show_payment_fix').html(`
                     ${existingBank.bank.name} <br> ${existingBank.account_name} - ${existingBank.account_number}
@@ -357,28 +389,6 @@
 
             if (voucher) {
                 $('#discount_').text(`- ${currency(voucher)}`);
-            }
-
-            if (address) {
-                $('._show_address_fix').html(`
-                    ${address.name} | ${address.phone} <br>
-                    ${address.address}
-                `);
-
-                $('#_name').val(address.name);
-                $('#_phone').val(address.phone);
-                $('#_address').val(address.address);
-                $('#_address_provinsi').val(address.provinsi);
-                $('#_address_kota').val(address.kota);
-                $('#_address_kodepos').val(address.kodepos);
-                $('#_latitude').val(address.latitude);
-                $('#_longitude').val(address.longitude);
-
-                $('#map').html(`
-                    <iframe width="100%" height="170" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" id="map"
-                        src="https://maps.google.com/maps?q=${address.latitude},${address.longitude}&hl=es&z=15&amp;output=embed">
-                    </iframe>
-                `);
             }
 
             if (cart) {
@@ -527,9 +537,9 @@
                 getData();
                 //add delay
                 existingCourier = JSON.parse(localStorage.getItem('courierSelected'));
-                if (existingCourier) { setTimeout(() => {
-                reloadCourier()
-                }, 1000);
+                    if (existingCourier) { setTimeout(() => {
+                        reloadCourier()
+                    }, 1000);
                 }
             }else{
                 message()
@@ -557,16 +567,17 @@
             $("#save_bank").hide();
             $('#_checkout_modal').modal('show');
             $('#_title_modal').text('Tambah Alamat');
-            $('#_modal_alamat').show();
+            $('#_modal_alamat').hide();
             $('#_show_list_payment').hide();
             $('#_show_list_courier').hide();
+            $("#button_address").hide();
+            $('#_list_address').show();
         });
 
         let bank = [];
         $('#payment').click(function () {
-            $("#save").hide();
-            $("#save_courier").hide();
-            $("#save_bank").show();
+            $("#button_address").hide();
+            $('#_list_address').hide();
             $('#_title_modal').text('Pilih Metode Pembayaran');
             let address = JSON.parse(localStorage.getItem('address'));
             if (!address) {
@@ -610,10 +621,18 @@
            //add loading button
            this.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Loading...';
            this.disabled = true;
-           $("#save").hide();
-           $("#save_courier").show();
-           $("#save_bank").hide();
+           $("#button_address").hide();
+           $('#_list_address').hide();
            if (!address) {
+                this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="truck"
+                    class="lucide lucide-truck">
+                    <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path>
+                    <path d="M15 18H9"></path>
+                    <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path>
+                    <circle cx="17" cy="18" r="2"></circle>
+                    <circle cx="7" cy="18" r="2"></circle>
+                </svg> <span class=" ml-2"> Pilih Kurir</span>`;
                 alert('Silahkan lengkapi alamat terlebih dahulu');
            }else{
                 // cart = JSON.stringify(cart);
@@ -691,13 +710,12 @@
             const name = $('#_name').val().trim();
             const phone = $('#_phone').val().trim();
             const address = $('#_address').val().trim();
-            const provinsi = $('#_address_provinsi').val().trim();
-            const kota = $('#_address_kota').val().trim();
-            const kodepos = $('#_address_kodepos').val().trim();
-            const latitude = $('#_latitude').val().trim();
-            const longitude = $('#_longitude').val().trim();
+            const kodepos = $('#kodepos').val().trim();
+            const district = $('#district').val().trim();
+            const city = $('#_address_kota').val().trim();
+            const village = $('#village option:selected').text().trim();
 
-            if (!name || !phone || !address || !provinsi || !kota || !kodepos || !latitude || !longitude) {
+            if (!name || !phone || !address || !kodepos ||!village || !district) {
                 // Menampilkan pesan kesalahan jika ada data yang kosong
                 message("Semua kolom alamat harus diisi!");
                 return;
@@ -708,11 +726,10 @@
                 name,
                 phone,
                 address,
-                provinsi,
-                kota,
+                village,
+                district,
                 kodepos,
-                latitude,
-                longitude
+                city
             };
 
             // Menyimpan data alamat dalam localStorage`
@@ -885,7 +902,6 @@
                             <circle cx="7" cy="18" r="2"></circle>
                         </svg> <span class="ml-2">${courierSelectednwe.logistic_name} - ${courierSelectednwe.rate_name}
                             ${currency(courierSelected.rate)}</span>`);
-
                         getData();
                     }
                 })
@@ -977,6 +993,189 @@
                     }
                 })
             }
+        });
+
+        //login
+        $(document).on('click', '#_checkout_lanjut', function () {
+            $.ajax({
+                type: "post",
+                url: "{{ route('login') }}",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    name: $('#_user_name').val(),
+                    phone: $('#_user_phone').val()
+                },
+                success: function (response) {
+                    //reload
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    $.each(xhr.responseJSON.errors, function (i, v) {
+                        $('#_form_checkout').find(`#error_user_${i}`).html('');
+                        $('#_form_checkout').find(`#_user_${i}`).removeClass('is-invalid')
+
+
+                        $('#_form_checkout').find(`#error_user_${i}`).html(v[0]);
+                        $('#_form_checkout').find(`#_user_${i}`).addClass('is-invalid');
+
+                        //remove error
+                        $(document).on('keyup', `#_user_${i}`, function () {
+                            $('#_form_checkout').find(`#error_user_${i}`).html('');
+                            $('#_form_checkout').find(`#_user_${i}`).removeClass('is-invalid');
+                        });
+                    });
+                }
+            });
+        });
+
+        //checkout
+        $('#_checkout').click(function () {
+            $('#_form_checkout').html(`
+                <div class="row">
+                    <div class="col-12 mb-3 text-center">
+                        <h6>Notifikasi Transaksi</h6>
+                        <p>Masukkan email dan nama lengkap untuk dapatkan notifikasi transaksi</p>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <span class="mb-4 mt-2" style="font-size:13px">Nama
+                            Lengkap</span>
+                        <input type="text" id="_user_name" class="form-control" style="font-size:13px"
+                            placeholder="Masukkan Nama Lengkap">
+                        <div style="color:#e44545;font-size:13px" id="error_user_name"></div>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <span class="mb-4 mt-2" style="font-size:13px">Nomor Whatsapp</span>
+                        <input type="text" id="_user_phone" class="form-control" style="font-size:13px"
+                            placeholder="Masukkan Nomor Whatsapp">
+                        <div style="color:#e44545;font-size:13px" id="error_user_phone"></div>
+                    </div>
+                </div>
+
+                <button class="hover mt-1" id="_checkout_lanjut"
+                    style="width: 100%; height: 44px; background-color: #082f49;color:rgb(255, 255, 255)">
+                    Lanjut
+                </button>
+                <button class="hover mt-1" id="_back" style="width: 100%; height: 44px; background-color: #ffffff;color:#082f49">
+                    Kembali
+                </button>
+            `);
+
+            $('#button_checkout').hide();
+        });
+
+        $(document).on('click', '#_back', function () {
+            $('#_form_checkout').html('');
+            $('#button_checkout').show();
+        });
+
+        //list address existing
+        @if (isset($encodedData))
+            let encodedData = '{!! str_replace("'", "\\'", $encodedData) !!}';
+            let existingAddress = JSON.parse(encodedData);
+            localStorage.setItem('existing_address', JSON.stringify(existingAddress));
+            let existing_address = JSON.parse(localStorage.getItem('existing_address'));
+            let html = '';
+            existing_address.forEach(address => {
+                console.log(address);
+                html += `
+                    <li class="list-group-item mb-1 hover-pink" style="cursor: pointer;" onmouseover="this.style.cursor='pointer'"
+                        data-name="${address.name}"
+                        data-phone="${address.phone}"
+                        data-address="${address.address}"
+                        data-village="${address.subdistrict}"
+                        data-district="${address.district}"
+                        data-province="${address.province}"
+                        data-postal_code="${address.postal_code}"
+                        >
+                        <span class="text-bold">${address.name} | ${address.phone}</span>
+                        <p>${address.address}</p>
+                        <p>${address.subdistrict}, ${address.district}, ${address.city}, ${address.province}, ${address.postal_code}</p>
+                    </li>`
+            });
+            $('#_list_address').html(html);
+
+            $('#_list_address').on('click', 'li', function () {
+                let name = $(this).data('name');
+                let phone = $(this).data('phone');
+                let address = $(this).data('address');
+                let village = $(this).data('village');
+                let district = $(this).data('district');
+                let kodepos = $(this).data('postal_code');
+                let province = $(this).data('province');
+                let addressData = {
+                    name,
+                    phone,
+                    address,
+                    village,
+                    district,
+                    province,
+                    kodepos
+                };
+                console.log(addressData);
+                localStorage.setItem('address', JSON.stringify(addressData));
+                $('#_checkout_modal').modal('hide');
+                getData();
+            });
+        @endif
+
+
+        $('#add_address').click(function () {
+            $('#_modal_alamat').show();
+            $('#_list_address').hide();
+            $("#button_address").show();
+            $("#add_address").hide();
+        });
+
+
+        $("#district").on('keyup', function () {
+            let district = $(this).val();
+            if (district.length > 2) {
+                getAddress();
+            }
+        });
+
+        function getAddress() {
+            let district = $('#district').val();
+            get('{{ route("region") }}?type=district&keyword='+district, function (err, data) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    let html = '';
+                    data.data.forEach(element => {
+                        html += `<option value="${element.text}" data-id="${element.id}"> ${element.text} </option>`;
+                    });
+                    $('#districts').html(html);
+                    $('#kodepos').val('');
+                }
+            })
+        }
+
+        $('#district').on('input', function () {
+            let districtValue = $(this).val();
+            let selectedOption = $('#districts option').filter(function () {
+                return $(this).val() === districtValue;
+            });
+
+            if (selectedOption.length > 0) {
+                let id = selectedOption.data('id');
+                get('{{ route("region") }}?type=village&keyword='+id, function (err, data) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        let html = '';
+                        data.forEach(element => {
+                            html += `<option value="${element.name}" data-kodepos="${element.postal_code}"> ${element.name} </option>`;
+                        });
+                        $('#village').html(html);
+                    }
+                })
+            }
+        });
+        $('#village').on('change', function () {
+            //get kodepos
+            let kodepos = $(this).find(':selected').data('kodepos');
+
+            $('#kodepos').val(kodepos);
         });
     });
 </script>
