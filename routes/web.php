@@ -59,6 +59,7 @@ Route::post('create-order', function (Request $request) {
         "shipping_cost" => (int)$shipping['rate'],
         "customer_note" => "",
         "products" => $cart,
+        "customer_note" => $request->note,
     );
 
     $data = [
@@ -67,7 +68,6 @@ Route::post('create-order', function (Request $request) {
             "order" => $order,
             "payment_method" => $bank['id'],
             "voucher" => $request->voucher,
-            "note" => $request->note,
         ],
     ];
 
@@ -83,7 +83,7 @@ Route::post('create-order', function (Request $request) {
             'status' => 'success',
             'message' => 'Order created successfully',
             'data' => $response->json(),
-        ]);
+        ], 400);
     } else {
         return response()->json([
             'status' => 'error',
