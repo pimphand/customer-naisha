@@ -154,7 +154,6 @@ $total = $order['payment']['amount'] - $order['payment']['code_unique'] - ($orde
                         <div class="d-flex justify-content-between">
                             <h5 class="card-title">Pengiriman & Pembayaran</h5>
                             <h5 class="card-title">#{{ $order['id'] }} ({{ $order['status']['message'] }})</h5>
-
                         </div>
                         <ul class="list-group mt-2 font-12">
                             <li class="list-group-item mb-1 element text-icon" style="cursor: auto;" id="address"
