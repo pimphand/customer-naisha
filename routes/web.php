@@ -87,7 +87,7 @@ Route::post('create-order', function (Request $request) {
     } else {
         return response()->json([
             'status' => 'error',
-            'message' => $response['message'],
+            'message' => $response->json(),
         ], 422);
     }
 })->name('createOrder');

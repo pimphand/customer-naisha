@@ -987,7 +987,7 @@ $encodedData = json_encode($user['customers']);
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     let id = data.data.order_id;
-                                    let url = "{{ route('order','id') }}".replace('id', id);
+                                    let url = "{{ route('order',':id') }}".replace(':id', id);
                                     window.location.href = url;
                                 }
                             })
