@@ -10,7 +10,7 @@ Route::get('/catalog', [FrontendController::class, 'catalog'])->name('catalog');
 
 Route::get('/product/{id}', [FrontendController::class, 'detailProduct'])->name('product');
 Route::get('/order/{id}', [FrontendController::class, 'detailOrder'])->name('order');
-Route::get('/region', [FrontendController::class, 'region'])->name('region');
+Route::get('/region', [FrontendController::class, 'support'])->name('region');
 
 
 Route::get('/checkout', function () {
@@ -38,6 +38,11 @@ Route::post('create-order', function (Request $request) {
         "phone" => $customer['phone'],
         "postal_code" => $customer['kodepos'],
         "address" => $customer['address'],
+        "distric" => $customer['district'],
+        "province" => $customer['province'],
+        "city" => $customer['city'],
+        "subdistrict_id" => 35247,
+        "name_distric" => $customer['village'],
     ];
     $cart = [];
     foreach ($carts as $key => $cartItem) {
@@ -46,28 +51,6 @@ Route::post('create-order', function (Request $request) {
             "qty" => $cartItem['qty'],
         ];
     }
-    //array hubah ke string
-    // $cartCode = implode(',', $cartCode);
-    // $couier =  Http::get(config('app.api_url') . '/customer/check-courier', [
-    //     'postal_code' => $customer['postal_code'],
-    //     'cartCode' => $cartCode,
-    // ]);
-
-
-
-    // if ($couier->status() == 200) {
-    //     $courier = $couier['data'];
-    // } else {
-    //     return response()->json([
-    //         'status' => 'error',
-    //         'message' => $couier['message'],
-    //         'request' => $request->all(),
-    //     ], 422);
-    // }
-
-    //find courier by couerier logistic_name and rate_name
-    // $courier = collect($courier)->where('logistic_name', $shipping['logistic_name'])->where('rate_name', $shipping['rate_name'])->first();
-
 
     $order = array(
         "courier" => $shipping['logistic_name'],
@@ -88,12 +71,18 @@ Route::post('create-order', function (Request $request) {
         ],
     ];
 
-    $response = Http::post(config('app.api_url') . '/customer/create-order', $data);
+    $response = Http::withToken(session('token')['accessToken'])
+        ->withHeaders([
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+        ])
+        ->post(config('app.api_url') . '/orders/checkout', $data);
 
     if ($response->status() == 200) {
         return response()->json([
             'status' => 'success',
             'message' => 'Order created successfully',
+            'data' => $response->json(),
         ]);
     } else {
         return response()->json([
@@ -105,3 +94,4 @@ Route::post('create-order', function (Request $request) {
 
 
 Route::post('login', [FrontendController::class, 'login'])->name('login');
+Route::post('confirmation', [FrontendController::class, 'confirmation'])->name('confirmation');

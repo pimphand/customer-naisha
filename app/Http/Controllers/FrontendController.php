@@ -42,6 +42,7 @@ class FrontendController extends Controller
         } else {
             abort(404, 'Order not found');
         }
+
         // dd($order);
         return view('order', compact('order'));
     }
@@ -75,6 +76,7 @@ class FrontendController extends Controller
 
         if ($login->status() == 200) {
             $request->session()->put('loginUser', $login['data']);
+            $request->session()->put('token', $login['token']);
 
             return response()->json([
                 'status' => 'success',
@@ -106,7 +108,7 @@ class FrontendController extends Controller
         return ($zeroLeading ? '8' : '8') . $n;
     }
 
-    public function region(Request $request)
+    public function support(Request $request)
     {
         if ($request->type == 'district') {
             $response = Http::withToken("7666|lc7HtIgeFyfbUPAmD4z4LrB54ufVTgMOuDSYyagS1f18a01b")->get("https://api.kirimpaket.id/api/open/location/districts-search?keyword=$request->keyword");
@@ -119,5 +121,49 @@ class FrontendController extends Controller
 
             return response()->json($response->json());
         }
+
+        if ($request->type == 'tracking') {
+            $response = Http::withToken("7666|lc7HtIgeFyfbUPAmD4z4LrB54ufVTgMOuDSYyagS1f18a01b")->get("https://api.kirimpaket.id/api/open/shipping/track-airwaybill?awb_number=$request->keyword");
+            return response()->json($response->json()['data']);
+        }
+    }
+
+    public function confirmation(Request $request)
+    {
+        Validator::make($request->all(), [
+            'image' => 'required|file',
+            'from_bank' => 'required|string',
+            'from_account_name' => 'required|string',
+            'amount' => 'required|numeric',
+            'refrence' => 'required|string',
+        ], [
+            'image.required' => 'Bukti transfer harus diisi',
+            'from_bank.required' => 'Nama bank harus diisi',
+            'from_account_name.required' => 'Nama pemilik rekening harus diisi',
+            'amount.required' => 'Jumlah transfer harus diisi',
+            'refrence.required' => 'Nomor referensi harus diisi',
+        ])->validate();
+
+        $data = [
+            'from_bank' => $request->from_bank,
+            'from_account_name' => $request->from_account_name,
+            'amount' => $request->amount,
+            'refrence' => $request->refrence,
+            'date' => $request->date,
+            'order_id' => $request->order_id,
+            'payment_method' => $request->payment_method,
+        ];
+
+        $response = Http::withToken(session('token')['accessToken'])
+            ->withHeaders([
+                'Accept' => 'application/json',
+            ])
+            ->attach('image', file_get_contents($request->image), $request->image->getClientOriginalName())
+            ->post(config('app.api_url') . '/orders/confirmation', $data);
+
+        if ($response->status() == 200) {
+        }
+
+        return response()->json($response->json(), $response->status());
     }
 }

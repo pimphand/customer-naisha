@@ -381,7 +381,7 @@ $encodedData = json_encode($user['customers']);
 
             if (address) {
                 $("._show_address_fix").html(`
-                    ${address.name} | ${address.phone} <br> ${address.address} <br> ${address.village} - ${address.district} - ${address.province} - ${address.province},  ${address.kodepos}
+                    ${address.name} | ${address.phone} <br> ${address.address} <br> ${address.village} - ${address.district} - ${address.city} - ${address.province},  ${address.kodepos}
                 `);
             }
 
@@ -986,7 +986,9 @@ $encodedData = json_encode($user['customers']);
                                 allowOutsideClick: false,
                             }).then((result) => {
                                 if (result.isConfirmed) {
-                                    window.location.href = "/";
+                                    let id = data.data.order_id;
+                                    let url = "{{ route('order','id') }}".replace('id', id);
+                                    window.location.href = url;
                                 }
                             })
                         } else {
@@ -1110,7 +1112,6 @@ $encodedData = json_encode($user['customers']);
             let existing_address = JSON.parse(localStorage.getItem('existing_address'));
             let html = '';
             existing_address.forEach(address => {
-
                 html += `
                     <li class="list-group-item mb-1 hover-pink" style="cursor: pointer;" onmouseover="this.style.cursor='pointer'"
                         data-name="${address.name}"
@@ -1119,6 +1120,7 @@ $encodedData = json_encode($user['customers']);
                         data-village="${address.subdistrict}"
                         data-district="${address.district}"
                         data-province="${address.province}"
+                        data-city="${address.city}"
                         data-postal_code="${address.postal_code}"
                         >
                         <span class="text-bold">${address.name} | ${address.phone}</span>
@@ -1136,8 +1138,10 @@ $encodedData = json_encode($user['customers']);
                 let district = $(this).data('district');
                 let kodepos = $(this).data('postal_code');
                 let province = $(this).data('province');
+                let city = $(this).data('city');
                 let addressData = {
                     name,
+                    city,
                     phone,
                     address,
                     village,
