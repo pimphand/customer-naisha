@@ -161,9 +161,6 @@ class FrontendController extends Controller
             ->attach('image', file_get_contents($request->image), $request->image->getClientOriginalName())
             ->post(config('app.api_url') . '/orders/confirmation', $data);
 
-        if ($response->status() == 200) {
-        }
-
         return response()->json($response->json(), $response->status());
     }
 }

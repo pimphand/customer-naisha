@@ -1005,7 +1005,7 @@ $encodedData = json_encode($user['customers']);
                         }
                     },
                     error: function (xhr, status, error) {
-                        console.log(xhr.responseText);
+                        message(xhr.responseJSON.message);
                     }
                 });
             }

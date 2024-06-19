@@ -45,11 +45,22 @@ Route::post('create-order', function (Request $request) {
         "name_distric" => $customer['village'],
     ];
     $cart = [];
+    $total = 0;
+
     foreach ($carts as $key => $cartItem) {
         $cart[] = [
             "sku_code" => $cartItem['code'],
             "qty" => $cartItem['qty'],
         ];
+
+        $total += $cartItem['price']['consumer'] * $cartItem['qty'];
+    }
+
+    if ($shipping['rate'] == 0 && $total <= 250000) {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Silahkan pilih kurir lain atau tambahkan produk lain untuk melanjutkan transaksi.',
+        ], 422);
     }
 
     $order = array(
@@ -83,7 +94,7 @@ Route::post('create-order', function (Request $request) {
             'status' => 'success',
             'message' => 'Order created successfully',
             'data' => $response->json(),
-        ], 400);
+        ]);
     } else {
         return response()->json([
             'status' => 'error',
