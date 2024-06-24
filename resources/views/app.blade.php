@@ -91,6 +91,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             /* Adjust the size as needed */
             height: auto;
         }
+
+        .nav-scroll {
+            max-height: 250px;
+            /* Adjust the height as needed */
+            overflow-y: auto;
+        }
     </style>
 </head>
 
@@ -125,8 +131,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             <div class="col-xl-6 col-lg-6 col-12">
                                 <div class="shop-img">
                                     <div class="row">
-                                        <div class="col-2">
-                                            <div class="nav nav-pills" id="v-pills-tab" role="tablist"
+                                        <div class="col-3">
+                                            <div class="nav nav-pills nav-scroll" id="v-pills-tab" role="tablist"
                                                 aria-orientation="vertical">
 
                                                 <a class="active" data-toggle="pill" href="#tab-1">
@@ -136,7 +142,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
                                             </div>
                                         </div>
-                                        <div class="col-10">
+                                        <div class="col-8">
                                             <div class="tab-content" id="v-pills-tabContent">
 
                                                 <div class="tab-pane fade show active" id="tab-1">
