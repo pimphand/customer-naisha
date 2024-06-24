@@ -97,6 +97,54 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             /* Adjust the height as needed */
             overflow-y: auto;
         }
+
+        /* Media query for mobile screens */
+        @media (max-width: 767px) {
+
+            #product-list .col-xl-3,
+            #product-list .col-lg-3,
+            #product-list .col-md-4,
+            #product-list .col-sm-6,
+            #product-list .col-12 {
+                flex: 0 0 25%;
+                /* Set width to 25% for four columns */
+                max-width: 25%;
+                /* Set max-width to 25% for four columns */
+            }
+
+            #product-list .col-12 {
+                width: 25%;
+                /* Ensure the width is also set to 25% */
+            }
+
+            .product-box .product-img .product-img-link {
+                display: none;
+            }
+
+            .price-switcher span.price {
+                font-size: 10px
+            }
+
+            .product-desc a.product-title {
+                font-size: 10px;
+            }
+
+            #product-list .product-box .product-box-wrapper {
+                width: 100% !important;
+                /* Ensure the product box wrapper takes full width */
+            }
+
+            .product-box {
+                margin-bottom: 20px;
+            }
+        }
+
+        #product-list {
+            display: flex;
+            flex-wrap: wrap;
+            /* gap: 10px; */
+            /* Optional: Adds spacing between items */
+        }
     </style>
 </head>
 
