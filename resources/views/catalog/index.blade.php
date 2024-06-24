@@ -51,7 +51,8 @@
 @endpush
 
 @section('content')
-<div class="has-breadcrumb-bg mb-120" data-background="https://sgp1.vultrobjects.com/naisha-s3/customer/header-2@4x.webp">
+<div class="has-breadcrumb-bg mb-120"
+    data-background="https://sgp1.vultrobjects.com/naisha-s3/customer/header-2@4x.webp">
     <div class="breadcrumb-content d-flex justify-content-center align-items-center" style="flex-direction: column;">
         <h2 class="title">Shop</h2>
         <nav aria-label="breadcrumb" class="mb-40">
@@ -197,7 +198,7 @@
                             </div>
                             <div class="tab-pane fade show active" id="shop-tab-3">
                                 <div class="product-wrapper mt-55">
-                                    <div class="row" id="_tab_3">
+                                    <div class="row" id="product-list">
 
                                     </div>
 
@@ -373,7 +374,7 @@
                 if (data.data.length > 0) {
                     tab_3(data);
                 }else{
-                    $('#_tab_3').html('<div class="col-12 text-center">No data found</div>');
+                    $('#product-list').html('<div class="col-12 text-center">No data found</div>');
                 }
             }
         });
@@ -423,7 +424,7 @@
         $("#from_").text(data.meta.from);
         $("#to_").text(data.meta.to);
         $('.total_count').text(data.meta.total);
-        $('#_tab_3').html(list);
+        $('#product-list').html(list);
 
         if (data.data.length < 0) {
             $('.load-more').hide();

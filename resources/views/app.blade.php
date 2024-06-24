@@ -134,6 +134,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 /* Ensure the product box wrapper takes full width */
             }
 
+            .product-img .sale {
+                display: none;
+            }
+
             .product-box {
                 margin-bottom: 20px;
             }
