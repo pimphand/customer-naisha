@@ -855,6 +855,29 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             loader.style.display = 'none';
         });
     </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var hamburgerMenu = document.querySelector('.hamburger-menu');
+            var menu = document.getElementById('menu');
+
+            hamburgerMenu.addEventListener('click', function () {
+                if (menu.classList.contains('hidden')) {
+                    menu.classList.remove('hidden');
+                    menu.classList.add('visible');
+                } else {
+                    menu.classList.remove('visible');
+                    menu.classList.add('hidden');
+                }
+            });
+        });
+
+        //if scroll id menu hide
+        $(window).scroll(function () {
+            $('#menu').removeClass('visible');
+        });
+
+    </script>
 </body>
 
 </html>

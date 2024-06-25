@@ -5,6 +5,74 @@
         margin: 0px 0;
         padding: 0;
     }
+
+    .hamburger-menu {
+        display: none;
+        /* Hide by default, show on smaller screens */
+        cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+        .hamburger-menu {
+            display: block;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hamburger-menu {
+            cursor: pointer;
+        }
+
+        .menu {
+            display: none;
+            /* Default hidden */
+            position: absolute;
+            top: 60px;
+            /* Adjust this value based on your layout */
+            right: 0;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .menu ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu ul li {
+            border-bottom: 1px solid #ddd;
+        }
+
+        .menu ul li a {
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: black;
+        }
+
+        .menu ul li a:hover {
+            background-color: #f0f0f0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .visible {
+            display: block;
+        }
+
+        .mean-nav {
+            left: 33px;
+            top: 120px;
+        }
+    }
 </style>
 
 <header class="" style="padding-top: 30px; padding-bottom: 10px;background:#000000; color:rgb(255, 255, 255)">
@@ -43,11 +111,25 @@
                         </nav>
                     </div>
                 </div>
-                <div class=" col-xl-4 col-lg-4 col-md-6 col-sm-6 col-4">
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-4">
                     <div class="logo text-center">
+                        <div class="hamburger-menu mr-1 mb-3">
+                            <i class="fas fa-bars"></i>
+                        </div>
                         <a href="/">
                             <img src="{{ asset('Logo-Naisha-Hitam.png') }}" alt="logo" width="100%">
                         </a>
+                        <div id="menu" class="menu hidden">
+                            <nav class="mean-nav">
+                                <ul style="color: rgb(0, 0, 0); display: block;">
+                                    <li><a href=" /" class="active"><span style="color:rgb(0, 0, 0)">Home</span></a>
+                                    </li>
+                                    <li><a href="/"><span style="color:rgb(0, 0, 0)">New Drop</span></a></li>
+                                    <li class="mean-last"><a href="/"><span style="color:rgb(0, 0, 0)">Available
+                                                Items</span></a></li>
+                                </ul>
+                            </nav>
+                        </div>
                     </div>
                 </div>
 
@@ -103,15 +185,5 @@
                 </div>
             </div>
         </div>
-        <div class="mobile-menu visible-sm " style="color:rgb(255, 255, 255)">
-            <div id="mobile-menu" style="display: block;">
-                <ul style="color:rgb(0, 0, 0)">
-                    <li><a href=" /" class="active"><span style="color:rgb(0, 0, 0)">Home</span></a></li>
-                    <li><a href="/"><span style="color:rgb(0, 0, 0)">New Drop</span></a></li>
-                    <li><a href="/"><span style="color:rgb(0, 0, 0)">Available Items</span></a></li>
-                </ul>
-            </div>
-        </div>
-        <!-- /. mobile nav -->
     </div>
 </header>
