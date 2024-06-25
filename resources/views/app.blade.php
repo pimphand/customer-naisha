@@ -106,15 +106,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             #product-list .col-md-4,
             #product-list .col-sm-6,
             #product-list .col-12 {
-                flex: 0 0 25%;
+                flex: 0 0 50%;
                 /* Set width to 25% for four columns */
-                max-width: 25%;
-                /* Set max-width to 25% for four columns */
+                max-width: 50%;
+                /* Set max-width to 50% for four columns */
             }
 
             #product-list .col-12 {
-                width: 25%;
-                /* Ensure the width is also set to 25% */
+                width: 50%;
+                /* Ensure the width is also set to 50% */
             }
 
             .product-box .product-img .product-img-link {
@@ -154,8 +154,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         #product-list {
             display: flex;
             flex-wrap: wrap;
-            /* gap: 10px; */
-            /* Optional: Adds spacing between items */
         }
     </style>
 </head>
@@ -415,8 +413,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             });
 
         }
-
-
         function populateColorOptions(skus) {
             $('#select_size').html('');
             $('#select_material').html('');
@@ -824,12 +820,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 // });
             }
         });
+
+        @if (request()->session()->get('loginUser') == null)
+            // localStorage.setItem('existing_address', JSON.stringify(existingAddress));
+            //remove existing_address
+            localStorage.removeItem('existing_address');
+        @endif
     </script>
 
     @stack('script')
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MPT93JHS" height="0" width="0"
-            style="display:none;visibility:hidden"></iframe></noscript>
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MPT93JHS" height="0" width="0"
+            style="display:none;visibility:hidden">
+        </iframe>
+    </noscript>
     <!-- End Google Tag Manager (noscript) -->
 
     {{-- new loading --}}
