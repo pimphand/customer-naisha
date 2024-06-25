@@ -173,12 +173,12 @@ $encodedData = json_encode($user['customers']);
                         <div id="button_checkout">
                             <button class="hover mt-1" id="_checkout"
                                 style="width: 100%; height: 44px; background-color: #082f49;color:rgb(255, 255, 255)">
-                                Checkout Sekarang
+                                Udah punya akun? Login
                             </button>
 
                             <button class="mt-1 hover" id="login"
                                 style="width: 100%; height: 44px; background-color: #ffffff;color:#082f49">
-                                Udah punya akun? Login
+                                Belum punya akun? Daftar
                             </button>
                         </div>
                         @endif
@@ -603,7 +603,7 @@ $encodedData = json_encode($user['customers']);
                         html += `
                             <label class="flex justify-between hover-pink select_bank" data-data="${element.id}">
                                 <div class="p-1 border border-gra2-300 rounded-lg bg-neutral-100 text-icon flex items-center">
-                                    <img src="${element.bank.icon}" width="20%">
+                                    <img src="${element.bank.icon}" width="10%">
                                     <span class="ml-2 p-1"> ${element.account_name} - ${element.account_number}
                                     </span>
                                 </div>
@@ -677,7 +677,7 @@ $encodedData = json_encode($user['customers']);
                             html += `
                             <label class="flex justify-between hover-pink select_courier" data-data="${element.logistic_name}-${element.rate_name}">
                                 <div class="p-1 border border-gra2-300 rounded-lg bg-neutral-100 text-icon flex items-center ">
-                                    <img src="${element.logo}" width="20%">
+                                    <img src="${element.logo}" width="10%">
                                     <span class="ml-2 p-1">
                                         ${element.logistic_name} - ${element.rate_name}
                                         ${subtotalPrice >= 250000
@@ -1043,7 +1043,19 @@ $encodedData = json_encode($user['customers']);
                 },
                 success: function (response) {
                     //reload
-                    location.reload();
+                    Swal.fire({
+                        title: "Login Berhasil",
+                        text: "Anda akan diarahkan ke halaman checkout dalam 2 detik",
+                        icon: "success",
+                        allowOutsideClick: false,
+                    }).then((result) => {
+                        setTimeout(() => {
+                            location.reload();
+                        }, 2000); // 2000 milidetik sama dengan 2 detik
+                    })
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000);
                 },
                 error: function (xhr, status, error) {
                     $.each(xhr.responseJSON.errors, function (i, v) {
@@ -1069,8 +1081,8 @@ $encodedData = json_encode($user['customers']);
             $('#_form_checkout').html(`
                 <div class="row">
                     <div class="col-12 mb-3 text-center">
-                        <h6>Notifikasi Transaksi</h6>
-                        <p>Masukkan email dan nama lengkap untuk dapatkan notifikasi transaksi</p>
+                        <h6>GABUNG</h6>
+                        <p>Silakan isi informasi di bawah ini:</p>
                     </div>
                     <div class="col-12 mb-3">
                         <span class="mb-4 mt-2" style="font-size:13px">Nama

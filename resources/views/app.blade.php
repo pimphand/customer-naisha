@@ -149,6 +149,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             .product-box {
                 margin-bottom: 20px;
             }
+
+            .single-slider {
+                min-height: 208px
+            }
+
+            .mt-100 {
+                margin-top: 30px;
+            }
         }
 
         #product-list {
@@ -822,9 +830,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         });
 
         @if (request()->session()->get('loginUser') == null)
-            // localStorage.setItem('existing_address', JSON.stringify(existingAddress));
-            //remove existing_address
             localStorage.removeItem('existing_address');
+            localStorage.removeItem('address');
+            localStorage.removeItem('courierSelected');
+            localStorage.removeItem('selectedBank');
+            localStorage.removeItem('voucher');
         @endif
     </script>
 
