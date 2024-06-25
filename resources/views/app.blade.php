@@ -93,13 +93,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }
 
         .nav-scroll {
-            max-height: 250px;
+            max-height: 468px;
             /* Adjust the height as needed */
             overflow-y: auto;
         }
 
         /* Media query for mobile screens */
         @media (max-width: 767px) {
+
+            .nav-scroll {
+                max-height: 250px;
+                /* Adjust the height as needed */
+                overflow-y: auto;
+            }
 
             #product-list .col-xl-3,
             #product-list .col-lg-3,
@@ -412,7 +418,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
                     $('#v-pills-tab').append(`
                         <a data-code="${sku_.code}"
-                            onclick="getSize('${sku_.code}')" onClick="getStock('${sku_.code}')" onClick="getMaterial('${sku_.code}')"
+                            onclick="getSize('${sku_.code}')" onClick="getStock('${sku_.code}')" onClick="getMaterial('${sku_.code}')" data-color_name="${sku_.properties.color}"
                             class="tab_color nav-link ${processedColors.size == 1 ? "active" : ''}" id="tab-${sku_.code}-tab" data-toggle="pill" href="#${sku_.code}" role="tab" aria-controls="${sku_.properties.color}" aria-selected="${processedColors.size == 1 ? "true" : "false"}">
                             <img src="${sku_.image_url}" class="" width="40px" alt="">
                         </a>
@@ -421,6 +427,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             });
 
         }
+
         function populateColorOptions(skus) {
             $('#select_size').html('');
             $('#select_material').html('');
@@ -615,8 +622,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 $('#select_size .size-label:first').click();
                 $('#select_material .material-label:first').click();
 
-                //find label
+                let data_color_name = $(this).data('color_name');
+                data_color_name = data_color_name.replace(/ /g, '_');
+                //find from text
+                let label = $(`label[for="${data_color_name}"]`);
+                label.addClass('active').css({
+                    'color': 'white',
+                    'background-color': 'black'
+                });
 
+                label.find('span').css({
+                    'color': 'white',
+                });
+
+                console.log(data_color_name);
             } finally {
                 isColorHandlerRunning = false;
             }
@@ -698,7 +717,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 });
             }else{
                 AddCart(selectedSku);
-
                 // Redirect to checkout page
                 window.location.href = "{{ route('checkout') }}";
             }
