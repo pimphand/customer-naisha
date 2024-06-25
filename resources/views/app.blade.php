@@ -129,12 +129,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 font-size: 10px;
             }
 
+            .mean-container a.meanmenu-reveal {
+                left: 134px !important;
+            }
+
             #product-list .product-box .product-box-wrapper {
                 width: 100% !important;
                 /* Ensure the product box wrapper takes full width */
             }
 
             .product-img .sale {
+                display: none;
+            }
+
+            .nav_ {
                 display: none;
             }
 

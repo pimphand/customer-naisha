@@ -7,8 +7,7 @@
     }
 </style>
 
-<header class=""
-    style="padding-top: 30px; padding-bottom: 10px;background:#000000; color:rgb(255, 255, 255)">
+<header class="" style="padding-top: 30px; padding-bottom: 10px;background:#000000; color:rgb(255, 255, 255)">
     <div class="header-nav header-nav-2 position-relative">
         <div class="row align-items-center">
             <div class="col-12 align-items-center" style="text-align: center;">
@@ -19,7 +18,7 @@
 </header>
 
 <header class="header header-2  header-sticky header-static" style="padding-top: 20px; padding-bottom: 1px;">
-    <div class="container-fluid"  style="background:#ffffff; color:rgb(0, 0, 0)">
+    <div class="container-fluid" style="background:#ffffff; color:rgb(0, 0, 0)">
 
         <div class="header-nav header-nav-2 position-relative">
             <div class="row align-items-center">
@@ -36,8 +35,10 @@
                                         href="{{ route('catalog') }}">
                                         <span style="color:rgb(0, 0, 0)">CATALOG</span></a>
                                 </li>
-                                <li><a href="{{ route('catalog') }}?filter[from_newest]=1"><span style="color:rgb(0, 0, 0)">New Drop</span></a></li>
-                                <li><a href="{{ route('catalog') }}"><span style="color:rgb(0, 0, 0)">Available Items</span></a></li>
+                                <li><a href="{{ route('catalog') }}?filter[from_newest]=1"><span
+                                            style="color:rgb(0, 0, 0)">New Drop</span></a></li>
+                                <li><a href="{{ route('catalog') }}"><span style="color:rgb(0, 0, 0)">Available
+                                            Items</span></a></li>
                             </ul>
                         </nav>
                     </div>
@@ -50,7 +51,7 @@
                     </div>
                 </div>
 
-                <div class="col-xl-4 col-lg-4 col-6 col-md-6 col-sm-6 col-9">
+                <div class="col-xl-4 col-lg-4 col-6 col-md-6 col-sm-6 col-8">
                     <div class="header-right">
                         <ul class="text-right" style="color:rgb(0, 0, 0)">
                             <li>
