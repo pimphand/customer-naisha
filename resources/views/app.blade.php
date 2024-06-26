@@ -385,7 +385,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             material: sku_.properties.material,
                             stock: sku_.stock,
                             code: sku_.code,
-                            image_url: sku_.image_url
+                            image_url: sku_.image_url,
+                            price: sku_.price.consumer
                         };
 
                         colorData[colorName].push(skuSave);
@@ -657,8 +658,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         // console.error('data_color_name is undefined');
                     }
 
+                    //get sku_modal from local storage
+                    let data = JSON.parse(localStorage.getItem('sku_modal'));
+                    //filter data by code
+                    var filteredData = whereIn(data, selectedColor);
+                    //get size and material
 
-                    // console.log(data_color_name);
+                    //change price
+                    $('#_modal_single_product').html(`<span>${currency(filteredData[0].price.consumer)}`);
                 } finally {
                     isColorHandlerRunning = false;
                 }

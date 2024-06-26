@@ -19,9 +19,9 @@ class FrontendController extends Controller
         ];
 
         $categories = [
-            "https://sgp1.vultrobjects.com/naisha-s3/customer/gamis@4x.webp",
+            "https://sgp1.vultrobjects.com/naisha-s3/customer/kategori_gamis.webp",
             "https://sgp1.vultrobjects.com/naisha-s3/customer/acc@4x.webp",
-            "https://sgp1.vultrobjects.com/naisha-s3/customer/khimar@4x.webp",
+            "https://sgp1.vultrobjects.com/naisha-s3/customer/kategori%20khimar.webp",
             "https://sgp1.vultrobjects.com/naisha-s3/customer/koko@4x.webp"
         ];
 
