@@ -298,6 +298,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             </div>
         </div>
     </div>
+    <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content mt-5">
+                <div class="modal-header">
+                    <h5 class="modal-title">Daftar / Masuk</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" id="form-login-modal">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- footer section end -->
     <a href="https://wa.me/6282242436562" class="whatsapp-button" target="_blank">
         <img src="https://png.pngtree.com/png-clipart/20190516/original/pngtree-whatsapp-icon-png-image_3584844.jpg"
@@ -588,58 +605,64 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
         let isColorHandlerRunning = false;
 
-        function selectColorHandler(e) {
-            if (isColorHandlerRunning) return;
-            isColorHandlerRunning = true;
+            function selectColorHandler(e) {
+                if (isColorHandlerRunning) return;
+                isColorHandlerRunning = true;
 
-            try {
-                let selectedColor = $(this).data('code');
-                let $selectedTab = $(`#v-pills-tab a[href="#${selectedColor}"]`).click();
+                try {
+                    let selectedColor = $(this).data('code');
+                    let $selectedTab = $(`#v-pills-tab a[href="#${selectedColor}"]`).click();
 
-                let sku_modal = JSON.parse(localStorage.getItem('colorData'));
+                    let sku_modal = JSON.parse(localStorage.getItem('colorData'));
 
-                //add active class color white and remove active class
-                $('#_warna_modals label').removeClass('active').css({
-                    'color': 'black',
-                    'background-color': 'white'
-                });
+                    //add active class color white and remove active class
+                    $('#_warna_modals label').removeClass('active').css({
+                        'color': 'black',
+                        'background-color': 'white'
+                    });
 
-                $('#_warna_modals span').removeClass('active').css({
-                    'color': 'black',
-                });
+                    $('#_warna_modals span').removeClass('active').css({
+                        'color': 'black',
+                    });
 
-                $(this).find('label').addClass('active').css({
-                    'color': 'black',
-                    'background-color': 'black'
-                });
+                    $(this).find('label').addClass('active').css({
+                        'color': 'black',
+                        'background-color': 'black'
+                    });
 
-                $(this).find('span').addClass('active').css({
-                    'color': 'white',
-                });
+                    $(this).find('span').addClass('active').css({
+                        'color': 'white',
+                    });
 
-                $('#value_stock').text("Sold Out");
+                    $('#value_stock').text("Sold Out");
 
-                $('#select_size .size-label:first').click();
-                $('#select_material .material-label:first').click();
+                    $('#select_size .size-label:first').click();
+                    $('#select_material .material-label:first').click();
 
-                let data_color_name = $(this).data('color_name');
-                data_color_name = data_color_name.replace(/ /g, '_');
-                //find from text
-                let label = $(`label[for="${data_color_name}"]`);
-                label.addClass('active').css({
-                    'color': 'white',
-                    'background-color': 'black'
-                });
+                    let data_color_name = $(this).data('color_name');
 
-                label.find('span').css({
-                    'color': 'white',
-                });
+                    if (data_color_name) {
+                        data_color_name = data_color_name.replace(/ /g, '_');
+                        // Find from text
+                        let label = $(`label[for="${data_color_name}"]`);
+                        label.addClass('active').css({
+                            'color': 'white',
+                            'background-color': 'black'
+                        });
 
-                console.log(data_color_name);
-            } finally {
-                isColorHandlerRunning = false;
+                        label.find('span').css({
+                            'color': 'white',
+                        });
+                    } else {
+                        // console.error('data_color_name is undefined');
+                    }
+
+
+                    // console.log(data_color_name);
+                } finally {
+                    isColorHandlerRunning = false;
+                }
             }
-        }
 
         function sizeHandler(e) {
             let selectedSize = $(this).data('code');
@@ -819,12 +842,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             if (foundColor) {
                 return foundColor.code;
             } else {
-                console.error("Warna '" + name + "' tidak ditemukan.");
+                // console.error("Warna '" + name + "' tidak ditemukan.");
                 return null; // atau Anda dapat mengembalikan nilai default, misalnya "#FFFFFF"
             }
         }
-
-
         //sticky
         $(window).on('scroll', function () {
             var scroll = $(window).scrollTop();
@@ -875,17 +896,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var hamburgerMenu = document.querySelector('.hamburger-menu');
-            var menu = document.getElementById('menu');
+        $(document).ready(function() {
+            var $hamburgerMenu = $('.hamburger-menu');
+            var $menu = $('#menu');
 
-            hamburgerMenu.addEventListener('click', function () {
-                if (menu.classList.contains('hidden')) {
-                    menu.classList.remove('hidden');
-                    menu.classList.add('visible');
+            $hamburgerMenu.on('click', function() {
+                if ($menu.hasClass('hidden')) {
+                    $menu.removeClass('hidden').addClass('visible');
+                    $menu.find('ul').show();
                 } else {
-                    menu.classList.remove('visible');
-                    menu.classList.add('hidden');
+                    $menu.removeClass('visible').addClass('hidden');
+                    $menu.find('ul').hide();
                 }
             });
         });
@@ -893,6 +914,163 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         //if scroll id menu hide
         $(window).scroll(function () {
             $('#menu').removeClass('visible');
+        });
+
+        $('#login-btn').click(function() {
+            $('#login').modal('show');
+            formLogin()
+        });
+
+        function formLogin() {
+            $('#form-login-modal').html(`
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" class="form-control" id="email" name="email" value="{{ old('email') }}" required>
+                        <small id="error_email" class="text-danger"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" value="{{ old('password') }}" required>
+                        <small id="error_password" class="text-danger"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="button" id="_btn_login" style="width: 100%" class="list-add-cart-btn primary-hover-btn">
+                            Masuk
+                        </button>
+                        <button type="button" id="modal_daftar" style="width: 100%" class="list-add-cart-btn primary-hover-btn mt-2">
+                            Belum Punya akun? Daftar
+                        </button>
+                    </div>
+                </div>
+            `)
+        }
+
+        function formDaftar() {
+            $('#form-login-modal').html(`
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="email">Nama Lengkap</label>
+                    <input type="text" class="form-control" id="register_name" name="name" value="{{ old('name') }}" required>
+                    <small id="error_register_name" class="text-danger"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email atau No WhatsApp</label>
+                    <input type="text" class="form-control" id="register_email" name="email" value="{{ old('email') }}" required>
+                    <small id="error_register_email" class="text-danger"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="register_password" name="password" value="{{ old('password') }}"
+                        required>
+                    <small id="error_register_password" class="text-danger"></small>
+                </div>
+
+                <div class="form-group">
+                    <button type="button" id="_btn_register" style="width: 100%" class="list-add-cart-btn primary-hover-btn">
+                        Daftar
+                    </button>
+                    <button type="button" id="modal_login" style="width: 100%" class="list-add-cart-btn primary-hover-btn mt-2">
+                        Sudah Punya akun? Masuk
+                    </button>
+                </div>
+            </div>
+            `)
+        }
+
+        $(document).on('click','#modal_daftar',function () {
+            formDaftar()
+        });
+
+        $(document).on('click','#modal_login',function () {
+            formLogin()
+        });
+
+        $(document).on('click','#_btn_register',function () {
+            $.ajax({
+                type: "post",
+                url: "{{ route('register') }}",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    name: $('#register_name').val(),
+                    email: $('#register_email').val(),
+                    password: $('#register_password').val(),
+                    password_confirmation: $('#register_password').val(),
+                },
+                success: function (response) {
+                    Swal.fire({
+                        title: "Daftar Berhasil",
+                        text: "Silahkan untuk melanjutkan berbelanja",
+                        icon: "success",
+                        allowOutsideClick: false,
+                    })
+
+                    $('#login').modal('hide');
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000);
+                },
+                error: function (xhr, status, error) {
+                    $.each(xhr.responseJSON.errors, function (i, v) {
+                        $('#form-login-modal').find(`#error_register_${i}`).html('');
+                        $('#form-login-modal').find(`#register_${i}`).removeClass('is-invalid')
+
+                        $('#form-login-modal').find(`#error_register_${i}`).html(v[0]);
+                        $('#form-login-modal').find(`#register_${i}`).addClass('is-invalid');
+
+                        //remove error
+                        $(document).on('keyup', `#register_${i}`, function () {
+                            $('#form-login-modal').find(`#error_register_${i}`).html('');
+                            $('#form-login-modal').find(`#register_${i}`).removeClass('is-invalid');
+                        });
+                    });
+                }
+            });
+
+        });
+
+        $(document).on('click','#_btn_login',function () {
+            $.ajax({
+                type: "post",
+                url: "{{ route('login') }}",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    email: $('#email').val(),
+                    password: $('#password').val(),
+                },
+                success: function (response) {
+                    Swal.fire({
+                        title: "Login Berhasil",
+                        text: "Silahkan untuk melanjutkan berbelanja",
+                        icon: "success",
+                        allowOutsideClick: false,
+                    })
+
+                    $('#login').modal('hide');
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000);
+                },
+                error: function (xhr, status, error) {
+                    $.each(xhr.responseJSON.errors, function (i, v) {
+                        $('#form-login-modal').find(`#error_${i}`).html('');
+                        $('#form-login-modal').find(`#${i}`).removeClass('is-invalid')
+
+                        $('#form-login-modal').find(`#error_${i}`).html(v[0]);
+                        $('#form-login-modal').find(`#${i}`).addClass('is-invalid');
+
+                        //remove error
+                        $(document).on('keyup', `#${i}`, function () {
+                            $('#form-login-modal').find(`#error_${i}`).html('');
+                            $('#form-login-modal').find(`#${i}`).removeClass('is-invalid');
+                        });
+                    });
+                }
+            });
+
         });
 
     </script>

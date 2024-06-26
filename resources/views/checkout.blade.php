@@ -129,6 +129,16 @@
         background-color: #e6e6e6;
         color: black !important;
     }
+
+    @media (max-width: 767px) {
+        .custom-padding {
+            padding: 10px;
+        }
+
+        .card {
+            margin-top: 10px;
+        }
+    }
 </style>
 @php
 $user = request()->session()->get('loginUser');
@@ -167,6 +177,10 @@ $encodedData = json_encode($user['customers']);
                         </ul>
                         @else
                         <div id="_form_checkout">
+
+                        </div>
+
+                        <div id="form-login-modal">
 
                         </div>
 
@@ -1225,6 +1239,11 @@ $encodedData = json_encode($user['customers']);
             let kodepos = $(this).find(':selected').data('kodepos');
 
             $('#kodepos').val(kodepos);
+        });
+
+        $('#login').click(function () {
+            formDaftar()
+            $("#button_checkout").hide();
         });
     });
 </script>

@@ -12,6 +12,10 @@
         cursor: pointer;
     }
 
+    .visible {
+        display: none;
+    }
+
     @media (max-width: 768px) {
         .hamburger-menu {
             display: block;
@@ -121,12 +125,24 @@
                         </a>
                         <div id="menu" class="menu hidden">
                             <nav class="mean-nav">
-                                <ul style="color: rgb(0, 0, 0); display: block;">
-                                    <li><a href=" /" class="active"><span style="color:rgb(0, 0, 0)">Home</span></a>
+                                <ul style="color: rgb(0, 0, 0); display: none;">
+                                    <li>
+                                        <a href="/" class="{{ request()->routeIs('home') ? " active" : "" }}">
+                                            <span style="color:rgb(0, 0, 0)">Home</span>
+                                        </a>
                                     </li>
-                                    <li><a href="/"><span style="color:rgb(0, 0, 0)">New Drop</span></a></li>
-                                    <li class="mean-last"><a href="/"><span style="color:rgb(0, 0, 0)">Available
-                                                Items</span></a></li>
+                                    <li><a class="{{ request()->routeIs('catalog') ? " active" : "" }}"
+                                            href="{{ route('catalog') }}">
+                                            <span style="color:rgb(0, 0, 0)">CATALOG</span></a>
+                                    </li>
+                                    <li><a href="{{ route('catalog') }}?filter[from_newest]=1"><span
+                                                style="color:rgb(0, 0, 0)">New Drop</span></a></li>
+                                    <li>
+                                        <a href="{{ route('catalog') }}">
+                                            <span style="color:rgb(0, 0, 0)">Available Items
+                                            </span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </nav>
                         </div>
@@ -136,6 +152,14 @@
                 <div class="col-xl-4 col-lg-4 col-6 col-md-6 col-sm-6 col-8">
                     <div class="header-right">
                         <ul class="text-right" style="color:rgb(0, 0, 0)">
+                            @if (!request()->session()->get('loginUser'))
+                            <li>
+                                <a href="javascript:void(0)" id="login-btn" class="" style="color:rgb(0, 0, 0)">
+                                    <i class=" fal fa-user"></i>
+                                </a>
+                            </li>
+                            @endif
+
                             <li>
                                 <a href=" javascript:void(0)" class="_top-search" style="color:rgb(0, 0, 0)">
                                     <i class=" fal fa-search"></i>

@@ -232,5 +232,10 @@
             }
         });
     });
+
+    ///if responsive is mobile replace the image
+    if ($(window).width() < 768) {
+        //#product-list
+    }
 </script>
 @endpush

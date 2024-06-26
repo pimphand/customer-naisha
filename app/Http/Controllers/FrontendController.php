@@ -54,12 +54,67 @@ class FrontendController extends Controller
 
     public function login(Request $request)
     {
+        if ($request->password) {
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|email',
+                'password' => 'required|string',
+            ],  [
+                'email.required' => 'Email harus diisi',
+                'password.required' => 'Password harus diisi',
+            ]);
+        } else {
+            $validator = Validator::make($request->all(), [
+                'phone' => 'required|numeric',
+                'name' => 'required|string',
+            ],  [
+                'phone' => strtolower('nomor telepon harus diisi'),
+                'name' => strtolower('Nama lengkap harus diisi'),
+            ]);
+        }
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->messages(),
+                'message' => 'The given data was invalid.',
+            ], 422);
+        }
+
+        if ($request->password) {
+            $login = Http::post(config('app.api_url') . '/login', [
+                'email' => $request->email,
+                'password' => $request->password,
+            ]);
+        } else {
+            $login = Http::post(config('app.api_url') . '/customer/login', [
+                'phone' => $this->normalizePhone($request->phone),
+                'name' => $request->name,
+            ]);
+        }
+        // dd($login->json());
+        if ($login->status() == 200) {
+            $request->session()->put('loginUser', $login['data'] ?? $login['user']);
+            $request->session()->put('token', $login['token']);
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $request->session()->get('loginUser')
+            ]);
+        } else {
+            return response()->json($login->json(), 401);
+        }
+    }
+
+    public function register(Request $request)
+    {
         $validator = Validator::make($request->all(), [
-            'phone' => 'required|numeric',
             'name' => 'required|string',
+            'email' => 'required|string',
+            'password' => 'required|string|min:6',
+            'password_confirmation' => 'required|string|min:6|same:password',
         ],  [
-            'phone' => strtolower('nomor telepon harus diisi'),
             'name' => strtolower('Nama lengkap harus diisi'),
+            'email' => strtolower('Email harus diisi atau nomor whatsapp harus diisi'),
+            'password' => strtolower('Password harus diisi'),
         ]);
 
         if ($validator->fails()) {
@@ -69,13 +124,15 @@ class FrontendController extends Controller
             ], 422);
         }
 
-        $login = Http::post(config('app.api_url') . '/customer/login', [
-            'phone' => $this->normalizePhone($request->phone),
+        $login = Http::post(config('app.api_url') . '/register', [
             'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+            'password_confirmation' => $request->password,
         ]);
 
         if ($login->status() == 200) {
-            $request->session()->put('loginUser', $login['data']);
+            $request->session()->put('loginUser', $login['user']);
             $request->session()->put('token', $login['token']);
 
             return response()->json([

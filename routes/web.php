@@ -105,4 +105,6 @@ Route::post('create-order', function (Request $request) {
 
 
 Route::post('login', [FrontendController::class, 'login'])->name('login');
+Route::post('register', [FrontendController::class, 'register'])->name('register');
+
 Route::post('confirmation', [FrontendController::class, 'confirmation'])->name('confirmation');
