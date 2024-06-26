@@ -323,7 +323,7 @@ $encodedData = json_encode($user['customers']);
 
                         <div class="p-1">
                             <span class="ml-2">Kode Post</span>
-                            <input type="text" id="kodepos" class="form-control" placeholder="Cari Kecamatan">
+                            <input type="text" id="kodepos" class="form-control" placeholder="Masukan kodepos">
                         </div>
                     </div>
                 </div>
@@ -735,16 +735,18 @@ $encodedData = json_encode($user['customers']);
             const phone = $('#_phone').val().trim();
             const address = $('#_address').val().trim();
             const kodepos = $('#kodepos').val().trim();
-            const district = $('#district').val().trim();
-            const city = $('#_address_kota').val().trim();
+            const districts = $('#district').val().trim();
             const village = $('#village option:selected').text().trim();
 
-            if (!name || !phone || !address || !kodepos ||!village || !district) {
+            if (!name || !phone || !address || !kodepos ||!village || !districts) {
                 // Menampilkan pesan kesalahan jika ada data yang kosong
                 message("Semua kolom alamat harus diisi!");
                 return;
             }
-
+            let arr = districts.split(",");
+            const district = arr[0];
+            const city = arr[1];
+            const province = arr[2];
             // Menyimpan data alamat dalam objek
             const addressData = {
                 name,
@@ -753,7 +755,8 @@ $encodedData = json_encode($user['customers']);
                 village,
                 district,
                 kodepos,
-                city
+                city,
+                province
             };
 
             // Menyimpan data alamat dalam localStorage`
