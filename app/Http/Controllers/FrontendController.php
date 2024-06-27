@@ -30,6 +30,12 @@ class FrontendController extends Controller
 
     public function detailProduct($slug)
     {
+        $data = Http::get(config('app.api_url') . '/all-products?filter[slug_name]=' . $slug);
+        if ($data->status() == 200) {
+            $slug = $data['data'][0]['slug'];
+        } else {
+            return redirect(route('home'));
+        }
         return view('product', compact('slug'));
     }
 
@@ -124,12 +130,23 @@ class FrontendController extends Controller
             ], 422);
         }
 
-        $login = Http::post(config('app.api_url') . '/register', [
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password,
-            'password_confirmation' => $request->password,
-        ]);
+        if (filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
+            $login = Http::post(config('app.api_url') . '/register', [
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => $request->password,
+                'password_confirmation' => $request->password,
+            ]);
+        } else {
+            $login = Http::post(config('app.api_url') . '/register', [
+                'phone_code_id' => 102,
+                'signature' => 'whatsapp',
+                'phone' => $this->normalizePhone($request->email),
+                'name' => $request->name,
+                'password' => $request->password,
+                'password_confirmation' => $request->password,
+            ]);
+        }
 
         if ($login->status() == 200) {
             $request->session()->put('loginUser', $login['user']);

@@ -74,7 +74,7 @@
 <section class="new-arrival mt-120">
     <div class="container container-1430">
         <div class="generic-title text-center">
-            <h2 class="mb-20">#New Arrivals</h2>
+            <h2 class="mb-20">Feature Collection</h2>
         </div>
 
         <div class="new-arrival-wrapper mt-55">
@@ -162,7 +162,9 @@
                     <div class="category-box">
                         <div class="category-wrapper">
                             <div class="category-img">
-                                <img src="{{ $categories[0] }}" class="w-100" alt="">
+                                <a href="{{ route('catalog') }}?category=gamis">
+                                    <img src="{{ $categories[0] }}" class="w-100" alt="">
+                                </a>
                             </div>
                             <div class="category-content">
                                 <a href="{{ route('catalog') }}?category=gamis" class="title">Gamis</a>
@@ -179,7 +181,9 @@
                                     <div class="category-box">
                                         <div class="category-wrapper">
                                             <div class="category-img">
-                                                <img src="{{ $categories[1] }}" class="w-100" alt="">
+                                                <a href="{{ route('catalog') }}?category=aksesoris">
+                                                    <img src="{{ $categories[1] }}" class="w-100" alt="">
+                                                </a>
                                             </div>
                                             <div class="category-content">
                                                 <a href="{{ route('catalog') }}?category=aksesoris" class="title">Aksesoris</a>
@@ -192,7 +196,9 @@
                                     <div class="category-box">
                                         <div class="category-wrapper">
                                             <div class="category-img">
-                                                <img src="{{ $categories[2] }}" class="w-100" alt="">
+                                                <a href="{{ route('catalog') }}?category=Khimar">
+                                                    <img src="{{ $categories[2] }}" class="w-100" alt="">
+                                                </a>
                                             </div>
                                             <div class="category-content">
                                                 <a href="{{ route('catalog') }}?category=Khimar" class="title">Khimar</a>
@@ -207,7 +213,9 @@
                             <div class="category-box">
                                 <div class="category-wrapper">
                                     <div class="category-img">
-                                        <img src="{{ $categories[3] }}" class="w-100" alt="">
+                                        <a href="{{ route('catalog') }}?category=Koko" class="title">
+                                            <img src="{{ $categories[3] }}" class="w-100" alt="">
+                                        </a>
                                     </div>
                                     <div class="category-content">
                                         <a href="{{ route('catalog') }}?category=Koko" class="title">Koko</a>
