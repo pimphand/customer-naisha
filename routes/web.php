@@ -32,9 +32,6 @@ Route::post('create-order', function (Request $request) {
     $shipping = $request->shipping;
     $bank = $request->payment;
     $customer = $request->address;
-    $customer['province'] = explode(',', $customer['district'])[2];
-    $customer['city'] = explode(',', $customer['district'])[1];
-    $customer['district'] = explode(',', $customer['district'])[0];
     $customer = [
         "name" =>  $customer['name'],
         "phone" => $customer['phone'],
