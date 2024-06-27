@@ -128,6 +128,16 @@
         background-color: #e6e6e6;
         color: black !important;
     }
+
+    @media (max-width: 767px) {
+        .custom-padding {
+            padding: 10px;
+        }
+
+        .card {
+            margin-top: 10px;
+        }
+    }
 </style>
 @php
 $customer = $order['customer'];
