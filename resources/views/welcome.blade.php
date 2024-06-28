@@ -1,5 +1,15 @@
 @extends('app')
 
+@section('meta')
+<meta property="og:title" content="Naisha Signature Jennaira Abaya">
+<meta property="og:description" content="naisha hijrah">
+<meta property="og:url" content="https://naisha.id">
+<meta property="og:type" content="product">
+<meta property="og:site_name" content="Naisha">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+@endsection
+
 @section('content')
 <section class="slider">
     <div class="slider-active center-dots number-dots white-dot">

@@ -30,13 +30,17 @@ class FrontendController extends Controller
 
     public function detailProduct($slug)
     {
+        $product = [];
         $data = Http::get(config('app.api_url') . '/all-products?filter[slug_name]=' . $slug);
         if ($data->status() == 200) {
             $slug = $data['data'][0]['slug'];
+            $product = $data['data'][0];
         } else {
             return redirect(route('home'));
         }
-        return view('product', compact('slug'));
+
+        dd($product);
+        return view('product', compact('slug', 'product'));
     }
 
     public function detailOrder($id)

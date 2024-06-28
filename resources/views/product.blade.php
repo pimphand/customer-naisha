@@ -1,5 +1,16 @@
 @extends('app')
 
+@section('meta')
+<meta property="og:title" content="naisha - {{ $product['name'] }}">
+<meta property="og:description" content="naisha product - {{ $product['name'] }}">
+<meta property="og:image" content="{{ $product['image_url'] }}">
+<meta property="og:url" content="https://naisha.id/product/{{ $slug }}">
+<meta property="og:type" content="product">
+<meta property="og:site_name" content="Naisha - {{ $product['name'] }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+@endsection
+
 @section('content')
 <!-- single product start -->
 <section class="single-product mb-90 mt-10">

@@ -9,21 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png"
         href="https://s3-ap-southeast-1.amazonaws.com/technoidea%2Fgallery/favicon-25464-cc3b915a-499c-41ed-bd52-39d1dd57e610.png" />
-    <meta name="description" content="NAISHA INSPIRASI MUSLIMAH" />
-    <meta name="keywords" content="NAISHA INSPIRASI MUSLIMAH" />
-    <meta name="author" content="NAISHA INSPIRASI MUSLIMAH" />
-    <meta property="og:title" content="NAISHA INSPIRASI MUSLIMAH" />
-    <meta property="og:description" content="NAISHA INSPIRASI MUSLIMAH" />
-    <meta property="og:image"
-        content="https://s3-ap-southeast-1.amazonaws.com/technoidea%2Fgallery/favicon-25464-cc3b915a-499c-41ed-bd52-39d1dd57e610.png" />
-    <meta property="og:url" content="https://naisha.co.id" />
-    <meta property="og:site_name" content="NAISHA INSPIRASI MUSLIMAH" />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="NAISHA INSPIRASI MUSLIMAH" />
-    <meta name="twitter:description" content="NAISHA INSPIRASI MUSLIMAH" />
-    <meta name="twitter:image"
-        content="https://s3-ap-southeast-1.amazonaws.com/technoidea%2Fgallery/favicon-25464-cc3b915a-499c-41ed-bd52-39d1dd57e610.png" />
+
+    @yield('meta')
 
     <link rel="stylesheet" href="{{asset('assets')}}/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{asset('assets')}}/css/owl.carousel.min.css">
