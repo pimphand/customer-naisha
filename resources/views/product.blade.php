@@ -2,7 +2,7 @@
 
 @section('meta')
 <meta property="og:title" content="naisha - {{ $product['name'] }}">
-<meta property="og:description" content="naisha product - {{ $product['name'] }}">
+<meta property="og:description" content="{{ $product['description'] }}">
 <meta property="og:image" content="{{ $product['image_url'] }}">
 <meta property="og:url" content="https://naisha.id/product/{{ $slug }}">
 <meta property="og:type" content="product">
