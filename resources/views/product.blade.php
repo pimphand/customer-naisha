@@ -137,7 +137,7 @@
                         <div class="tab-pane fade show active" id="desc-tab-1">
                             <div class="single-product-tab-content">
                                 <h3 class="title mb-30">Description</h3>
-                                <p id="description" class="text-justify">{!! $product['description'] !!}</p>
+                                <p id="description" class="text-justify"></p>
                             </div>
                         </div>
                     </div>
@@ -151,5 +151,7 @@
 @push('script')
 <script>
     openModal("{{ $slug }}", "close");
+
+   $("#description").html(`{!! nl2br(e($product['description'])) !!}`);
 </script>
 @endpush

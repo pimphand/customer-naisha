@@ -38,7 +38,7 @@ class FrontendController extends Controller
         } else {
             return redirect(route('home'));
         }
-
+        // dd($product);
         return view('product', compact('slug', 'product'));
     }
 
