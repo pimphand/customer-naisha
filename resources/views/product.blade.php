@@ -11,7 +11,17 @@
 <meta property="og:image:height" content="630">
 @endsection
 
+
+
 @section('content')
+
+<style>
+    br {
+        display: block;
+        margin-bottom: 10px;
+        /* Menambahkan jarak di bawah setiap br */
+    }
+</style>
 <!-- single product start -->
 <section class="single-product mb-90 mt-10">
     <div class="container-fluid">

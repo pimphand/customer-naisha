@@ -309,16 +309,15 @@ $encodedData = json_encode($user['customers']);
                         <div class="p-1">
                             <span class="ml-2">Kecamatan</span>
                             <input type="text" id="district" class="form-control" list="districts"
-                                placeholder="Cari Kecamatan">
-                            <datalist id="districts" style="color: rgb(255, 255, 255); background-color: #b5b5b5;">
-                            </datalist>
+                                aria-autocomplete="list" placeholder="Cari Kecamatan">
+                            <select id="districts" class="form-control mt-1" style="display: none">
+                            </select>
                         </div>
 
                         <div class="p-1">
                             <span class="ml-2">Kelurahan/Desa</span>
-                            <select type="text" id="village" class="form-control" placeholder="Cari Kelurahan/Desa">
+                            <select id="village" class="form-control" placeholder="Cari Kelurahan/Desa">
                             </select>
-
                         </div>
 
                         <div class="p-1">
@@ -1212,13 +1211,38 @@ $encodedData = json_encode($user['customers']);
                     });
                     $('#districts').html(html);
                     $('#kodepos').val('');
+                    $('#districts').show();
                 }
             })
         }
 
-        $('#district').on('input', function () {
+        // $('#district').on('input', function () {
+        //     let districtValue = $(this).val();
+        //     let selectedOption = $('#districts option').filter(function () {
+        //         return $(this).val() === districtValue;
+        //     });
+
+        //     if (selectedOption.length > 0) {
+        //         let id = selectedOption.data('id');
+        //         get('{{ route("region") }}?type=village&keyword='+id, function (err, data) {
+        //             if (err) {
+        //                 console.log(err);
+        //             } else {
+        //                 let html = '';
+        //                 data.forEach(element => {
+        //                     html += `<option value="${element.name}" data-kodepos="${element.postal_code}"> ${element.name} </option>`;
+        //                 });
+        //                 $('#village').html(html);
+        //             }
+        //         })
+        //     }
+        // });
+
+        $('#districts').on('change', function (e) {
+            $("#district").val(this.value);
+            $("#districts").hide();
             let districtValue = $(this).val();
-            let selectedOption = $('#districts option').filter(function () {
+                let selectedOption = $('#districts option').filter(function () {
                 return $(this).val() === districtValue;
             });
 
@@ -1236,7 +1260,8 @@ $encodedData = json_encode($user['customers']);
                     }
                 })
             }
-        });
+        })
+
         $('#village').on('change', function () {
             //get kodepos
             let kodepos = $(this).find(':selected').data('kodepos');
@@ -1249,5 +1274,12 @@ $encodedData = json_encode($user['customers']);
             $("#button_checkout").hide();
         });
     });
+</script>
+
+<script>
+    //remove select2-search__field
+        $(document).on('select2:open', function (e) {
+            $('.select2-search__field').remove()
+        });
 </script>
 @endpush

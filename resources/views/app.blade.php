@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="{{asset('assets')}}/css/responsive.css?date={{ time() }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    @stack('css')
     <!-- Google Tag Manager -->
     <script>
         (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -34,7 +35,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-MPT93JHS');
     </script>
     <!-- End Google Tag Manager -->
-    @stack('css')
+
     <style>
         .strikethrough {
             text-decoration: line-through;
@@ -308,7 +309,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             alt="WhatsApp">
     </a>
     <!-- JS here -->
-    <script src="{{asset('assets')}}/js/vendor/jquery-1.12.4.min.js"></script>
+    {{-- <script src="{{asset('assets')}}/js/vendor/jquery-1.12.4.min.js"></script> --}}
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script>
         let url = "{{ config('app.api_url') }}/customer";
         let url_product = "{{ config('app.api_url') }}";
