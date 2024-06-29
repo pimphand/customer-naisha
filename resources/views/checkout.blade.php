@@ -1206,6 +1206,7 @@ $encodedData = json_encode($user['customers']);
                     console.log(err);
                 } else {
                     let html = '';
+                    html += '<option value=""> Pilih Kecamatan </option>';
                     data.data.forEach(element => {
                         html += `<option value="${element.text}" data-id="${element.id}"> ${element.text} </option>`;
                     });
@@ -1253,6 +1254,7 @@ $encodedData = json_encode($user['customers']);
                         console.log(err);
                     } else {
                         let html = '';
+                            html += '<option value=""> Pilih Desa/Kelurahan </option>';
                         data.forEach(element => {
                             html += `<option value="${element.name}" data-kodepos="${element.postal_code}"> ${element.name} </option>`;
                         });
