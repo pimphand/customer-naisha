@@ -15,109 +15,18 @@
     <div class="slider-active center-dots number-dots white-dot">
         <div class="single-slider h-950 d-flex align-items-center" data-background="{{ $images[0] }}">
             <div class="container">
-                <div class="single-slider-inner d-none">
-                    <div class="single-slider-content style-2 white-content text-left light-content">
-                        <div class="slider-heading" data-animation="fadeInUp" data-delay=".3s"
-                            style="animation-delay: 0.3s;">
-                            <p>Jack collection</p>
-                            <h2 class="mb-0 strong-heading mt-10">HOODED</h2>
-                        </div>
-                        <div class="slider-desc" data-animation="fadeInUp" data-delay=".3s"
-                            style="animation-delay: 0.3s;">
-                            <p class="mb-0 pl-0 mt-15">New Spring drops from Over. Shop the Collection</p>
-                        </div>
-                        <div class="slider-link slider-link-2 mt-75" data-animation="fadeInUp" data-delay=".3s"
-                            style="animation-delay: 0.3s;">
-                            <a href="shop4.html" class=" mt-70 text-uppercase" tabindex="0">Discover now</a>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         <div class="single-slider h-950 d-flex align-items-center" data-background="{{ $images[1] }}">
             <div class="container">
-                <div class="single-slider-inner d-none">
-                    <div class="single-slider-content style-2 white-content text-left light-content">
-                        <div class="slider-heading" data-animation="fadeInUp" data-delay=".3s"
-                            style="animation-delay: 0.3s;">
-                            <p>Jack collection</p>
-                            <h2 class="mb-0 strong-heading mt-10">HOODED</h2>
-                        </div>
-                        <div class="slider-desc" data-animation="fadeInUp" data-delay=".3s"
-                            style="animation-delay: 0.3s;">
-                            <p class="mb-0 pl-0 mt-15">New Spring drops from Over. Shop the Collection</p>
-                        </div>
-                        <div class="slider-link slider-link-2 mt-75" data-animation="fadeInUp" data-delay=".3s"
-                            style="animation-delay: 0.3s;">
-                            <a href="shop4.html" class=" mt-70 text-uppercase" tabindex="0">Discover now</a>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         <div class="single-slider h-950 d-flex align-items-center" data-background="{{ $images[2] }}">
             <div class="container">
-                <div class="single-slider-inner d-none">
-                    <div class="single-slider-content style-2 white-content text-left light-content">
-                        <div class="slider-heading" data-animation="fadeInUp" data-delay=".3s"
-                            style="animation-delay: 0.3s;">
-                            <p>Jack collection</p>
-                            <h2 class="mb-0 strong-heading mt-10">HOODED</h2>
-                        </div>
-                        <div class="slider-desc" data-animation="fadeInUp" data-delay=".3s"
-                            style="animation-delay: 0.3s;">
-                            <p class="mb-0 pl-0 mt-15">New Spring drops from Over. Shop the Collection</p>
-                        </div>
-                        <div class="slider-link slider-link-2 mt-75" data-animation="fadeInUp" data-delay=".3s"
-                            style="animation-delay: 0.3s;">
-                            <a href="shop4.html" class=" mt-70 text-uppercase" tabindex="0">Discover now</a>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         <div class="single-slider h-950 d-flex align-items-center" data-background="{{ $images[3] }}">
-            <div class="container">
-                <div class="single-slider-inner d-none">
-                    <div class="single-slider-content style-2 white-content text-left light-content">
-                        <div class="slider-heading" data-animation="fadeInUp" data-delay=".3s"
-                            style="animation-delay: 0.3s;">
-                            <p>Jack collection</p>
-                            <h2 class="mb-0 strong-heading mt-10">COATS.S18</h2>
-                        </div>
-                        <div class="slider-desc" data-animation="fadeInUp" data-delay=".3s"
-                            style="animation-delay: 0.3s;">
-                            <p class="mb-0 pl-0 mt-15">New Spring drops from Over. Shop the Collection</p>
-                        </div>
-                        <div class="slider-link slider-link-2 mt-75" data-animation="fadeInUp" data-delay=".3s"
-                            style="animation-delay: 0.3s;">
-                            <a href="shop4.html" class=" mt-70 text-uppercase" tabindex="0">Discover now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
-        {{-- <div class="single-slider  h-950 d-flex align-items-center" data-background="{{ $images[2] }}">
-            <div class="container">
-                <div class="single-slider-inner d-none">
-                    <div class="single-slider-content style-2 white-content text-left light-content">
-                        <div class="slider-heading" data-animation="fadeInUp" data-delay=".4s"
-                            style="animation-delay: 0.4s;">
-                            <p>Jack collection</p>
-                            <h2 class="mb-0 strong-heading mt-10">JAKET.S18</h2>
-                        </div>
-                        <div class="slider-desc" data-animation="fadeInUp" data-delay=".4s"
-                            style="animation-delay: 0.4s;">
-                            <p class="mb-0 pl-0 mt-15">New Spring drops from Over. Shop the Collection</p>
-                        </div>
-                        <div class="slider-link slider-link-2 mt-75" data-animation="fadeInUp" data-delay=".4s"
-                            style="animation-delay: 0.4s;">
-                            <a href="shop4.html" class=" mt-70 text-uppercase" tabindex="0">Discover now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
     </div>
 </section>
 <!-- category section start -->
@@ -144,7 +53,12 @@
 
 @push('css')
 <style>
-
+    #slick-slide-control00,
+    #slick-slide-control01,
+    #slick-slide-control02,
+    #slick-slide-control03 {
+        scroll-behavior: none;
+    }
 </style>
 @endpush
 
@@ -293,14 +207,23 @@
         });
     });
 
-    $(document).ready(function(){
+    $(document).ready(function() {
         let currentIndex = 0;
-        const controls = ['#slick-slide-control00', '#slick-slide-control01','#slick-slide-control02','#slick-slide-control03'];
+        const controls = ['#slick-slide-control00', '#slick-slide-control01', '#slick-slide-control02', '#slick-slide-control03'];
 
-        setInterval(function(){
+        // Prevent default click behavior for controls
+        controls.forEach(function(control) {
+            $(control).on('click', function() {
+            // Your click handling code here
+                return false;
+            });
+        });
+        setInterval(function() {
             $(controls[currentIndex]).click();
             currentIndex = (currentIndex + 1) % controls.length;
-        }, 3000);
+            console.log('clicked : ' + currentIndex);
+        }, 1000);
     });
+
 </script>
 @endpush
