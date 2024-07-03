@@ -77,9 +77,33 @@
             top: 120px;
         }
     }
-</style>
 
-<header class="" style="padding-top: 30px; padding-bottom: 10px;background:#000000; color:rgb(255, 255, 255)">
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        /* Prevent horizontal overflow */
+    }
+
+    .promo-banner {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        background: #000000;
+        color: rgb(255, 255, 255);
+        width: 100%;
+    }
+
+    .promo-banner h6 {
+        color: rgb(255, 255, 255);
+        text-align: center;
+    }
+</style>
+<div class="promo-banner"
+    style="padding-top: 10px; padding-bottom: 10px; background:#000000; color:rgb(255, 255, 255); width:100%;">
     <div class="header-nav header-nav-2 position-relative">
         <div class="row align-items-center">
             <div class="col-12 align-items-center" style="text-align: center;">
@@ -87,7 +111,7 @@
             </div>
         </div>
     </div>
-</header>
+</div>
 
 <header class="header header-2  header-sticky header-static" style="padding-top: 20px; padding-bottom: 1px;">
     <div class="container-fluid" style="background:#ffffff; color:rgb(0, 0, 0)">
