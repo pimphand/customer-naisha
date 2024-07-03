@@ -883,7 +883,7 @@ header.header ul li .mega-menu ul li a {
 .minicart {
   position: absolute;
   right: 0;
-  padding: 25px;
+  padding: 10px;
   z-index: 99;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.04);
   min-width: 350px;
@@ -892,6 +892,7 @@ header.header ul li .mega-menu ul li a {
   transition: all 0.5s;
   background-color: #fff;
   visibility: hidden;
+  right: -24px;
 }
 .minicart ul li {
   padding-bottom: 15px;

@@ -207,23 +207,23 @@
         });
     });
 
-    $(document).ready(function() {
-        let currentIndex = 0;
-        const controls = ['#slick-slide-control00', '#slick-slide-control01', '#slick-slide-control02', '#slick-slide-control03'];
+    // $(document).ready(function() {
+    //     let currentIndex = 0;
+    //     const controls = ['#slick-slide-control00', '#slick-slide-control01', '#slick-slide-control02', '#slick-slide-control03'];
 
-        // Prevent default click behavior for controls
-        controls.forEach(function(control) {
-            $(control).on('click', function() {
-            // Your click handling code here
-                return false;
-            });
-        });
-        setInterval(function() {
-            $(controls[currentIndex]).click();
-            currentIndex = (currentIndex + 1) % controls.length;
-            console.log('clicked : ' + currentIndex);
-        }, 1000);
-    });
+    //     // Prevent default click behavior for controls
+    //     controls.forEach(function(control) {
+    //         $(control).on('click', function() {
+    //         // Your click handling code here
+    //             return false;
+    //         });
+    //     });
+    //     setInterval(function() {
+    //         $(controls[currentIndex]).click();
+    //         currentIndex = (currentIndex + 1) % controls.length;
+    //         console.log('clicked : ' + currentIndex);
+    //     }, 1000);
+    // });
 
 </script>
 @endpush
