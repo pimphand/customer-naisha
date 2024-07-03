@@ -187,7 +187,10 @@
                                 <div class="minicart">
                                     <div class="minicart-body">
                                         <div class="minicart-content">
-                                            <ul class="text-left" id="list-cart">
+                                            <ul class="text-left " id="list-cart" style="max-height: 400px; /* Set the maximum height you want */
+                                                overflow-y: auto;  /* Enable vertical scrolling */
+                                                border: 1px solid #ccc; /* Optional: for visual purposes */
+                                                padding: 10px;">
 
                                             </ul>
                                         </div>
