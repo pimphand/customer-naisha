@@ -358,7 +358,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
             fetchProductDetails(slug, function(product) {
                 $('#_product_name').text(product.name);
-                $('#_modal_single_product').html(`<span>${currency(product.min_price.consumer_price_idr)}</span>–<span>${currency(product.max_price.consumer_price_idr)}</span>`);
+                $('#_modal_single_product').html(`
+                    <span>
+                        ${product.min_price.consumer_price_idr === product.max_price.consumer_price_idr ? currency(product.skus[0].price.special_price > 0 ? product.skus[0].price.special_price : product.min_price.consumer_price_idr) : currency(product.min_price.consumer_price_idr) + '–' + currency(product.max_price.consumer_price_idr)}
+                    </span>
+                `);
                 $('#_warna_modals').html('');
                 $('#v-pills-tabContent').html('');
                 $('#v-pills-tab').html('');
