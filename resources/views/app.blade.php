@@ -520,6 +520,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             });
 
             $('#select_material .material-label').first().click();
+
         }
 
         function getMaterial(sku) {
@@ -558,6 +559,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             let data = JSON.parse(localStorage.getItem('sku_modal'));
             var filteredData = whereIn(data, sku);
             localStorage.setItem('selectedSku',  JSON.stringify(filteredData[0]));
+
+                    //filter data by code
+                    var filteredData = whereIn(data, sku);
+                    //get size and material
+                    if (filteredData[0].price.special_price != null) {
+                        $('#_modal_single_product').html(`<span>${currency(filteredData[0].price.special_price)}</span>`);
+                    } else {
+                        $('#_modal_single_product').html(`<span>${currency(filteredData[0].price.consumer)}</span>`);
+
+                    }
         }
 
 
