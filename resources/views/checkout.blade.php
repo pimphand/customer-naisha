@@ -387,7 +387,7 @@ $encodedData = json_encode($user['customers']);
             if (cour) {
                 $('._show_courier_fix').html(`
                     ${cour.logistic_name} - ${cour.rate_name} ${subtotalPrice >= 250000
-                    ? `<s style="color:black">${currency(cour.rate_show)}</s> Rp. ${currency(cour.rate_show - 15000)}`
+                    ? `<s style="color:black">${currency(cour.rate_show)}</s> ${currency(cour.rate_show - "{{config('naisha.free_shipping_cost')}}")}`
                     : `${currency(cour.rate)}`}
                 `);
             }
@@ -698,7 +698,7 @@ $encodedData = json_encode($user['customers']);
                                     <span class="ml-2 p-1">
                                         ${element.logistic_name} - ${element.rate_name}
                                         ${subtotalPrice >= 250000
-                                        ? `<br> <s style="color:black">${currency(element.rate)}</s> Rp. ${currency(element.rate-15000)}`
+                                        ? `<br> <s style="color:black">${currency(element.rate)}</s> Rp. ${currency(element.rate-"{{config('naisha.free_shipping_cost')}}")}`
                                         : `${currency(element.rate)}`}
                                         <br>
                                         Pengiriman ${element.min_day != 0 && element.max_day != 0 ? element.min_day + " - " + element.max_day : "-"} Hari
@@ -805,7 +805,7 @@ $encodedData = json_encode($user['customers']);
 
                     if (subtotalPrice >= 250000) {
                         courierSelected.rate_show = courierSelected.rate;
-                        courierSelected.rate = courierSelected.rate - 15000;
+                        courierSelected.rate = courierSelected.rate - "{{config('naisha.free_shipping_cost')}}";
                     }else{
                         courierSelected.rate_show = 0;
                     }
@@ -820,6 +820,10 @@ $encodedData = json_encode($user['customers']);
 
             $('#_checkout_modal').modal('hide');
             courierSelected = JSON.parse(localStorage.getItem('courierSelected'));
+            let totalS = 0;
+            cart.forEach(element => {
+                        totalS += element.price.special_price == null ? element.price.consumer : element.price.special_price * element.qty;
+                    });
             $("#courier").html(`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="truck"
                 class="lucide lucide-truck">
@@ -828,9 +832,10 @@ $encodedData = json_encode($user['customers']);
                 <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path>
                 <circle cx="17" cy="18" r="2"></circle>
                 <circle cx="7" cy="18" r="2"></circle>
-            </svg> <span class="ml-2">${courierSelected.logistic_name} - ${courierSelected.rate_name}  ${courierSelected.logistic_name} - ${courierSelected.rate_name}
-                    ${subtotalPrice >= 250000
-                    ? `<s style="color:black">${currency(courierSelected.rate_show)}</s> Rp. ${currency(courierSelected.rate_show - 15000)}`
+            </svg> <span class="ml-2">
+                    ${courierSelected.logistic_name} - ${courierSelected.rate_name}
+                    ${totalS >= 250000 ?
+                        `<s style="color:black">${currency(courierSelected.rate_show)}</s> ${currency(courierSelected.rate_show - "{{config('naisha.free_shipping_cost')}}")}`
                     : `${currency(courierSelected.rate)}`}</span>`);
 
             getData();
@@ -941,7 +946,7 @@ $encodedData = json_encode($user['customers']);
                         //change rate if subtotal price > 250000
                         if (subtotalPrice >= 250000) {
                             courierSelected.rate_show = courierSelected.rate;
-                            courierSelected.rate = courierSelected.rate_show - 15000;
+                            courierSelected.rate = courierSelected.rate_show - "{{config('naisha.free_shipping_cost')}}";
                         }else{
                             courierSelected.rate_show = 0;
                         }
@@ -956,9 +961,9 @@ $encodedData = json_encode($user['customers']);
                             <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path>
                             <circle cx="17" cy="18" r="2"></circle>
                             <circle cx="7" cy="18" r="2"></circle>
-                        </svg> <span class="ml-2">${courierSelectednwe.logistic_name} - ${courierSelectednwe.rate_name}
+                        </svg>
                             ${subtotalPrice >= 250000
-                    ? `<s style="color:black">${currency(courierSelected.rate_show)}</s> Rp. ${currency(courierSelected.rate_show - 15000)}`
+                    ? `<s style="color:black">${currency(courierSelected.rate_show)}</s> Rp. ${currency(courierSelected.rate_show - "{{config('naisha.free_shipping_cost')}}")}`
                     : `${currency(courierSelected.rate)}`}</span>`);
                         getData();
                     }
