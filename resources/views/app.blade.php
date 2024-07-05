@@ -315,6 +315,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script>
         let url = "{{ config('app.api_url') }}/customer";
         let url_product = "{{ config('app.api_url') }}";
+        let specialProduct = JSON.parse(`{!! json_encode(config('naisha.special_product')) !!}`);
 
         document.querySelector('.whatsapp-button').addEventListener('click', function() {
             console.log('WhatsApp button clicked!');
@@ -653,9 +654,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     //filter data by code
                     var filteredData = whereIn(data, selectedColor);
                     //get size and material
+                    if (filteredData[0].price.special_price != null) {
+                        $('#_modal_single_product').html(`<span>${currency(filteredData[0].price.special_price)}</span>`);
+                    } else {
+                        $('#_modal_single_product').html(`<span>${currency(filteredData[0].price.consumer)}</span>`);
 
-                    //change price
-                    $('#_modal_single_product').html(`<span>${currency(filteredData[0].price.consumer)}`);
+                    }
                 } finally {
                     isColorHandlerRunning = false;
                 }
@@ -666,7 +670,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             let sku_modal = JSON.parse(localStorage.getItem('sku_modal'));
             selectedSku = sku_modal.find(sku => sku.code == code);
         }
-
 
         $(document).on('click', '#add_to_cart', function () {
             let selectedSku = localStorage.getItem('selectedSku');
