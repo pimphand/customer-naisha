@@ -268,7 +268,23 @@ class FrontendController extends Controller
             $request->session()->forget('token');
             return redirect(route('home'));
         }
+        $orders = $profile['data'][0]['orders'];
+        $address = $profile['data'][0]['customers'];
 
-        return view('profile', compact('profile'));
+        $profile = $profile['data'][0];
+        return view('profile', compact('profile', 'orders', 'address'));
+    }
+
+    public function profileUpdate(Request $request)
+    {
+        $data = $request->all();
+        $response = Http::withToken(session('token')['accessToken'])
+            ->withHeaders([
+                'Accept' => 'application/json',
+            ])
+            ->post(config('app.api_url') . '/customer/users?id=' . session('loginUser')['id'], $data);
+
+
+        return response()->json($response->json(), $response->status());
     }
 }

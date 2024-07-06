@@ -19,6 +19,15 @@
         background-color: #d9d9d9;
         color: white;
     }
+
+    /* Add CSS to ensure the tabs are properly displayed */
+    .tab-pane {
+        display: none;
+    }
+
+    .tab-pane.show.active {
+        display: block;
+    }
 </style>
 @endpush
 
@@ -44,88 +53,140 @@
             <div class="row">
                 <div class="col-xl-3 hidden-xl">
                     <div class="widget">
-
                         <div class="accordion" id="accordionExample">
                             <div class="list">
-                                <a href="javascript:void(0)">Profile</a>
+                                <a href="javascript:void(0)" class="profile" onclick="showTab('profile')">Profile</a>
                             </div>
-
                             <div class="list">
-                                <a href="javascript:void(0)">List Order</a>
+                                <a href="javascript:void(0)" onclick="showTab('list-order')">List Order</a>
                             </div>
-
                             <div class="list">
-                                <a href="javascript:void(0)">List Alamat</a>
+                                <a href="javascript:void(0)" onclick="showTab('list-alamat')">List Alamat</a>
                             </div>
-
                             <div class="list">
                                 <a href="javascript:void(0)" onclick="logout()">Logout</a>
                             </div>
                         </div>
                     </div>
-
-
                 </div>
                 <!-- /. widget -->
                 <div class="col-xl-9">
                     <!-- /. filter heading -->
                     <div class="filter-content">
                         <div class="tab-content">
-                            <div class="tab-pane fade" id="shop-tab-1">
-                                <div class="product-wrapper mt-55">
-                                    <div class="row">
-
-                                        <div class="col-6">
-                                            <div class="product-box mb-40">
-                                                <div class="product-box-wrapper">
-                                                    <div class="product-img">
-                                                        <img src="{{ asset('mazia') }}/img/product/9.jpg" class="w-100"
-                                                            alt="">
-                                                        <a href="single-product-4.html" class="d-block">
-                                                            <div class="second-img">
-                                                                <img src="{{ asset('mazia') }}/img/product/9-hover.jpg"
-                                                                    alt="" class="w-100">
-                                                            </div>
-                                                        </a>
-                                                        <a href="javascript:void(0)"
-                                                            class="product-img-link quick-view-1 text-capitalize">Quick
-                                                            view</a>
-                                                        <span class="sale bg-red text-white">sale!</span>
-                                                    </div>
-
-                                                    <div class="product-desc pb-20">
-                                                        <div class="product-desc-top">
-                                                            <div class="categories">
-                                                                <a href="shop2.html"
-                                                                    class="product-category"><span>Woman</span></a>
-                                                            </div>
-                                                            <a href="wishlist.html"
-                                                                class="wishlist float-right"><span><i
-                                                                        class="fal fa-heart"></i></span></a>
-                                                        </div>
-                                                        <a href="single-product-4.html" class="product-title">Capitalize
-                                                            on low hanging
-                                                            fruit to</a>
-                                                        <div class="price-switcher">
-                                                            <span class="price switcher-item">$250.00</span>
-                                                            <a href="cart.html"
-                                                                class="add-cart text-capitalize switcher-item">+add
-                                                                to cart</a>
-                                                        </div>
-                                                    </div>
+                            {{-- profile --}}
+                            <div class="tab-pane fade" id="profile">
+                                <div class="product-wrapper">
+                                    <h4>Profile</h4>
+                                    <form action="" id="profile_form">
+                                        <div class="row">
+                                            @csrf
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label for="name">Nama</label>
+                                                    <input type="text" class="form-control" id="name" name="name">
                                                 </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label for="phone">No Telepon</label>
+                                                    <input type="text" class="form-control" id="phone" name="phone">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label for="email">Email</label>
+                                                    <input type="text" class="form-control" id="email" name="email">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label for="username">Username</label>
+                                                    <input type="text" class="form-control" id="username"
+                                                        name="username">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label for="gender">gender</label>
+                                                    <select class="form-control " name="gender" id="gender">
+                                                        <option value="" disabled="" selected="">
+                                                            Silakan pilih</option>
+                                                        <option value="1">
+                                                            Male</option>
+                                                        <option value="2">
+                                                            Female</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label for="address">address</label>
+                                                    <input type="text" class="form-control" id="address" name="address">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label for="postcode">postcode</label>
+                                                    <input type="text" class="form-control" id="postcode"
+                                                        name="postcode">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label for="birthday">birthday</label>
+                                                    <input type="date" class="form-control" id="birthday"
+                                                        name="birthday">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label for="bio">Bio</label>
+                                                    <input type="text" class="form-control" id="bio" name="bio">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                    <button class="generic-btn black-hover-btn mb-3" id="_save_profile">Simpan</button>
+                                </div>
+                                {{--end profile --}}
+                                {{-- list order --}}
+                                <div class="tab-pane fade" id="list-order">
+                                    <div class="product-wrapper">
+                                        <div class="row">
+                                            {{-- pro --}}
+                                            <div class="col-6">
+                                                <!-- List order content here -->
+                                                order
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
+                                {{--end list order --}}
+                                {{-- list alamat --}}
+                                <div class="tab-pane fade" id="list-alamat">
+                                    <div class="product-wrapper">
+                                        <div class="row">
+                                            {{-- pro --}}
+                                            <div class="col-6">
+                                                <!-- List alamat content here -->
+                                                <p>alamat</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{--end list alamat --}}
                             </div>
-
+                            <!-- /. filter content -->
                         </div>
+                        <!-- /. shop products -->
                     </div>
-                    <!-- /. filter content -->
                 </div>
-                <!-- /. shop products -->
+
             </div>
         </div>
     </div>
@@ -145,6 +206,88 @@
                 });
                 link.classList.add('active');
             });
+        });
+    });
+
+    function showTab(tabId) {
+        // Hide all tabs
+        var tabs = document.querySelectorAll('.tab-pane');
+        tabs.forEach(function(tab) {
+            tab.classList.remove('show', 'active');
+        });
+
+        // Show the selected tab
+        var selectedTab = document.getElementById(tabId);
+        selectedTab.classList.add('show', 'active');
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('.profile').click();
+    });
+    let data = {!! json_encode($profile) !!}; // Mengambil data dari PHP dan mengonversi langsung ke JavaScript
+    let dataArray = [];
+
+    // Mengubah objek menjadi array objek
+    for (let key in data) {
+        if (data.hasOwnProperty(key)) {
+            let obj = {
+                key: key,
+                value: data[key]
+            };
+
+            dataArray.push(obj);
+        }
+    }
+
+    // Mengisi form dengan data yang didapat
+    dataArray.forEach(function(item) {
+        let input = document.querySelector(`input[name="${item.key}"]`);
+
+        if (input) {
+            input.value = item.value;
+        }
+    });
+
+    // Simpan data profile
+    document.getElementById('_save_profile').addEventListener('click', function() {
+        let form = document.getElementById('profile_form');
+        let formData = new FormData(form);
+
+        $.ajax({
+            url: '/profile',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(data) {
+
+            },
+            error: function(xhr, status, error) {
+                // Hapus pesan error sebelumnya
+                let inputs = form.querySelectorAll('input');
+                inputs.forEach(function(input) {
+                    let error = form.querySelector(`#error_${input.name}`);
+                    if (error) {
+                        error.remove();
+                    }
+                });
+                $.each(xhr.responseJSON.errors, function(i, v) {
+                    $('#profile_form').find(`#${i}`).html('');
+                    $('#profile_form').find(`#${i}`).removeClass('is-invalid');
+
+                    $('#profile_form').find(`#error_${i}`).html(v[0]);
+                    $('#profile_form').find(`#${i}`).addClass('is-invalid');
+
+                    //add error message
+                    //append error message
+                    $(`#${i}`).after(`<div id="error_${i}" class="invalid-feedback">${v[0]}</div>`);
+
+                    // Hapus pesan error saat pengguna mengubah nilai input
+                    $(document).on('keyup', `#${i}`, function() {
+                        $('#profile_form').find(`#error_${i}`).html('');
+                        $('#profile_form').find(`#${i}`).removeClass('is-invalid');
+                    });
+                });
+            }
         });
     });
 </script>
