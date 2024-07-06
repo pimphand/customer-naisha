@@ -241,4 +241,34 @@ class FrontendController extends Controller
 
         return response()->json($response->json(), $response->status());
     }
+
+    public function logout(Request $request)
+    {
+        $request->session()->forget('loginUser');
+        $request->session()->forget('token');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Logout berhasil',
+        ]);
+    }
+
+    public function profile(Request $request)
+    {
+        if (!session('token') || !session('token')['accessToken']) {
+            return redirect(route('home'));
+        }
+
+        $response = Http::withToken(session('token')['accessToken'])
+            ->get(config('app.api_url') . '/customer/users?id=' . session('loginUser')['id']);
+
+        if ($response->status() == 200) {
+            $profile = $response->json();
+        } else {
+            $request->session()->forget('loginUser');
+            $request->session()->forget('token');
+            return redirect(route('home'));
+        }
+
+        return view('profile', compact('profile'));
+    }
 }

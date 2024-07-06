@@ -107,3 +107,5 @@ Route::post('login', [FrontendController::class, 'login'])->name('login');
 Route::post('register', [FrontendController::class, 'register'])->name('register');
 
 Route::post('confirmation', [FrontendController::class, 'confirmation'])->name('confirmation');
+Route::post('logout', [FrontendController::class, 'logout'])->name('logout');
+Route::get('profile', [FrontendController::class, 'profile'])->name('profile');

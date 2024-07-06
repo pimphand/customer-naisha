@@ -176,13 +176,30 @@
                 <div class="col-xl-4 col-lg-4 col-6 col-md-6 col-sm-6 col-8">
                     <div class="header-right">
                         <ul class="text-right" style="color:rgb(0, 0, 0)">
-                            @if (!request()->session()->get('loginUser'))
                             <li>
-                                <a href="javascript:void(0)" id="login-btn" class="" style="color:rgb(0, 0, 0)">
+                                <a href="javascript:void(0)" style="color:rgb(0, 0, 0)">
                                     <i class=" fal fa-user"></i>
                                 </a>
+                                <div class="minicart">
+
+                                    <div class="minicart-checkout">
+                                        <div class="minicart-checkout-links">
+                                            @if (request()->session()->get('loginUser'))
+                                            <a href="{{ route('profile') }}" style="color:rgb(0, 0, 0)"
+                                                class="generic-btn black-hover-btn w-100 mb-3">Profil
+                                            </a>
+                                            <a href="javascript:void(0)" id="logout-btn" style="color:rgb(0, 0, 0)"
+                                                class="generic-btn black-hover-btn w-100 mb-3">Logout
+                                            </a>
+                                            @else
+                                            <a href="javascript:void(0)" id="login-btn" style="color:rgb(0, 0, 0)"
+                                                class="generic-btn black-hover-btn w-100 mb-3">Login
+                                            </a>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
                             </li>
-                            @endif
 
                             <li>
                                 <a href=" javascript:void(0)" class="_top-search" style="color:rgb(0, 0, 0)">
@@ -213,7 +230,6 @@
                                         <div class="minicart-content">
                                             <ul class="text-left " id="list-cart" style="max-height: 400px; /* Set the maximum height you want */
                                                 overflow-y: auto;  /* Enable vertical scrolling */
-                                                border: 1px solid #ccc; /* Optional: for visual purposes */
                                                 padding: 10px;">
 
                                             </ul>
@@ -231,6 +247,7 @@
                                     </div>
                                 </div>
                             </li>
+
                         </ul>
                     </div>
                 </div>

@@ -304,7 +304,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </div>
     </div>
     <!-- footer section end -->
-    <a href="https://wa.me/6282242436562" class="whatsapp-button" target="_blank">
+    <a href="https://wa.me/6282110101011?text=Assalamualaikum%20misnha,%20saya%20dari%20web%20tertarik%20untuk%20membeli%20produk%20Naisha.%20Boleh%20diinfokan%20untuk%20harga%20spesial%20dan%20promo%20lainya?"
+        class="whatsapp-button" target="_blank">
         <img src="https://png.pngtree.com/png-clipart/20190516/original/pngtree-whatsapp-icon-png-image_3584844.jpg"
             alt="WhatsApp">
     </a>
@@ -319,6 +320,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
         document.querySelector('.whatsapp-button').addEventListener('click', function() {
             console.log('WhatsApp button clicked!');
+        });
+
+        $(document).ready(function() {
+            $('#logout-btn').click(function() {
+                logout();
+            });
         });
     </script>
 
@@ -1088,6 +1095,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
         });
 
+        function logout() {
+            $.ajax({
+                    type: "post",
+                    url: "{{ route('logout') }}",
+                    data: {
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function (response) {
+                        console.log('Logout success:', response);
+                        localStorage.removeItem('cart');
+                        localStorage.removeItem('address');
+                        localStorage.removeItem('courierSelected');
+                        localStorage.removeItem('selectedBank');
+                        localStorage.removeItem('voucher');
+                        location.reload();
+                    }
+                });
+        }
     </script>
 </body>
 

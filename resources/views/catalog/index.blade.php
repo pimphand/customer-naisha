@@ -54,10 +54,14 @@
 <div class="has-breadcrumb-bg mb-120"
     data-background="https://sgp1.vultrobjects.com/naisha-s3/customer/header-2@4x.webp">
     <div class="breadcrumb-content d-flex justify-content-center align-items-center" style="flex-direction: column;">
-        <h2 class="title">Shop</h2>
+        <h2 class="title" id="title">
+            @if (request()->is('catalog'))
+            Semua Produk
+            @endif
+        </h2>
         <nav aria-label="breadcrumb" class="mb-40">
             <ol class="breadcrumb p-0 m-0">
-                <li class="breadcrumb-item"><a href="index7.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Shop</li>
             </ol>
         </nav>
@@ -314,7 +318,10 @@
             $("#out_stock").text(response.out_of_stock)
         }
     });
-
+    var fromNewest = getParameterByName('filter[from_newest]');
+    if (fromNewest == 1) {
+        $("#title").text("Newest Products");
+    }
     $("#category_").val("{{ request()->category }}");
 
     $(document).ready(function() {
