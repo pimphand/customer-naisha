@@ -316,7 +316,7 @@ $total = $order['payment']['amount'] - $order['payment']['code_unique'] - ($orde
                         @if (count($order['confirmations']) <= 0) <div class="form_input" style="display:none">
                             <li class="d-flex justify-content-between mt-3 font-12">
                                 <input type="text" name="date" class="form-control flatpickr-input" id="date"
-                                    placeholder="date" readonly="readonly">
+                                    placeholder="Pilih tanggal transfer" readonly="readonly">
                             </li>
                             <div id="_error_from_bank" class="invalid-feedback"></div>
 

@@ -1230,28 +1230,6 @@ $encodedData = json_encode($user['customers']);
             })
         }
 
-        // $('#district').on('input', function () {
-        //     let districtValue = $(this).val();
-        //     let selectedOption = $('#districts option').filter(function () {
-        //         return $(this).val() === districtValue;
-        //     });
-
-        //     if (selectedOption.length > 0) {
-        //         let id = selectedOption.data('id');
-        //         get('{{ route("region") }}?type=village&keyword='+id, function (err, data) {
-        //             if (err) {
-        //                 console.log(err);
-        //             } else {
-        //                 let html = '';
-        //                 data.forEach(element => {
-        //                     html += `<option value="${element.name}" data-kodepos="${element.postal_code}"> ${element.name} </option>`;
-        //                 });
-        //                 $('#village').html(html);
-        //             }
-        //         })
-        //     }
-        // });
-
         $('#districts').on('change', function (e) {
             $("#district").val(this.value);
             $("#districts").hide();

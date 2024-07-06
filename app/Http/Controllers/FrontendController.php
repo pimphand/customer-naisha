@@ -53,7 +53,10 @@ class FrontendController extends Controller
             abort(404, 'Order not found');
         }
 
-        // dd($order);
+        if ($order['user']['id'] != session('loginUser')['id']) {
+            abort(403, 'Unauthorized');
+        }
+
         return view('order', compact('order'));
     }
 
@@ -208,6 +211,10 @@ class FrontendController extends Controller
 
     public function confirmation(Request $request)
     {
+        $order =  Http::get(config('app.api_url') . '/customer/order/' . $request->order_id);
+        if ($order['user']['id'] != session('loginUser')['id']) {
+            abort(403, 'Unauthorized');
+        }
         Validator::make($request->all(), [
             'image' => 'required|file',
             'from_bank' => 'required|string',
@@ -260,18 +267,19 @@ class FrontendController extends Controller
 
         $response = Http::withToken(session('token')['accessToken'])
             ->get(config('app.api_url') . '/customer/users?id=' . session('loginUser')['id']);
-
+        // dd($response);
         if ($response->status() == 200) {
             $profile = $response->json();
         } else {
-            $request->session()->forget('loginUser');
-            $request->session()->forget('token');
-            return redirect(route('home'));
+            // $request->session()->forget('loginUser');
+            // $request->session()->forget('token');
+            // return redirect(route('home'));
         }
         $orders = $profile['data'][0]['orders'];
         $address = $profile['data'][0]['customers'];
 
         $profile = $profile['data'][0];
+
         return view('profile', compact('profile', 'orders', 'address'));
     }
 
@@ -284,6 +292,17 @@ class FrontendController extends Controller
             ])
             ->post(config('app.api_url') . '/customer/users?id=' . session('loginUser')['id'], $data);
 
+
+        return response()->json($response->json(), $response->status());
+    }
+
+    function deleteAddress($id)
+    {
+        $response = Http::withToken(session('token')['accessToken'])
+            ->withHeaders([
+                'Accept' => 'application/json',
+            ])
+            ->delete(config('app.api_url') . '/customer/address', ['id' => $id, 'user_id' => session('loginUser')['id']]);
 
         return response()->json($response->json(), $response->status());
     }

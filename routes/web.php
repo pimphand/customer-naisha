@@ -110,3 +110,4 @@ Route::post('confirmation', [FrontendController::class, 'confirmation'])->name('
 Route::post('logout', [FrontendController::class, 'logout'])->name('logout');
 Route::get('profile', [FrontendController::class, 'profile'])->name('profile');
 Route::post('profile', [FrontendController::class, 'profileUpdate']);
+Route::post('delete-address/{id}', [FrontendController::class, 'deleteAddress'])->name('deleteAddress');
