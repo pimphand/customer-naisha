@@ -44,7 +44,7 @@
             <div class="row">
                 <div class="col-xl-3 hidden-xl">
                     <div class="widget">
-                        <h4 class="mb-30">Product Categories</h4>
+
                         <div class="accordion" id="accordionExample">
                             <div class="list">
                                 <a href="javascript:void(0)">Profile</a>
