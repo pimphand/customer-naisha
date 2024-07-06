@@ -51,7 +51,7 @@
     <div class="container-fluid">
         <div class="shop-wrapper">
             <div class="row">
-                <div class="col-xl-3 hidden-xl">
+                <div class="col-xl-3">
                     <div class="widget">
                         <div class="accordion" id="accordionExample">
                             <div class="list">
@@ -156,11 +156,51 @@
                                 {{--end profile --}}
                                 {{-- list order --}}
                                 <div class="tab-pane fade" id="list-order">
-                                    <div class="product-wrapper">
-                                        <div class="row">
-                                            {{-- pro --}}
-
-                                        </div>
+                                    <div class="table-content table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="product-thumbnail">Images</th>
+                                                    <th class="cart-product-name">Product</th>
+                                                    <th class="product-price">Unit Price</th>
+                                                    <th class="product-quantity">Quantity</th>
+                                                    <th class="product-subtotal">Total</th>
+                                                    <th class="product-remove">Remove</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="product-thumbnail"><a href="single-product-4.html"><img
+                                                                src="img/product/pro1.jpg" alt=""></a></td>
+                                                    <td class="product-name"><a href="single-product-4.html">Bakix
+                                                            Furniture</a></td>
+                                                    <td class="product-price"><span class="amount">$130.00</span></td>
+                                                    <td class="product-quantity">
+                                                        <button class="btn theme-btn-2" type="submit">Add TO
+                                                            Cart</button>
+                                                    </td>
+                                                    <td class="product-subtotal"><span class="amount">$130.00</span>
+                                                    </td>
+                                                    <td class="product-remove"><a href="javascript:void(0)"><i
+                                                                class="fa fa-times"></i></a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="product-thumbnail"><a href="single-product-4.html"><img
+                                                                src="img/product/pro2.jpg" alt=""></a></td>
+                                                    <td class="product-name"><a href="single-product-4.html">Sujon Chair
+                                                            Set</a></td>
+                                                    <td class="product-price"><span class="amount">$120.50</span></td>
+                                                    <td class="product-quantity">
+                                                        <button class="btn theme-btn-2" type="submit">Add TO
+                                                            Cart</button>
+                                                    </td>
+                                                    <td class="product-subtotal"><span class="amount">$120.50</span>
+                                                    </td>
+                                                    <td class="product-remove"><a href="javascript:void(0)"><i
+                                                                class="fa fa-times"></i></a></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                                 {{--end list order --}}
@@ -168,11 +208,7 @@
                                 <div class="tab-pane fade" id="list-alamat">
                                     <div class="product-wrapper">
                                         <div class="row">
-                                            {{-- pro --}}
-                                            <div class="col-6">
-                                                <!-- List alamat content here -->
-                                                <p>alamat</p>
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
