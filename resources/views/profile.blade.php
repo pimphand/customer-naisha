@@ -109,27 +109,27 @@
 
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <label for="gender">gender</label>
+                                                    <label for="gender">Gender</label>
                                                     <select class="form-control " name="gender" id="gender">
                                                         <option value="" disabled="" selected="">
                                                             Silakan pilih</option>
                                                         <option value="1">
-                                                            Male</option>
+                                                            Laki-Laki</option>
                                                         <option value="2">
-                                                            Female</option>
+                                                            Perempuan</option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <label for="address">address</label>
+                                                    <label for="address">Alamat</label>
                                                     <input type="text" class="form-control" id="address" name="address">
                                                 </div>
                                             </div>
 
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <label for="postcode">postcode</label>
+                                                    <label for="postcode">Kodepos</label>
                                                     <input type="text" class="form-control" id="postcode"
                                                         name="postcode">
                                                 </div>
@@ -137,7 +137,7 @@
 
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <label for="birthday">birthday</label>
+                                                    <label for="birthday">Tanggal Lahir</label>
                                                     <input type="date" class="form-control" id="birthday"
                                                         name="birthday">
                                                 </div>
@@ -159,10 +159,7 @@
                                     <div class="product-wrapper">
                                         <div class="row">
                                             {{-- pro --}}
-                                            <div class="col-6">
-                                                <!-- List order content here -->
-                                                order
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -259,7 +256,12 @@
             processData: false,
             contentType: false,
             success: function(data) {
-
+                SweetAlert.fire({
+                    title: 'Berhasil!',
+                    text: 'Data berhasil disimpan',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
             },
             error: function(xhr, status, error) {
                 // Hapus pesan error sebelumnya
