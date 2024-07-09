@@ -392,7 +392,7 @@
                             stock: sku_.stock,
                             code: sku_.code,
                             image_url: sku_.image_url,
-                            price: sku_.price.consumer
+                            price: sku_.price.reseller
                         };
 
                         colorData[colorName].push(skuSave);
@@ -581,7 +581,7 @@
                     if (filteredData[0].price.special_price != null) {
                         $('#_modal_single_product').html(`<span>${currency(filteredData[0].price.special_price)}</span>`);
                     } else {
-                        $('#_modal_single_product').html(`<span>${currency(filteredData[0].price.consumer)}</span>`);
+                        $('#_modal_single_product').html(`<span>${currency(filteredData[0].price.reseller)}</span>`);
 
                     }
         }
@@ -683,8 +683,7 @@
                     if (filteredData[0].price.special_price != null) {
                         $('#_modal_single_product').html(`<span>${currency(filteredData[0].price.special_price)}</span>`);
                     } else {
-                        $('#_modal_single_product').html(`<span>${currency(filteredData[0].price.consumer)}</span>`);
-
+                        $('#_modal_single_product').html(`<span>${currency(filteredData[0].price.reseller)}</span>`);
                     }
                 } finally {
                     isColorHandlerRunning = false;

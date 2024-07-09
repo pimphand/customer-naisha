@@ -307,4 +307,13 @@ class FrontendController extends Controller
 
         return response()->json($response->json(), $response->status());
     }
+
+    public function address()
+    {
+        $user = session('loginUser');
+        if (!$user) {
+            return;
+        }
+        return $user['customers'];
+    }
 }

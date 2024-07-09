@@ -378,7 +378,7 @@ $encodedData = json_encode($user['customers']);
             }
             let subtotalPrice = 0;
             cart.forEach(element => {
-                subtotalPrice += element.price.special_price == null ? element.price.consumer : element.price.special_price  * element.qty;
+                subtotalPrice += element.price.special_price == null ? element.price.reseller : element.price.special_price  * element.qty;
             });
             let address = JSON.parse(localStorage.getItem('address'));
             let cour = JSON.parse(localStorage.getItem('courierSelected'));
@@ -441,7 +441,7 @@ $encodedData = json_encode($user['customers']);
                                 </div>
                             </div>
                             <div>
-                                <span>${currency(element.price.special_price == null ? element.price.consumer : element.price.special_price * element.qty)}</span><br>
+                                <span>${currency(element.price.special_price == null ? element.price.reseller : element.price.special_price * element.qty)}</span><br>
                                 <div style="width: 90px; height: 10px;">
                                     <div class="input-group input-group-sm" style="border: 1px solid #f2f2f2;">
                                         <div class="input-group-prepend">
@@ -685,7 +685,7 @@ $encodedData = json_encode($user['customers']);
                         let cart = JSON.parse(localStorage.getItem('cart'));
                         let subtotalPrice = 0;
                         cart.forEach(element => {
-                            subtotalPrice += element.price.special_price == null ? element.price.consumer : element.price.special_price * element.qty;
+                            subtotalPrice += element.price.special_price == null ? element.price.reseller : element.price.special_price * element.qty;
                         });
                         //save courier in variable
                         courier = data.data;
@@ -800,7 +800,7 @@ $encodedData = json_encode($user['customers']);
 
                     let subtotalPrice = 0;
                     cart.forEach(element => {
-                        subtotalPrice += element.price.special_price == null ? element.price.consumer : element.price.special_price * element.qty;
+                        subtotalPrice += element.price.special_price == null ? element.price.reseller : element.price.special_price * element.qty;
                     });
 
                     if (subtotalPrice >= 250000) {
@@ -822,7 +822,7 @@ $encodedData = json_encode($user['customers']);
             courierSelected = JSON.parse(localStorage.getItem('courierSelected'));
             let totalS = 0;
             cart.forEach(element => {
-                        totalS += element.price.special_price == null ? element.price.consumer : element.price.special_price * element.qty;
+                        totalS += element.price.special_price == null ? element.price.reseller : element.price.special_price * element.qty;
                     });
             $("#courier").html(`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="truck"
@@ -937,7 +937,7 @@ $encodedData = json_encode($user['customers']);
                         courier = data.data;
                         let subtotalPrice = 0;
                         cart.forEach(element => {
-                            subtotalPrice += element.price.special_price == null ? element.price.consumer : element.price.special_price * element.qty;
+                            subtotalPrice += element.price.special_price == null ? element.price.reseller : element.price.special_price * element.qty;
                         });
                         localStorage.setItem('courier', JSON.stringify(courier));
                         existingCourier = JSON.parse(localStorage.getItem('courierSelected'));
@@ -1146,41 +1146,36 @@ $encodedData = json_encode($user['customers']);
         });
 
         //list address existing
-        @if (isset($encodedData))
-            let encodedData = '{!! str_replace("'", "\\'", $encodedData) !!}';
-            let existingAddress = JSON.parse(encodedData);
-            localStorage.setItem('existing_address', JSON.stringify(existingAddress));
-            let existing_address = JSON.parse(localStorage.getItem('existing_address'));
-            let html = '';
-            existing_address.forEach(address => {
-                html += `
+            $.ajax({
+                type: "get",
+                url: "{{ route('address') }}",
+                success: function (response) {
+                    //localStorage.setItem('existing_address', response);
+                    //let existing_address = JSON.parse(localStorage.getItem('existing_address'));
+                    let html = '';
+                    response.forEach(address => {
+                    html += `
                     <li class="list-group-item mb-1 hover-pink" style="cursor: pointer;" onmouseover="this.style.cursor='pointer'"
-                        data-name="${address.name}"
-                        data-phone="${address.phone}"
-                        data-address="${address.address}"
-                        data-village="${address.subdistrict}"
-                        data-district="${address.district}"
-                        data-province="${address.province}"
-                        data-city="${address.city}"
-                        data-postal_code="${address.postal_code}"
-                        >
+                        data-name="${address.name}" data-phone="${address.phone}" data-address="${address.address}"
+                        data-village="${address.subdistrict}" data-district="${address.district}" data-province="${address.province}"
+                        data-city="${address.city}" data-postal_code="${address.postal_code}">
                         <span class="text-bold">${address.name} | ${address.phone}</span>
                         <p>${address.address}</p>
                         <p>${address.subdistrict}, ${address.district}, ${address.city}, ${address.province}, ${address.postal_code}</p>
                     </li>`
-            });
-            $('#_list_address').html(html);
+                    });
+                    $('#_list_address').html(html);
 
-            $('#_list_address').on('click', 'li', function () {
-                let name = $(this).data('name');
-                let phone = $(this).data('phone');
-                let address = $(this).data('address');
-                let village = $(this).data('village');
-                let district = $(this).data('district');
-                let kodepos = $(this).data('postal_code');
-                let province = $(this).data('province');
-                let city = $(this).data('city');
-                let addressData = {
+                    $('#_list_address').on('click', 'li', function () {
+                    let name = $(this).data('name');
+                    let phone = $(this).data('phone');
+                    let address = $(this).data('address');
+                    let village = $(this).data('village');
+                    let district = $(this).data('district');
+                    let kodepos = $(this).data('postal_code');
+                    let province = $(this).data('province');
+                    let city = $(this).data('city');
+                    let addressData = {
                     name,
                     city,
                     phone,
@@ -1189,12 +1184,15 @@ $encodedData = json_encode($user['customers']);
                     district,
                     province,
                     kodepos
-                };
-                localStorage.setItem('address', JSON.stringify(addressData));
-                $('#_checkout_modal').modal('hide');
-                getData();
+                    };
+                    localStorage.setItem('address', JSON.stringify(addressData));
+                    $('#_checkout_modal').modal('hide');
+                    getData();
+                    });
+                }
             });
-        @endif
+
+
 
 
         $('#add_address').click(function () {

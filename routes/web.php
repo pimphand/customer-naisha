@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [FrontendController::class, 'index'])->name('home');
+Route::get('/address', [FrontendController::class, 'address'])->name('address');
+
 Route::get('/catalog', [FrontendController::class, 'catalog'])->name('catalog');
 
 Route::get('/product/{id}', [FrontendController::class, 'detailProduct'])->name('product');
@@ -52,7 +54,7 @@ Route::post('create-order', function (Request $request) {
             "qty" => $cartItem['qty'],
         ];
 
-        $total += $cartItem['price']['consumer'] * $cartItem['qty'];
+        $total += $cartItem['price']['reseller'] * $cartItem['qty'];
     }
 
     if ($shipping['rate'] == 0 && $total <= 250000) {

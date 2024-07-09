@@ -28,7 +28,7 @@ function renderCart() {
     let total = 0;
     let html = "";
     cart.forEach(p => {
-        total += p.price.consumer * p.qty;
+        total += p.price.reseller * p.qty;
         html += `
         <li class="cart-item">
             <div class="minicart-img">
@@ -38,7 +38,7 @@ function renderCart() {
             </div>
             <div class="minicart-desc">
                 <a href="product/" class="p-0">${p.product_name}</a> <br>
-                <strong>${p.qty} × ${currency(p.price.consumer ?? 0)}</strong>
+                <strong>${p.qty} × ${currency(p.price.reseller ?? 0)}</strong>
             </div>
             <div class="remove" onclick="removeCart('${p.code}')" style="color:#08090d">
                 <i class="fal fa-times"></i>
@@ -134,7 +134,7 @@ function headerSearchProducts(data) {
             </div>
             <div class="search-result-desc pl-10">
                 <a href="/product/${p.slug}" class="title px-0">${p.category.name} - ${p.name}</a>
-                <div class="price"><span>${currency(p.skus[0].price.consumer)}</span></div>
+                <div class="price"><span>${currency(p.skus[0].price.reseller)}</span></div>
             </div>
         </li>
         `;

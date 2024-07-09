@@ -418,7 +418,7 @@
                             </div>
                             <a href="${url}" class="product-title">${item.name}</a>
                             <div class="price-switcher">
-                                <span class="price switcher-item">${currency(item.skus[0].price.consumer)}</span>
+                                <span class="price switcher-item">${currency(item.skus[0].price.reseller)}</span>
                                 <a href="javascript:void(0)" onclick="openModal('${item.slug}')" class="add-cart text-capitalize switcher-item">+add
                                     to cart</a>
                             </div>
