@@ -26,6 +26,7 @@ class FrontendController extends Controller
             "https://sgp1.vultrobjects.com/naisha-s3/customer/koko@4x.webp"
         ];
 
+        // dd(request()->session()->get('loginUser'));
         return view('welcome', compact('images', 'categories'));
     }
 
