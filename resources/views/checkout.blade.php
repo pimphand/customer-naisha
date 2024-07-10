@@ -378,7 +378,7 @@ $encodedData = json_encode($user['customers']);
             }
             let subtotalPrice = 0;
             cart.forEach(element => {
-                subtotalPrice += element.price.special_price == null ? element.price.reseller : element.price.special_price  * element.qty;
+                subtotalPrice += element.price.special_price == null ? element.price.consumer : element.price.special_price  * element.qty;
             });
             let address = JSON.parse(localStorage.getItem('address'));
             let cour = JSON.parse(localStorage.getItem('courierSelected'));
@@ -441,7 +441,7 @@ $encodedData = json_encode($user['customers']);
                                 </div>
                             </div>
                             <div>
-                                <span>${currency(element.price.special_price == null ? element.price.reseller : element.price.special_price * element.qty)}</span><br>
+                                <span>${currency(element.price.special_price == null ? element.price.consumer : element.price.special_price * element.qty)}</span><br>
                                 <div style="width: 90px; height: 10px;">
                                     <div class="input-group input-group-sm" style="border: 1px solid #f2f2f2;">
                                         <div class="input-group-prepend">
@@ -685,7 +685,7 @@ $encodedData = json_encode($user['customers']);
                         let cart = JSON.parse(localStorage.getItem('cart'));
                         let subtotalPrice = 0;
                         cart.forEach(element => {
-                            subtotalPrice += element.price.special_price == null ? element.price.reseller : element.price.special_price * element.qty;
+                            subtotalPrice += element.price.special_price == null ? element.price.consumer : element.price.special_price * element.qty;
                         });
                         //save courier in variable
                         courier = data.data;
@@ -800,7 +800,7 @@ $encodedData = json_encode($user['customers']);
 
                     let subtotalPrice = 0;
                     cart.forEach(element => {
-                        subtotalPrice += element.price.special_price == null ? element.price.reseller : element.price.special_price * element.qty;
+                        subtotalPrice += element.price.special_price == null ? element.price.consumer : element.price.special_price * element.qty;
                     });
 
                     if (subtotalPrice >= 250000) {
@@ -822,7 +822,7 @@ $encodedData = json_encode($user['customers']);
             courierSelected = JSON.parse(localStorage.getItem('courierSelected'));
             let totalS = 0;
             cart.forEach(element => {
-                        totalS += element.price.special_price == null ? element.price.reseller : element.price.special_price * element.qty;
+                        totalS += element.price.special_price == null ? element.price.consumer : element.price.special_price * element.qty;
                     });
             $("#courier").html(`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="truck"
@@ -937,7 +937,7 @@ $encodedData = json_encode($user['customers']);
                         courier = data.data;
                         let subtotalPrice = 0;
                         cart.forEach(element => {
-                            subtotalPrice += element.price.special_price == null ? element.price.reseller : element.price.special_price * element.qty;
+                            subtotalPrice += element.price.special_price == null ? element.price.consumer : element.price.special_price * element.qty;
                         });
                         localStorage.setItem('courier', JSON.stringify(courier));
                         existingCourier = JSON.parse(localStorage.getItem('courierSelected'));
