@@ -312,7 +312,7 @@
 <script>
     $.ajax({
         type: "get",
-        url: url_product + "/all-products?stock=1",
+        url: "{{ route('products') }}?stock=1",
         success: function (response) {
             $("#in_stock").text(response.in_stock)
             $("#out_stock").text(response.out_of_stock)
@@ -374,7 +374,7 @@
             query += "&filter[from_newest]=" + fromNewest;
         }
 
-        get(url_product + "/all-products?paginate=" + per_page + "&page=" + page + query, function (err, data) {
+        get(`{{ route('products') }}?paginate=` + per_page + "&page=" + page + query, function (err, data) {
             if (err) {
                 console.log(err);
             } else {

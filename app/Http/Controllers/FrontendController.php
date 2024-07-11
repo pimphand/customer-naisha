@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
@@ -315,5 +316,14 @@ class FrontendController extends Controller
             return;
         }
         return $user['customers'];
+    }
+
+    public function products(Request $request)
+    {
+        $products = Http::get(config('app.api_url') . '/all-products?paginate=' . $request->paginate . '&page=' . $request->page . "&filter[slug]=" . $request->slug . "&stock=" . $request->category_id);
+        return ProductResource::collection($products['data'])->additional([
+            'meta' => $products['meta'],
+            'links' => $products['links'],
+        ]);
     }
 }

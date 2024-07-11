@@ -67,7 +67,7 @@
     var per_page = 12;
     var page = 1;
     function getData(per_page, page) {
-        get(url_product + "/all-products?paginate=" + per_page + "&page=" + page, function (err, data) {
+        get(`{{ route('products') }}?page=` + page, function (err, data) {
             if (err) {
                 console.error("Error:", err);
             } else {

@@ -411,7 +411,7 @@
         }
 
         function fetchProductDetails(slug, callback) {
-            get(url_product + "/all-products?filter[slug]=" + slug, function(err, data) {
+            get(`{{ route('products') }}?slug=` + slug, function(err, data) {
                 if (err || !data || !data.data || data.data.length === 0) {
                     console.error("Error retrieving product data", err);
                     return;
