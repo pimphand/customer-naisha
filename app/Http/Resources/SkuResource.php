@@ -16,7 +16,7 @@ class SkuResource extends JsonResource
     {
         $user = session('loginUser');
 
-        if ($user) {
+        if ($user->customer_type_id == 15 && $this['price']['reseller'] <= 10000) {
             $price =  [
                 'currency' => $this['price']['currency'],
                 'consumer' => $this['price']['consumer'],
