@@ -14,10 +14,11 @@ class ProductResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        // dd(session('loginUser')['customer_type_id']);
         // return parent::toArray($request);
         $sku = [];
         foreach ($this['skus'] as $key => $skus) {
-            if (isset($this['category']['id']) && $this['category']['id'] == 12 && session()->has('loginUser') && session('loginUser')['customer_type_id'] == 15 && $skus['price']['reseller'] <= 10000) {
+            if ($this['category']['id'] == 12 && session()->has('loginUser') && session('loginUser')['customer_type_id'] == 15 && $skus['price']['consumer'] <= 10000) {
                 $sku[] = [
                     'code' => $skus['code'],
                     'properties' => $skus['properties'],

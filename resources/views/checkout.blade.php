@@ -378,7 +378,12 @@ $encodedData = json_encode($user['customers']);
             }
             let subtotalPrice = 0;
             cart.forEach(element => {
-                subtotalPrice += element.price.special_price == null ? element.price.consumer : element.price.special_price  * element.qty;
+                if (element.price.reseller == 0 ) {
+                    subtotalPrice += 10000  * (element.qty - 1);
+                }else{
+                    subtotalPrice += element.price.special_price == null ? element.price.consumer : element.price.special_price  * element.qty;
+
+                }
             });
             let address = JSON.parse(localStorage.getItem('address'));
             let cour = JSON.parse(localStorage.getItem('courierSelected'));
@@ -441,7 +446,7 @@ $encodedData = json_encode($user['customers']);
                                 </div>
                             </div>
                             <div>
-                                <span>${currency(element.price.special_price == null ? element.price.consumer : element.price.special_price * element.qty)}</span><br>
+                                <span>${currency(element.price.reseller == 0 ? 10000  * (element.qty - 1): (element.price.special_price == null ? element.price.consumer : element.price.special_price * element.qty))}</span><br>
                                 <div style="width: 90px; height: 10px;">
                                     <div class="input-group input-group-sm" style="border: 1px solid #f2f2f2;">
                                         <div class="input-group-prepend">
