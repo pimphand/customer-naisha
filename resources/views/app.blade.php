@@ -307,6 +307,51 @@
             </div>
         </div>
     </div>
+     <div class="modal fade" id="forgot" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content mt-5">
+                <div class="modal-header">
+                    <h5 class="modal-title">Lupa Password</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" id="forgot-login-modal">
+                        <div class="col-12">
+
+                            <div class="form-group">
+                                <label for="email">Email atau No WhatsApp</label>
+                                <input type="text" class="form-control" id="forget_email" value="{{ old('email') }}" required>
+                                <small id="error_forget_email" class="text-danger"></small>
+                            </div>
+
+                            <div class="form-group" id="token_">
+
+                            </div>
+
+                             <div class="form-group" id="password_">
+
+                            </div>
+
+                            <div class="form-group">
+                                <button type="button" id="_btn_send_forget" style="width: 100%" class="list-add-cart-btn primary-hover-btn">
+                                    Kirim Reset Password
+                                </button>
+                                <button type="button" id="_btn_verify" style="width: 100%;display:none" class="list-add-cart-btn primary-hover-btn">
+                                    Verifikasi Token
+                                </button>
+                                <button type="button" id="_btn_change_password" style="width: 100%;display:none" class="list-add-cart-btn primary-hover-btn">
+                                    Ubah Password
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- footer section end -->
     <a href="https://wa.me/6282110101011?text=Assalamualaikum%20misnha,%20saya%20dari%20web%20tertarik%20untuk%20membeli%20produk%20Naisha.%20Boleh%20diinfokan%20untuk%20harga%20spesial%20dan%20promo%20lainya?"
         class="whatsapp-button" target="_blank">
@@ -329,6 +374,118 @@
         $(document).ready(function() {
             $('#logout-btn').click(function() {
                 logout();
+            });
+        });
+
+        $('#forgot-password-btn').click(function(){
+            $('#login').modal('hide');
+            $('#forgot').modal('show');
+
+        });
+
+        $("#_btn_send_forget").click(function() {
+            $.ajax({
+                type: "post",
+                url: "{{ route('forgetPassword') }}",
+                data: {
+                    email: $("#forget_email").val(),
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function (response) {
+                    let html = `
+                        <label for="token">Token</label>
+                        <input type="text" class="form-control" id="token" value="{{ old('token') }}" required>
+                        <small id="error_token" class="text-danger"></small>
+                    `
+
+                    $("#token_").html(html);
+                    $("#_btn_send_forget").hide();
+                    $("#_btn_verify").show();
+                },
+                error: function (xhr, status, error) {
+                    $.each(xhr.responseJSON.errors, function (i, v) {
+                        $(`#error_forget_${i}`).html(v[0]);
+                        //remove error
+                        $(document).on('keyup', `#forget_${i}`, function () {
+                            $(`#error_forget_${i}`).html('');
+                        });
+                    });
+                }
+            });
+        });
+
+        $("#_btn_verify").click(function() {
+            $.ajax({
+                type: "post",
+                url: "{{ route('verifyToken') }}",
+                data: {
+                    email: $("#forget_email").val(),
+                    _token: "{{ csrf_token() }}",
+                    token: $("#token").val()
+                },
+                success: function (response) {
+                    $("#password_").html('');
+                    let html = `
+                            <div class="form-group">
+                                <label for="email">Password</label>
+                                <input type="text" class="form-control" id="password_reset" value="{{ old('email') }}" required>
+                                <small id="error_password_reset" class="text-danger"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Konfirmasi Password </label>
+                                <input type="text" class="form-control" id="password_confirmation" value="{{ old('email') }}" required>
+                                <small id="error_forget_email" class="text-danger"></small>
+                            </div>
+                    `
+                    $("#password_").html(html);
+                    $("#_btn_send_forget").hide();
+                    $("#_btn_verify").hide();
+                    $("#_btn_change_password").show();
+                },
+                error: function (xhr, status, error) {
+                    $.each(xhr.responseJSON.errors, function (i, v) {
+                        $(document).find(`#error_${i}`).html(v[0]);
+                        //remove error
+                        $(document).on('keyup', `#register_${i}`, function () {
+                            $(`#error_forget_${i}`).html('');
+                        });
+                    });
+                }
+            });
+        });
+
+        $("#_btn_change_password").click(function() {
+            $.ajax({
+                type: "post",
+                url: "{{ route('changePassword') }}",
+                data: {
+                    email: $("#forget_email").val(),
+                    _token: "{{ csrf_token() }}",
+                    token: $("#token").val(),
+                    password: $("#password_reset").val(),
+                    password_confirmation: $("#password_confirmation").val()
+                },
+                success: function (response) {
+                    Swal.fire({
+                        title: "password berhasil diubah",
+                        text: "Silahkan login",
+                        icon: "warning",
+                        allowOutsideClick: false,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "/";
+                        }
+                    })
+                },
+                error: function (xhr, status, error) {
+                    $.each(xhr.responseJSON.errors, function (i, v) {
+                        $(document).find(`#error_${i}_reset`).html(v[0]);
+                        //remove error
+                        $(document).on('keyup', `#${i}_reset`, function () {
+                            $(`#error_${i}_reset`).html('');
+                        });
+                    });
+                }
             });
         });
     </script>

@@ -341,4 +341,34 @@ class FrontendController extends Controller
 
         // return response()->json($products->json());
     }
+
+    public function forgetPassword(Request $request)
+    {
+        $get = Http::post(config('app.api_url') . '/password/email', [
+            'email' => $request->email,
+        ]);
+
+        return response()->json($get->json(), $get->status());
+    }
+
+    public function verifyToken(Request $request)
+    {
+        $get = Http::post(config('app.api_url') . '/password/token', [
+            'email' => $request->email,
+            'token' => $request->token,
+        ]);
+
+        return response()->json($get->json(), $get->status());
+    }
+    public function changePassword(Request $request)
+    {
+        $get = Http::post(config('app.api_url') . '/password/reset', [
+            'email' => $request->email,
+            'token' => $request->token,
+            'password' => $request->password,
+            'password_confirmation' => $request->password_confirmation,
+        ]);
+
+        return response()->json($get->json(), $get->status());
+    }
 }

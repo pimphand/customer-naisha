@@ -13,6 +13,10 @@ Route::get('/catalog', [FrontendController::class, 'catalog'])->name('catalog');
 Route::get('/product/{id}', [FrontendController::class, 'detailProduct'])->name('product');
 Route::get('/order/{id}', [FrontendController::class, 'detailOrder'])->name('order');
 Route::get('/region', [FrontendController::class, 'support'])->name('region');
+Route::post('/forgetPassword', [FrontendController::class, 'forgetPassword'])->name('forgetPassword');
+Route::post('/verify-token', [FrontendController::class, 'verifyToken'])->name('verifyToken');
+Route::post('/verify-changePassword', [FrontendController::class, 'changePassword'])->name('changePassword');
+
 
 
 Route::get('/checkout', function () {
