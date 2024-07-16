@@ -77,6 +77,8 @@
                     var item = product[i];
                     let url = "/product/" + item.slug;
 
+                    let sku = item.skus.find(sku => sku.price.special_price > 0) || item.skus[0];
+                    let price = sku.price.special_price > 0 ? sku.price.special_price : sku.price.consumer;
                     list += `
                         <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
                             <div class="product-box mb-40">
@@ -98,7 +100,10 @@
                                         </div>
                                         <a href="javascript:void(0)" onclick="openModal('${item.slug}')" class="product-title">${item.name}</a>
                                         <div class="price-switcher">
-                                            <span class="price switcher-item">${currency(item.skus[0].price.special_price > 0 ?item.skus[0].price.special_price : item.skus[0].price.consumer)}</span>
+                                            <span class="price switcher-item">
+                                                ${sku.price.special_price > 0 ? '<s>' + currency(sku.price.consumer) + '</s>' : ''}
+                                                ${currency(price)}
+                                            </span>
                                             <a href="javascript:void(0)" onclick="openModal('${item.slug}')" class="add-cart text-capitalize switcher-item">Show</a>
                                         </div>
                                     </div>
