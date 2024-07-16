@@ -396,8 +396,8 @@
                         <label for="token">Token</label>
                         <input type="text" class="form-control" id="token" value="{{ old('token') }}" required>
                         <small id="error_token" class="text-danger"></small>
+                        <small id="message_token" class="text-success">Silahkan cek email untuk melihat token</small>
                     `
-
                     $("#token_").html(html);
                     $("#_btn_send_forget").hide();
                     $("#_btn_verify").show();
@@ -446,7 +446,7 @@
                     $.each(xhr.responseJSON.errors, function (i, v) {
                         $(document).find(`#error_${i}`).html(v[0]);
                         //remove error
-                        $(document).on('keyup', `#register_${i}`, function () {
+                        $(document).on('keyup', `#${i}_reset`, function () {
                             $(`#error_forget_${i}`).html('');
                         });
                     });
