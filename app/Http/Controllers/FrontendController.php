@@ -214,7 +214,9 @@ class FrontendController extends Controller
     public function confirmation(Request $request)
     {
         $order =  Http::get(config('app.api_url') . '/customer/order/' . $request->order_id);
-        if ($order['user']['id'] != session('loginUser')['id']) {
+        $user = $order->json()['data']['user'];
+
+        if ($user['id'] != session('loginUser')['id']) {
             abort(403, 'Unauthorized');
         }
         Validator::make($request->all(), [

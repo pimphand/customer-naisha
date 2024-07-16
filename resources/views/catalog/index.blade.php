@@ -55,9 +55,9 @@
     data-background="https://sgp1.vultrobjects.com/naisha-s3/customer/header-2@4x.webp">
     <div class="breadcrumb-content d-flex justify-content-center align-items-center" style="flex-direction: column;">
         <h2 class="title" id="title">
-            @if (request()->is('catalog'))
+            {{-- @if (request()->is('catalog'))
             Semua Produk
-            @endif
+            @endif --}}
         </h2>
         <nav aria-label="breadcrumb" class="mb-40">
             <ol class="breadcrumb p-0 m-0">
