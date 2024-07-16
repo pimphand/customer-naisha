@@ -2454,9 +2454,9 @@ ul.color-list li:hover {
 }
 
 .single-product-price {
-  font-size: 28px;
-  font-weight: 400;
-  line-height: 50.4px;
+  font-size: 18px;
+   /* font-weight: 400;
+  line-height: 50.4px; */
   color: #000000;
 }
 .single-product-desc p,
