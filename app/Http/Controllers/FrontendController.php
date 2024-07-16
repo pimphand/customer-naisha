@@ -326,11 +326,17 @@ class FrontendController extends Controller
             $query = '&filter[category.id]=' . $request->filter['category.id'];
         }
 
-        $products = Http::get(config('app.api_url') . '/all-products?paginate=' . $request->paginate . '&page=' . $request->page . "&filter[slug]=" . $request->slug . "&stock=" . $request->category_id, $query);
+        if ($request->slug) {
+            $query = '&filter[slug]=' . $request->slug;
+        }
+
+        $products = Http::get(config('app.api_url') . '/all-products?paginate=' . $request->paginate . '&page=' . $request->page . "&stock=" . $request->category_id, $query);
 
         return ProductResource::collection($products['data'])->additional([
             'meta' => $products['meta'],
             'links' => $products['links'],
         ]);
+
+        // return response()->json($products->json());
     }
 }
