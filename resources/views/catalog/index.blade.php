@@ -365,8 +365,12 @@
             query += "&filter[tags]=" + $('#tag_').val();
         }
 
+        if ($('#tag_').val() != '') {
+            query += "&filter[tags]=" + $('#tag_').val();
+        }
+
         if ($('#category_').val() != '') {
-            query += "&filter[category.name]=" + $('#category_').val();
+            query += "&filter[category.id]=" + $('#category_').val();
         }
 
         var fromNewest = getParameterByName('filter[from_newest]');
@@ -374,7 +378,7 @@
             query += "&filter[from_newest]=" + fromNewest;
         }
 
-        get(`{{ route('products') }}?paginate=` + per_page + "&page=" + page + query, function (err, data) {
+        get(`{{ route('products') }}?`+"&page=" + page + query, function (err, data) {
             if (err) {
                 console.log(err);
             } else {
@@ -419,8 +423,7 @@
                             <a href="${url}" class="product-title">${item.name}</a>
                             <div class="price-switcher">
                                 <span class="price switcher-item">${currency(item.skus[0].price.reseller)}</span>
-                                <a href="javascript:void(0)" onclick="openModal('${item.slug}')" class="add-cart text-capitalize switcher-item">+add
-                                    to cart</a>
+                                <a href="javascript:void(0)" onclick="openModal('${item.slug}')" class="add-cart text-capitalize switcher-item">Show</a>
                             </div>
                         </div>
                     </div>

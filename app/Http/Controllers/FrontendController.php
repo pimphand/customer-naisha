@@ -320,7 +320,14 @@ class FrontendController extends Controller
 
     public function products(Request $request)
     {
-        $products = Http::get(config('app.api_url') . '/all-products?paginate=' . $request->paginate . '&page=' . $request->page . "&filter[slug]=" . $request->slug . "&stock=" . $request->category_id);
+        $query = '';
+
+        if (isset($request->filter['category.id']) && $request->filter['category.id']) {
+            $query = '&filter[category.id]=' . $request->filter['category.id'];
+        }
+
+        $products = Http::get(config('app.api_url') . '/all-products?paginate=' . $request->paginate . '&page=' . $request->page . "&filter[slug]=" . $request->slug . "&stock=" . $request->category_id, $query);
+
         return ProductResource::collection($products['data'])->additional([
             'meta' => $products['meta'],
             'links' => $products['links'],

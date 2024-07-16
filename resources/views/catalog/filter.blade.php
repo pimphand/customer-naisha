@@ -36,19 +36,19 @@
         <h4 class="mb-20">Product type</h4>
         <div class="accordion" id="accordionExample">
             <div class="list">
-                <a href="javascript:void(0)">Aksesories (6) </a>
+                <a href="javascript:void(0)" data-category="12" class="category">Aksesories (13) </a>
             </div>
 
             <div class="list">
-                <a href="javascript:void(0)">Gamis (38) </a>
+                <a href="javascript:void(0)" data-category="2" class="category">Gamis (36) </a>
             </div>
 
             <div class="list">
-                <a href="javascript:void(0)">Gamis Khimar Set (14) </a>
+                <a href="javascript:void(0)" data-category="2" class="category">Gamis Khimar Set (36) </a>
             </div>
-
+            <input type="text" id="category_">
             <div class="list">
-                <a href="javascript:void(0)">Khimar & Bergo (12)</a>
+                <a href="javascript:void(0)" data-category="4" class="category">Khimar & Bergo (25)</a>
             </div>
 
         </div>
@@ -220,6 +220,14 @@
         setTimeout(function() {
             getData(per_page, page);
         }, 500); // Delay in milliseconds
+    });
+    $('#category_').val('');
+    $('#category_').hide();
+    $('.category').click(function() {
+        $('#category_').val($(this).data('category'));
+        setTimeout(function() {
+            getData(per_page, page);
+        }, 500);
     });
 
 </script>
