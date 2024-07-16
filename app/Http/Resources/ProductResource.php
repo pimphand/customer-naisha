@@ -35,6 +35,7 @@ class ProductResource extends JsonResource
                         'user_without_disc' => 0,
                         'commission' => 0,
                         'special_price' => 0,
+                        'price_web' => 0,
                     ],
                 ];
             } else {
@@ -54,6 +55,7 @@ class ProductResource extends JsonResource
                         'user_without_disc' => $skus['price']['user_without_disc'],
                         'commission' => $skus['price']['commission'],
                         'special_price' => isset($skus['price']['special_price']) ? $skus['price']['special_price'] : null,
+                        'price_web' => isset($skus['price']['price_web']) ? $skus['price']['price_web'] : null,
                     ],
                 ];
             }
