@@ -681,7 +681,7 @@
                     var filteredData = whereIn(data, selectedColor);
                     //get size and material
                     if (filteredData[0].price.special_price != null) {
-                        $('#_modal_single_product').html(`<span>${currency(filteredData[0].price.special_price)}</span>`);
+                        $('#_modal_single_product').html(`<s style="font-size:20px">${currency(filteredData[0].price.consumer)}</s><span class="ml-1 text-sm">${currency(filteredData[0].price.special_price)}</span>`);
                     } else {
                         $('#_modal_single_product').html(`<span>${currency(filteredData[0].price.consumer)}</span>`);
                     }
