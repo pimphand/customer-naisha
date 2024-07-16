@@ -134,7 +134,7 @@
                             </div>
                             <div class="category-content">
                                 <a href="{{ route('catalog') }}?category=gamis" class="title">Gamis</a>
-                                <p class="category-item">(<span>8</span> items)</p>
+                                <p class="category-item">(<span>36</span> items)</p>
                             </div>
                         </div>
                     </div>
@@ -153,7 +153,7 @@
                                             </div>
                                             <div class="category-content">
                                                 <a href="{{ route('catalog') }}?category=aksesoris" class="title">Aksesoris</a>
-                                                <p class="category-item">(<span>20</span> items)</p>
+                                                <p class="category-item">(<span>13</span> items)</p>
                                             </div>
                                         </div>
                                     </div>
@@ -168,7 +168,7 @@
                                             </div>
                                             <div class="category-content">
                                                 <a href="{{ route('catalog') }}?category=Khimar" class="title">Khimar</a>
-                                                <p class="category-item">(<span>11</span> items)</p>
+                                                <p class="category-item">(<span>36</span> items)</p>
                                             </div>
                                         </div>
                                     </div>
@@ -185,7 +185,7 @@
                                     </div>
                                     <div class="category-content">
                                         <a href="{{ route('catalog') }}?category=Koko" class="title">Koko</a>
-                                        <p class="category-item">(<span>17</span> items)</p>
+                                        <p class="category-item">(<span>6</span> items)</p>
                                     </div>
                                 </div>
                             </div>

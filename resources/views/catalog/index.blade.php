@@ -370,7 +370,18 @@
         }
 
         if ($('#category_').val() != '') {
-            query += "&filter[category.id]=" + $('#category_').val();
+            if ($('#category_').val() == "Koko") {
+                query += "&filter[category.id]=" + 170;
+            } else if ($('#category_').val() == "aksesoris") {
+                query += "&filter[category.id]=" + 12;
+            } else if ($('#category_').val() == "gamis") {
+                query += "&filter[category.id]=" + 2;
+            } else if ($('#category_').val() == "Khimar") {
+                query += "&filter[category.id]=" + 4;
+            }
+            else {
+                query += "&filter[category.id]=" + $('#category_').val();
+            }
         }
 
         var fromNewest = getParameterByName('filter[from_newest]');
