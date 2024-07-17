@@ -195,9 +195,6 @@
                                             <a href="javascript:void(0)" id="login-btn" style="color:rgb(0, 0, 0)"
                                                 class="generic-btn black-hover-btn w-100 mb-3">Login
                                             </a>
-                                            <a href="javascript:void(0)" id="forgot-password-btn" style="color:rgb(0, 0, 0)"
-                                                class="generic-btn black-hover-btn w-100 mb-3">Lupa Password
-                                            </a>
                                             @endif
                                         </div>
                                     </div>
