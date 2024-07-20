@@ -102,7 +102,7 @@
                                         <div class="price-switcher">
                                             <span class="price switcher-item">
                                                 ${sku.price.special_price > 0 ? '<s>' + currency(sku.price.consumer) + '</s>' : ''}
-                                                ${currency(price)}
+                                                <span  style="color:black">${currency(price)}</span>
                                             </span>
                                             <a href="javascript:void(0)" onclick="openModal('${item.slug}')" class="add-cart text-capitalize switcher-item">Show</a>
                                         </div>

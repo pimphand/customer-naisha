@@ -303,10 +303,13 @@
                 <div class="modal-body">
                     <div class="row" id="form-login-modal">
                     </div>
-                    <a href="javascript:void(0)" id="forgot-password-btn" style="color:rgb(0, 0, 0)"
-                                                class="generic-btn black-hover-btn w-100 mb-3">
+                    <div class="form-group">
+                        <button href="javascript:void(0)"
+                        id="forgot-password-btn"
+                            style="width: 100%" class="list-add-cart-btn primary-hover-btn">
                                                 Lupa Password
-                                            </a>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -841,7 +844,7 @@
                     var filteredData = whereIn(data, selectedColor);
                     //get size and material
                     if (filteredData[0].price.special_price != null) {
-                        $('#_modal_single_product').html(`<s>${currency(filteredData[0].price.price_web)}</s><br><span class="text-sm">${currency(filteredData[0].price.special_price)}</span>`);
+                        $('#_modal_single_product').html(`<s>${currency(filteredData[0].price.price_web)}</s><br><span class="text-sm" style="color:black">${currency(filteredData[0].price.special_price)}</span>`);
                     } else {
                         $('#_modal_single_product').html(`<span>${currency(filteredData[0].price.consumer)}</span>`);
                     }

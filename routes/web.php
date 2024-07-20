@@ -76,8 +76,8 @@ Route::post('create-order', function (Request $request) {
         "customer_note" => "",
         "products" => $cart,
         "customer_note" => $request->note,
+        "voucher_id" => isset($request->voucherDetail['id']) ? $request->voucherDetail['id'] : null,
     );
-
     $data = [
         "data" => [
             "customer" => $customer,

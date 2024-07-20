@@ -983,6 +983,8 @@ $encodedData = json_encode($user['customers']);
             let courier = JSON.parse(localStorage.getItem('courierSelected'));
             let bank = JSON.parse(localStorage.getItem('selectedBank'));
             let voucher = JSON.parse(localStorage.getItem('voucher'));
+            let voucherDetail = JSON.parse(localStorage.getItem('voucherDetail'));
+            console.log(voucher);
             if (!address) {
                 message('Silahkan lengkapi alamat terlebih dahulu')
             } else if (!courier) {
@@ -999,6 +1001,7 @@ $encodedData = json_encode($user['customers']);
                     shipping: courier,
                     payment: bank,
                     voucher: voucher,
+                    voucherDetail: voucherDetail,
                     note: $('#note').val()
                 }
 
@@ -1057,9 +1060,12 @@ $encodedData = json_encode($user['customers']);
                     } else {
                         let discount = data.amount;
                         localStorage.setItem("voucher", discount);
+                        localStorage.setItem("voucherDetail", JSON.stringify(data.data));
+
                         let total = $('#total_courier').text();
                         let total_ = total.replace('Rp ', '');
-                        $('#discount_').text(`- ${currency(discount)}`);
+                        // $('#discount_').text(`- ${currency(discount)}`);
+                        getData()
                     }
                 })
             }
