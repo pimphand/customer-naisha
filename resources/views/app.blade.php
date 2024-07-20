@@ -304,7 +304,8 @@
                     <div class="row" id="form-login-modal">
                     </div>
                     <a href="javascript:void(0)" id="forgot-password-btn" style="color:rgb(0, 0, 0)"
-                                                class="generic-btn black-hover-btn w-100 mb-3">Lupa Password
+                                                class="generic-btn black-hover-btn w-100 mb-3">
+                                                Lupa Password
                                             </a>
                 </div>
             </div>
@@ -1120,9 +1121,6 @@
                     </div>
 
                     <div class="form-group">
-                        <button type="button" id="_btn_login" style="width: 100%" class="list-add-cart-btn primary-hover-btn">
-                            Masuk
-                        </button>
                         <button type="button" id="_btn_login" style="width: 100%" class="list-add-cart-btn primary-hover-btn">
                             Masuk
                         </button>
