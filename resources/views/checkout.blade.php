@@ -358,6 +358,8 @@ $encodedData = json_encode($user['customers']);
 @push('js')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
+    localStorage.removeItem('voucher');
+    localStorage.removeItem("voucherDetail");
     $(document).ready(function () {
         //get data from local storage)
         getData()
@@ -1016,6 +1018,7 @@ $encodedData = json_encode($user['customers']);
                             localStorage.removeItem('courierSelected');
                             localStorage.removeItem('selectedBank');
                             localStorage.removeItem('voucher');
+                            localStorage.removeItem("voucherDetail");
                             Swal.fire({
                                 title: "Berhasil",
                                 text: data.message,

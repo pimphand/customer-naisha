@@ -211,7 +211,7 @@
                                     <div class="close-search-popup">
                                         <i class="fal fa-times"></i>
                                     </div>
-                                    <div class="search-popup-inner mt-135">
+                                    <div class="search-popup-inner">
                                         <div class="search-title text-center">
                                             <h2>Search</h2>
                                         </div>

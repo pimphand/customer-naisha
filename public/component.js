@@ -130,7 +130,7 @@ function headerSearchProducts(data) {
         html += `
         <li class="d-block d-flex align-items-center">
             <div class="search-result-img">
-                <img src="${p.image_url}" class="w-100" alt="">
+                <img src="${p.image_url}" class="w-50" alt="">
             </div>
             <div class="search-result-desc pl-10">
                 <a href="/product/${p.slug}" class="title px-0">${p.category.name} - ${p.name}</a>
@@ -146,7 +146,6 @@ $('._top-search').click(function (e) {
     //get products from local storage
     let products = JSON.parse(localStorage.getItem("product"));
     //get search value
-    headerSearchProducts(products);
 });
 
 $('#search-header-top').on('keyup', function (e) {
