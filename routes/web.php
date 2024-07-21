@@ -17,6 +17,7 @@ Route::post('/forgetPassword', [FrontendController::class, 'forgetPassword'])->n
 Route::post('/verify-token', [FrontendController::class, 'verifyToken'])->name('verifyToken');
 Route::post('/verify-changePassword', [FrontendController::class, 'changePassword'])->name('changePassword');
 
+Route::get('/vouchers/claim', [FrontendController::class, 'vouchersClaim']);
 
 
 Route::get('/checkout', function () {

@@ -1057,7 +1057,7 @@ $encodedData = json_encode($user['customers']);
             if (voucher == '') {
                 message('Voucher tidak boleh kosong');
             } else {
-                get(url+'/vouchers/claim?code='+voucher, function (err, data) {
+                get('/vouchers/claim?code='+voucher, function (err, data) {
                     if (err) {
                         message('Voucher tidak ditemukan');
                     } else {
@@ -1199,7 +1199,7 @@ $encodedData = json_encode($user['customers']);
                     province,
                     kodepos
                     };
-                    localStorage.setItem('address', JSON.stringify(addressData));
+                    // localStorage.setItem('address', JSON.stringify(addressData));
                     $('#_checkout_modal').modal('hide');
                     getData();
                     });

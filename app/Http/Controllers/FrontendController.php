@@ -280,7 +280,7 @@ class FrontendController extends Controller
             // return redirect(route('home'));
         }
         $orders = $profile['data'][0]['orders'];
-        $address = $profile['data'][0]['customers'];
+        $address = [];
 
         $profile = $profile['data'][0];
 
@@ -317,7 +317,7 @@ class FrontendController extends Controller
         if (!$user) {
             return;
         }
-        return $user['customers'];
+        return;
     }
 
     public function products(Request $request)
@@ -370,5 +370,13 @@ class FrontendController extends Controller
         ]);
 
         return response()->json($get->json(), $get->status());
+    }
+
+    public function vouchersClaim(Request $request)
+    {
+        $response = Http::withToken(session('token')['accessToken'])
+            ->get(config('app.api_url') . '/customer/vouchers/claim?code=' . $request->code);
+
+        return response()->json($response->json(), $response->status());
     }
 }
