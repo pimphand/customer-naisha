@@ -967,7 +967,7 @@ header.header ul li .mega-menu ul li a {
 }
 
 .search-content {
-  max-width: 1170px;
+  max-width: 798px;
   margin: 0 auto;
 }
 
@@ -1013,9 +1013,9 @@ header.header ul li .mega-menu ul li a {
 }
 
 .search-result-list {
-  /* padding: 20px 10px; */
+  padding: 20px 10px;
   border: 0.5px solid #ddd;
-  max-height: 600px;
+  max-height: 300px;
   border-top: 0;
   overflow-y: auto;
 }

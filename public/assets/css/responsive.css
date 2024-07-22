@@ -103,6 +103,8 @@
   .search-popup-inner {
     width: 90%;
     margin: auto;
+    /* add transparant */
+    background: rgba(255, 255, 255, 0.9);
   }
   .service-box {
     margin-top: 30px;

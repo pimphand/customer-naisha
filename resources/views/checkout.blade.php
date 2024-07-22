@@ -359,7 +359,6 @@ $encodedData = json_encode($user['customers']);
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     localStorage.removeItem('voucher');
-    localStorage.removeItem("voucherDetail");
     $(document).ready(function () {
         //get data from local storage)
         getData()
@@ -986,7 +985,6 @@ $encodedData = json_encode($user['customers']);
             let bank = JSON.parse(localStorage.getItem('selectedBank'));
             let voucher = JSON.parse(localStorage.getItem('voucher'));
             let voucherDetail = JSON.parse(localStorage.getItem('voucherDetail'));
-            console.log(voucher);
             if (!address) {
                 message('Silahkan lengkapi alamat terlebih dahulu')
             } else if (!courier) {
@@ -1057,20 +1055,54 @@ $encodedData = json_encode($user['customers']);
             if (voucher == '') {
                 message('Voucher tidak boleh kosong');
             } else {
-                get('/vouchers/claim?code='+voucher, function (err, data) {
-                    if (err) {
-                        message('Voucher tidak ditemukan');
-                    } else {
-                        let discount = data.amount;
-                        localStorage.setItem("voucher", discount);
-                        localStorage.setItem("voucherDetail", JSON.stringify(data.data));
+                let existing = localStorage.getItem('voucherDetail');
+                    //ubah menjadi json
+               let existingVoucher = existing ? JSON.parse(existing) : {};
+                if (existingVoucher.code == voucher) {
+                    $.toast({
+                        text: "voucher berhasil digunakan",
+                        showHideTransition: 'slide',
+                        bgColor: '#fef4a1',
+                        textColor: 'black',
+                        allowToastClose: false,
+                        hideAfter: 3000,
+                        stack: 5,
+                        textAlign: 'left',
+                        position: 'bottom-right',
+                        icon: 'success'
+                    });
 
-                        let total = $('#total_courier').text();
-                        let total_ = total.replace('Rp ', '');
-                        // $('#discount_').text(`- ${currency(discount)}`);
-                        getData()
-                    }
-                })
+                    localStorage.setItem("voucher", existingVoucher.amount);
+                    getData()
+
+                }else{
+                    get('/vouchers/claim?code='+voucher, function (err, data) {
+                        if (err) {
+                            message(err.responseJSON.message);
+                            // console.log();
+                        } else {
+                            let discount = data.amount;
+                            localStorage.setItem("voucher", discount);
+                            localStorage.setItem("voucherDetail", JSON.stringify(data.data));
+
+                            let total = $('#total_courier').text();
+                            let total_ = total.replace('Rp ', '');
+                            getData()
+                            $.toast({
+                                text: "voucher berhasil digunakan",
+                                showHideTransition: 'slide',
+                                bgColor: '#fef4a1',
+                                textColor: 'black',
+                                allowToastClose: false,
+                                hideAfter: 3000,
+                                stack: 5,
+                                textAlign: 'left',
+                                position: 'bottom-right',
+                                icon: 'success'
+                            });
+                        }
+                    })
+                }
             }
         });
 
