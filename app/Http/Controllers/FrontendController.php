@@ -71,10 +71,10 @@ class FrontendController extends Controller
     {
         if ($request->password) {
             $validator = Validator::make($request->all(), [
-                'email' => 'required|email',
+                'email' => 'required',
                 'password' => 'required|string',
             ],  [
-                'email.required' => 'Email harus diisi',
+                'email.required' => 'Email atau nomor whatsapp harus diisi',
                 'password.required' => 'Password harus diisi',
             ]);
         } else {
@@ -94,17 +94,18 @@ class FrontendController extends Controller
             ], 422);
         }
 
-        if ($request->password) {
+        if ($request->has('email') && filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
             $login = Http::post(config('app.api_url') . '/login', [
                 'email' => $request->email,
                 'password' => $request->password,
             ]);
         } else {
             $login = Http::post(config('app.api_url') . '/customer/login', [
-                'phone' => $this->normalizePhone($request->phone),
-                'name' => $request->name,
+                'phone' => $this->normalizePhone($request->email),
+                'password' => $request->password,
             ]);
         }
+
         // dd($login->json());
         if ($login->status() == 200) {
             $request->session()->put('loginUser', $login['data'] ?? $login['user']);
@@ -375,7 +376,24 @@ class FrontendController extends Controller
     public function vouchersClaim(Request $request)
     {
         $response = Http::withToken(session('token')['accessToken'])
-            ->get(config('app.api_url') . '/customer/vouchers/claim?code=' . $request->code);
+            ->get(config('app.api_url') . '/customer/vouchers/claim?code=' . $request->code . "&sku_code=" . $request->sku);
+
+        if ($response->getStatusCode() == 200) {
+            $voucher = (string)$response->json()['data']['product_id'];
+            $product = explode(',', $request->sku);
+
+            if (!in_array($voucher, $product)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Voucher tidak dapat digunakan untuk produk ini.',
+                    'data' => [
+                        'status' => false,
+                        'voucher' => $voucher,
+                        'product' => $product,
+                    ],
+                ], 400);
+            }
+        }
 
         return response()->json($response->json(), $response->status());
     }

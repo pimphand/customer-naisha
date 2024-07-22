@@ -222,7 +222,7 @@ $encodedData = json_encode($user['customers']);
                                 <span id="subtotalPengiriman"></span>
                             </div>
                         </li>
-
+                        @if (Illuminate\Support\Facades\Session::get('loginUser'))
                         <li class="d-flex justify-content-between mt-3 font-12">
                             <div class="flex" style="display: flex; flex-direction: row;">
                                 <div class="input-container">
@@ -235,6 +235,7 @@ $encodedData = json_encode($user['customers']);
                             </div>
                         </li>
                         <hr>
+                        @endif
 
                         <li class="d-flex justify-content-between mt-3 font-12">
                             <div class="flex" style="display: flex; flex-direction: row;">
@@ -1076,7 +1077,20 @@ $encodedData = json_encode($user['customers']);
                     getData()
 
                 }else{
-                    get('/vouchers/claim?code='+voucher, function (err, data) {
+                    let cart = JSON.parse(localStorage.getItem('cart'));
+                    //foreach cart take code
+                    let cartCode = [];
+                    let qty = [];
+
+                    $.each(cart, function (i, item) {
+                        if (item && item.code) {
+                            // Extract the code part before the '-' character
+                            let code = item.code.split('-')[0];
+                            cartCode.push(code);
+                        }
+                    });
+
+                    get('/vouchers/claim?code='+voucher+'&sku='+cartCode, function (err, data) {
                         if (err) {
                             message(err.responseJSON.message);
                             // console.log();
@@ -1113,8 +1127,8 @@ $encodedData = json_encode($user['customers']);
                 url: "{{ route('login') }}",
                 data: {
                     _token: "{{ csrf_token() }}",
-                    name: $('#_user_name').val(),
-                    phone: $('#_user_phone').val()
+                    email: $('#_user_email').val(),
+                    password: $('#_user_password').val()
                 },
                 success: function (response) {
                     //reload
@@ -1160,17 +1174,16 @@ $encodedData = json_encode($user['customers']);
                         <p>Silakan isi informasi di bawah ini:</p>
                     </div>
                     <div class="col-12 mb-3">
-                        <span class="mb-4 mt-2" style="font-size:13px">Nama
-                            Lengkap</span>
-                        <input type="text" id="_user_name" class="form-control" style="font-size:13px"
+                        <span class="mb-4 mt-2" style="font-size:13px">Emial/No Whatsapp</span>
+                        <input type="text" id="_user_email" class="form-control" style="font-size:13px"
                             placeholder="Masukkan Nama Lengkap">
-                        <div style="color:#e44545;font-size:13px" id="error_user_name"></div>
+                        <div style="color:#e44545;font-size:13px" id="error_user_email"></div>
                     </div>
                     <div class="col-12 mb-3">
-                        <span class="mb-4 mt-2" style="font-size:13px">Nomor Whatsapp</span>
-                        <input type="text" id="_user_phone" class="form-control" style="font-size:13px"
+                        <span class="mb-4 mt-2" style="font-size:13px">Password</span>
+                        <input type="password" id="_user_password" class="form-control" style="font-size:13px"
                             placeholder="Masukkan Nomor Whatsapp">
-                        <div style="color:#e44545;font-size:13px" id="error_user_phone"></div>
+                        <div style="color:#e44545;font-size:13px" id="error_user_password"></div>
                     </div>
                 </div>
 
