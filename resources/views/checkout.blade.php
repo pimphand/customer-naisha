@@ -394,7 +394,7 @@ $encodedData = json_encode($user['customers']);
             if (cour) {
                 $('._show_courier_fix').html(`
                     ${cour.logistic_name} - ${cour.rate_name} ${subtotalPrice >= 250000
-                    ? `<s style="color:black">${currency(cour.rate_show)}</s> ${currency(cour.rate_show - "{{config('naisha.free_shipping_cost')}}")}`
+                    ? `<s style="color:black">${currency(cour.rate_show)}</s> ${currency(cour.rate_show - "{{config('naisha.free_shipping_cost')}}" <0 ? 0 : cour.rate_show-"{{config('naisha.free_shipping_cost')}}")}`
                     : `${currency(cour.rate)}`}
                 `);
             }
@@ -421,8 +421,8 @@ $encodedData = json_encode($user['customers']);
                 //total price
 
                 if (cour) {
-                    $("#total_courier").text(currency(subtotalPrice + cour.rate - voucher));
-                    $('#subtotalPengiriman').text(currency(cour.rate));
+                    $("#total_courier").text(currency(subtotalPrice + (cour.rate < 0 ? 0 : cour.rate) - voucher));
+                    $('#subtotalPengiriman').text(currency(cour.rate < 0 ? 0 : cour.rate));
                 }
                 $('#subtotalPrice').text(currency(subtotalPrice));
             }
@@ -478,19 +478,17 @@ $encodedData = json_encode($user['customers']);
 
         $(document).on('click', '.plus', function () {
             let code = $(this).data('code');
-            setTimeout(() => {
+            // setTimeout(() => {
                 increaseQty(code);
                 getData()
-            }, 1000);
+            // }, 1000);
         })
 
         $(document).on('click', '.minus', function () {
             let code = $(this).data('code');
             //add delay
-            setTimeout(() => {
-                decreaseQty(code);
-                getData()
-            }, 1000);
+            decreaseQty(code);
+            getData()
         })
          //.form-control-sm only number
         $(document).on('keypress', '.form-control-sm', function (e) {
@@ -705,7 +703,7 @@ $encodedData = json_encode($user['customers']);
                                     <span class="ml-2 p-1">
                                         ${element.logistic_name} - ${element.rate_name}
                                         ${subtotalPrice >= 250000
-                                        ? `<br> <s style="color:black">${currency(element.rate)}</s> Rp. ${currency(element.rate-"{{config('naisha.free_shipping_cost')}}")}`
+                                        ? `<br> <s style="color:black">${currency(element.rate)}</s> Rp. ${currency(element.rate-"{{config('naisha.free_shipping_cost')}}" <0 ? 0 : element.rate-"{{config('naisha.free_shipping_cost')}}")}`
                                         : `${currency(element.rate)}`}
                                         <br>
                                         Pengiriman ${element.min_day != 0 && element.max_day != 0 ? element.min_day + " - " + element.max_day : "-"} Hari
@@ -1203,56 +1201,6 @@ $encodedData = json_encode($user['customers']);
             $('#_form_checkout').html('');
             $('#button_checkout').show();
         });
-
-        //list address existing
-            $.ajax({
-                type: "get",
-                url: "{{ route('address') }}",
-                success: function (response) {
-                    //localStorage.setItem('existing_address', response);
-                    //let existing_address = JSON.parse(localStorage.getItem('existing_address'));
-                    let html = '';
-                    response.forEach(address => {
-                    html += `
-                    <li class="list-group-item mb-1 hover-pink" style="cursor: pointer;" onmouseover="this.style.cursor='pointer'"
-                        data-name="${address.name}" data-phone="${address.phone}" data-address="${address.address}"
-                        data-village="${address.subdistrict}" data-district="${address.district}" data-province="${address.province}"
-                        data-city="${address.city}" data-postal_code="${address.postal_code}">
-                        <span class="text-bold">${address.name} | ${address.phone}</span>
-                        <p>${address.address}</p>
-                        <p>${address.subdistrict}, ${address.district}, ${address.city}, ${address.province}, ${address.postal_code}</p>
-                    </li>`
-                    });
-                    $('#_list_address').html(html);
-
-                    $('#_list_address').on('click', 'li', function () {
-                    let name = $(this).data('name');
-                    let phone = $(this).data('phone');
-                    let address = $(this).data('address');
-                    let village = $(this).data('village');
-                    let district = $(this).data('district');
-                    let kodepos = $(this).data('postal_code');
-                    let province = $(this).data('province');
-                    let city = $(this).data('city');
-                    let addressData = {
-                    name,
-                    city,
-                    phone,
-                    address,
-                    village,
-                    district,
-                    province,
-                    kodepos
-                    };
-                    // localStorage.setItem('address', JSON.stringify(addressData));
-                    $('#_checkout_modal').modal('hide');
-                    getData();
-                    });
-                }
-            });
-
-
-
 
         $('#add_address').click(function () {
             $('#_modal_alamat').show();
