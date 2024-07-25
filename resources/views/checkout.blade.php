@@ -400,9 +400,11 @@ $encodedData = json_encode($user['customers']);
             }
 
             if (address) {
+
                 $("._show_address_fix").html(`
                     ${address.name} | ${address.phone} <br> ${address.address} <br> ${address.village} - ${address.district} - ${address.city} - ${address.province},  ${address.kodepos}
                 `);
+                //add delete button
             }
 
             if (existingBank) {
@@ -595,6 +597,20 @@ $encodedData = json_encode($user['customers']);
             $('#_show_list_courier').hide();
             $("#button_address").hide();
             $('#_list_address').show();
+
+            let address = JSON.parse(localStorage.getItem('address'));
+            console.log(address);
+            if (address) {
+                $('#add_address').click();
+                $('#_modal_alamat').find('#_name').val(address.name);
+                $('#_modal_alamat').find('#_phone').val(address.phone);
+                $('#_modal_alamat').find('#_address').val(address.address);
+                $('#_modal_alamat').find('#kodepos').val(address.kodepos);
+                $('#_modal_alamat').find('#district').val(`${address.district}, ${address.city}, ${address.province}`);
+                $('#_modal_alamat').find('#village').html(`
+                    <option value="${address.village}" data-kodepos="${address.kodepos}">${address.village}</option>
+                `);
+            }
         });
 
         let bank = [];
@@ -776,6 +792,8 @@ $encodedData = json_encode($user['customers']);
                 ${address}
             `);
             $('#_checkout_modal').modal('hide');
+            //swho button
+            $("#button_address").show();
             // Panggil fungsi getData() jika diperlukan
             // reloadCourier()
             existingCourier = JSON.parse(localStorage.getItem('courierSelected'));
