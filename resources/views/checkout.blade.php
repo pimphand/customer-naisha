@@ -599,7 +599,6 @@ $encodedData = json_encode($user['customers']);
             $('#_list_address').show();
 
             let address = JSON.parse(localStorage.getItem('address'));
-            console.log(address);
             if (address) {
                 $('#add_address').click();
                 $('#_modal_alamat').find('#_name').val(address.name);
