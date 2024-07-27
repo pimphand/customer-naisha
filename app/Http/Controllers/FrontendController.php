@@ -55,9 +55,11 @@ class FrontendController extends Controller
             abort(404, 'Order not found');
         }
 
-        if ($order['user']['id'] != session('loginUser')['id']) {
+        if (!isset($order['user']['id']) || !isset(session('loginUser')['id'])) {
             abort(403, 'Unauthorized');
         }
+
+
 
         return view('order', compact('order'));
     }
