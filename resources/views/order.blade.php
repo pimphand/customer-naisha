@@ -232,8 +232,7 @@ $total = $order['payment']['amount'] - $order['payment']['code_unique'] - ($orde
                                         <img src="{{ $item['sku']['image_url'] }}" alt="product" width="60">
                                     </div>
                                     <div style="margin-left: 10px;">
-                                        <span>Parfum Fresh Series | Apple Joy | Eau de Parfume |
-                                            30ml</span>
+                                        <span>{{ $item['sku']['product_name'] }} | {{ $item['sku']['properties']['color'] }} | {{ $item['sku']['properties']['size'] }} | {{ $item['sku']['properties']['material'] }}</span>
                                         <br>
                                         <span style="margin-top: 5px;">Qty: {{ $item['qty'] }} x Rp.
                                             {{
