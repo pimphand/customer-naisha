@@ -13,6 +13,7 @@
                             <div class="footer-item has-desc">
                                 <div class="footer-logo mb-25">
                                     <h1 class="text-white">Naisha Inspirasi Muslimah</h1>
+                                    <h4 class="text-white">Official Partner : <a href="https://evermos.com/home/list-brand/" target="_blank" rel="noopener noreferrer">Evermoss</a></h4>
                                 </div>
                                 <div class="footer-desc">
                                     {{-- <p class="mb-10">Mazia store is a premium theme with advanced admin module.
