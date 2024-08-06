@@ -6,7 +6,7 @@ module.exports = {
       args: '-s build',
       cwd: '/var/www/html/customer-naisha/reseller',
       env: {
-        PORT: 3000 // You can specify the port number if needed
+        PORT: 302 // You can specify the port number if needed
       }
     }
   ]
