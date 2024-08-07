@@ -116,7 +116,7 @@ class FrontendController extends Controller
 
             return response()->json([
                 'status' => 'success',
-                'data' => Session::fet('loginUser')
+                'data' => Session::get('loginUser')
             ]);
         } else {
             return response()->json($login->json(), 401);
