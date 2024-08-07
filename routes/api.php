@@ -14,7 +14,6 @@ Route::post('/forgetPassword', [FrontendController::class, 'forgetPassword'])->n
 Route::post('/verify-token', [FrontendController::class, 'verifyToken'])->name('verifyToken');
 Route::post('/verify-changePassword', [FrontendController::class, 'changePassword'])->name('changePassword');
 
-
 Route::post('create-order', function (Request $request) {
     $carts = $request->cart;
     $shipping = $request->shipping;

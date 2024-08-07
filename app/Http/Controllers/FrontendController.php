@@ -6,6 +6,7 @@ use App\Http\Resources\ProductResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -110,12 +111,12 @@ class FrontendController extends Controller
 
         // dd($login->json());
         if ($login->status() == 200) {
-            $request->session()->put('loginUser', $login['data'] ?? $login['user']);
-            $request->session()->put('token', $login['token']);
+            Session::put('loginUser', $login['data'] ?? $login['user']);
+            Session::put('token', $login['token']);
 
             return response()->json([
                 'status' => 'success',
-                'data' => $request->session()->get('loginUser')
+                'data' => Session::fet('loginUser')
             ]);
         } else {
             return response()->json($login->json(), 401);
@@ -161,12 +162,12 @@ class FrontendController extends Controller
         }
 
         if ($login->status() == 200) {
-            $request->session()->put('loginUser', $login['user']);
-            $request->session()->put('token', $login['token']);
+            Session::put('loginUser', $login['user']);
+            Session::put('token', $login['token']);
 
             return response()->json([
                 'status' => 'success',
-                'data' => $request->session()->get('loginUser')
+                'data' =>  Session::get('token'),
             ]);
         } else {
             return response()->json($login->json(), 401);
@@ -258,8 +259,8 @@ class FrontendController extends Controller
 
     public function logout(Request $request)
     {
-        $request->session()->forget('loginUser');
-        $request->session()->forget('token');
+        Session::forget('loginUser');
+        Session::forget('token');
         return response()->json([
             'status' => 'success',
             'message' => 'Logout berhasil',
