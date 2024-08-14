@@ -25,8 +25,8 @@
             <div class="container">
             </div>
         </div>
-        <div class="single-slider h-950 d-flex align-items-center" data-background="{{ $images[3] }}">
-        </div>
+        {{-- <div class="single-slider h-950 d-flex align-items-center" data-background="{{ $images[3] }}">
+        </div> --}}
     </div>
 </section>
 <!-- category section start -->
