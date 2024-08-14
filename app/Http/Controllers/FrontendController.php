@@ -15,9 +15,9 @@ class FrontendController extends Controller
     public function index()
     {
         $images = [
-            "https://sgp1.vultrobjects.com/naisha-s3/WhatsApp%20Image%202024-08-14%20at%2013.58.56.jpeg",
-            "https://sgp1.vultrobjects.com/naisha-s3/WhatsApp%20Image%202024-08-14%20at%2013.58.57%20(1).jpeg",
-            "https://sgp1.vultrobjects.com/naisha-s3/WhatsApp%20Image%202024-08-14%20at%2013.58.57.jpeg",
+            "https://sgp1.vultrobjects.com/naisha-s3/header-3.webp",
+            "https://sgp1.vultrobjects.com/naisha-s3/header-2.webp",
+            "https://sgp1.vultrobjects.com/naisha-s3/header-1@4x.webp",
             "https://sgp1.vultrobjects.com/naisha-s3/customer/header_2_2x_1_4x.webp",
         ];
 
