@@ -15,9 +15,9 @@ class FrontendController extends Controller
     public function index()
     {
         $images = [
-            "https://sgp1.vultrobjects.com/naisha-s3/customer/header-1@4x.webp",
-            "https://sgp1.vultrobjects.com/naisha-s3/customer/header-2@4x-1.webp",
-            "https://sgp1.vultrobjects.com/naisha-s3/customer/header_1_2x_1_4x.webp",
+            "https://sgp1.vultrobjects.com/naisha-s3/WhatsApp%20Image%202024-08-14%20at%2013.58.56.jpeg",
+            "https://sgp1.vultrobjects.com/naisha-s3/WhatsApp%20Image%202024-08-14%20at%2013.58.57%20(1).jpeg",
+            "https://sgp1.vultrobjects.com/naisha-s3/WhatsApp%20Image%202024-08-14%20at%2013.58.57.jpeg",
             "https://sgp1.vultrobjects.com/naisha-s3/customer/header_2_2x_1_4x.webp",
         ];
 
@@ -30,6 +30,28 @@ class FrontendController extends Controller
 
         // dd(request()->session()->get('loginUser'));
         return view('welcome', compact('images', 'categories'));
+    }
+
+    public function products(Request $request)
+    {
+        $query = '';
+
+        if (isset($request->filter['category.id']) && $request->filter['category.id']) {
+            $query = '&filter[category.id]=' . $request->filter['category.id'];
+        }
+
+        if ($request->slug) {
+            $query = '&filter[slug]=' . $request->slug;
+        }
+
+        $products = Http::get(config('app.api_url') . '/all-products?paginate=' . $request->paginate . '&page=' . $request->page . "&stock=" . $request->category_id, $query);
+
+        return ProductResource::collection($products['data'])->additional([
+            'meta' => $products['meta'],
+            'links' => $products['links'],
+        ]);
+
+        // return response()->json($products->json());
     }
 
     public function detailProduct($slug)
@@ -324,27 +346,7 @@ class FrontendController extends Controller
         return;
     }
 
-    public function products(Request $request)
-    {
-        $query = '';
 
-        if (isset($request->filter['category.id']) && $request->filter['category.id']) {
-            $query = '&filter[category.id]=' . $request->filter['category.id'];
-        }
-
-        if ($request->slug) {
-            $query = '&filter[slug]=' . $request->slug;
-        }
-
-        $products = Http::get(config('app.api_url') . '/all-products?paginate=' . $request->paginate . '&page=' . $request->page . "&stock=" . $request->category_id, $query);
-
-        return ProductResource::collection($products['data'])->additional([
-            'meta' => $products['meta'],
-            'links' => $products['links'],
-        ]);
-
-        // return response()->json($products->json());
-    }
 
     public function forgetPassword(Request $request)
     {
