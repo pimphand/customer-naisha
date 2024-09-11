@@ -135,12 +135,6 @@
                     <li class="nav-item">
                         <a class="active" data-toggle="pill" href="#desc-tab-1">Description</a>
                     </li>
-                    <li class="nav-item">
-                        {{-- <a data-toggle="pill" href="#desc-tab-3">Additional information</a> --}}
-                    </li>
-                    <li class="nav-item">
-                        {{-- <a class="" data-toggle="pill" href="#desc-tab-2">Reviews (0)</a> --}}
-                    </li>
                 </ul>
                 <div class="container container-1200">
                     <div class="tab-content mt-60">
@@ -152,7 +146,33 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Tambahan bagian Shopee -->
+                @if (isset($product['shopee']) && $product['shopee'] != null)
+                <div class="container container-1200 mt-60">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6">
+                            <h6>Total Penjualan</h6>
+                            <p>{{ $product['shopee']['sale'] }} Terjual</p>
+                        </div>
+                        {{-- <div class="col-lg-3 col-md-6">
+                            <h6>Total Penonton</h6>
+                            <p>{{ $product['shopee']['views'] }} Penonton</p>
+                        </div> --}}
+                        <div class="col-lg-3 col-md-6">
+                            <h6>Rating Bintang</h6>
+                            <p>{{ $product['shopee']['rating_star'] }} / 5</p>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <h6>Jumlah Suka</h6>
+                            <p>{{ $product['shopee']['likes'] }} Suka</p>
+                        </div>
+                    </div>
+                </div>
+                @endif
             </div>
+
+            {{-- add like total_sale rating_star views--}}
         </div>
     </div>
 </section>
@@ -161,7 +181,6 @@
 @push('script')
 <script>
     openModal("{{ $slug }}", "close");
-
    $("#description").html(`{!! nl2br(e($product['description'])) !!}`);
 </script>
 @endpush
