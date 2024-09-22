@@ -130,6 +130,7 @@ class FrontendController extends Controller
             $login = Http::post(config('app.api_url') . '/login', [
                 'email' => $request->email,
                 'password' => $request->password,
+                'device_name' => 'web',
             ]);
         } else {
             $login = Http::post(config('app.api_url') . '/customer/login', [

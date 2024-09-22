@@ -17,7 +17,6 @@ Route::get('/region', [FrontendController::class, 'support'])->name('region');
 
 Route::get('/vouchers/claim', [FrontendController::class, 'vouchersClaim']);
 
-
 Route::get('/checkout', function () {
     return view('checkout');
 })->name('checkout');
@@ -82,7 +81,6 @@ Route::post('create-order', function (Request $request) {
         "courier_type" => $shipping['rate_name'],
         "courier_estimated" => $shipping['min_day'] . "-" . $shipping['max_day'],
         "shipping_cost" => (int)$shipping['rate'] <= 0 ? 0 : (int)$shipping['rate'],
-        "customer_note" => "",
         "products" => $cart,
         "customer_note" => $request->note,
         "voucher_id" => isset($request->voucherDetail['id']) ? $request->voucherDetail['id'] : null,
