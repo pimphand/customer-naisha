@@ -73,6 +73,7 @@ class ProductResource extends JsonResource
             'category' => $this['category'],
             'id' => $this['id'],
             'last_stock' => $this['last_stock'],
+            'total_stock' => $this['total_stock'],
             'description' => isset($this['description']) ? $this['description'] : null,
             'min_price' => isset($this['min_price']) ? $this['min_price'] : null,
             'max_price' => isset($this['max_price']) ? $this['max_price'] : null,

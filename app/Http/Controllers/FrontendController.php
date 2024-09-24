@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ProductResource;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -50,8 +49,6 @@ class FrontendController extends Controller
             'meta' => $products['meta'],
             'links' => $products['links'],
         ]);
-
-        // return response()->json($products->json());
     }
 
     public function detailProduct($slug)
@@ -66,6 +63,8 @@ class FrontendController extends Controller
 
             if ($product['shopee_product'] != null) {
                 $shopee = Http::get(config('app.api_url') . '/customer/get-extra-products/' . $product['shopee_product']);
+                $shopee_detail = Http::get(config('app.api_url') . '/customer/get-base-products/' . $product['shopee_product']);
+                $product['shopee_detail'] = $shopee_detail->json()['item_list'][0];
                 $product['shopee'] = $shopee->json()['item_list'][0];
             }
         } else {
@@ -146,7 +145,8 @@ class FrontendController extends Controller
 
             return response()->json([
                 'status' => 'success',
-                'data' => Session::get('loginUser')
+                'data' => Session::get('loginUser'),
+                'token' => Session::get('token'),
             ]);
         } else {
             return response()->json($login->json(), 401);

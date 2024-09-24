@@ -84,6 +84,10 @@
                             <div class="product-box mb-40">
                                 <div class="product-box-wrapper">
                                     <div class="product-img">
+                                        <div class="position-absolute text-white"
+                                            style="top: 10px; left: 10px; background-color: rgba(0, 0, 0, 1); padding: 5px;">
+                                            ${item.total_stock > 0 ? 'Available' : 'Sold Out'}
+                                        </div>
                                         <img src="${item.image_url}" class="w-100" alt="">
                                         <a href="javascript:void(0)" onclick="openModal('${item.slug}')" class="d-block">
                                             <div class="second-img">
@@ -91,6 +95,7 @@
                                             </div>
                                         </a>
                                         <a href="${url}" class="product-img-link quick-view-1 text-capitalize">${item.name}</a>
+
                                     </div>
                                     <div class="product-desc pb-20">
                                         <div class="product-desc-top">
@@ -102,7 +107,8 @@
                                         <div class="price-switcher">
                                             <span class="price switcher-item">
                                                 ${sku.price.special_price > 0 ? '<s>' + currency(sku.price.consumer) + '</s>' : ''}
-                                                <span  style="color:black">${currency(price)}</span>
+                                               <br> <span  style="color:black">${currency(price)}</span>
+                                               <span style="color:white;background-color:#000" class="ml-2 line-clamp-1 pl-1 pr-1 text-right">${currency(sku.price.consumer - sku.price.special_price)}</span>
                                             </span>
                                             <a href="javascript:void(0)" onclick="openModal('${item.slug}')" class="add-cart text-capitalize switcher-item">Show</a>
                                         </div>

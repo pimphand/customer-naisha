@@ -227,7 +227,6 @@
                                 <div class="single-product-sidebar">
                                     <div class="product-content">
                                         <div class="single-product-price" id="_modal_single_product">
-
                                         </div>
                                         <div class="single-product-desc mb-2">
                                             <p></p>
@@ -304,17 +303,16 @@
                     <div class="row" id="form-login-modal">
                     </div>
                     <div class="form-group">
-                        <button href="javascript:void(0)"
-                        id="forgot-password-btn"
-                            style="width: 100%" class="list-add-cart-btn primary-hover-btn">
-                                                Lupa Password
+                        <button href="javascript:void(0)" id="forgot-password-btn" style="width: 100%"
+                            class="list-add-cart-btn primary-hover-btn">
+                            Lupa Password
                         </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-     <div class="modal fade" id="forgot" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    <div class="modal fade" id="forgot" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content mt-5">
@@ -330,7 +328,8 @@
 
                             <div class="form-group">
                                 <label for="email">Email atau No WhatsApp</label>
-                                <input type="text" class="form-control" id="forget_email" value="{{ old('email') }}" required>
+                                <input type="text" class="form-control" id="forget_email" value="{{ old('email') }}"
+                                    required>
                                 <small id="error_forget_email" class="text-danger"></small>
                             </div>
 
@@ -338,18 +337,21 @@
 
                             </div>
 
-                             <div class="form-group" id="password_">
+                            <div class="form-group" id="password_">
 
                             </div>
 
                             <div class="form-group">
-                                <button type="button" id="_btn_send_forget" style="width: 100%" class="list-add-cart-btn primary-hover-btn">
+                                <button type="button" id="_btn_send_forget" style="width: 100%"
+                                    class="list-add-cart-btn primary-hover-btn">
                                     Kirim Reset Password
                                 </button>
-                                <button type="button" id="_btn_verify" style="width: 100%;display:none" class="list-add-cart-btn primary-hover-btn">
+                                <button type="button" id="_btn_verify" style="width: 100%;display:none"
+                                    class="list-add-cart-btn primary-hover-btn">
                                     Verifikasi Token
                                 </button>
-                                <button type="button" id="_btn_change_password" style="width: 100%;display:none" class="list-add-cart-btn primary-hover-btn">
+                                <button type="button" id="_btn_change_password" style="width: 100%;display:none"
+                                    class="list-add-cart-btn primary-hover-btn">
                                     Ubah Password
                                 </button>
                             </div>
@@ -844,7 +846,9 @@
                     var filteredData = whereIn(data, selectedColor);
                     //get size and material
                     if (filteredData[0].price.special_price != null) {
-                        $('#_modal_single_product').html(`<s>${currency(filteredData[0].price.price_web)}</s><br><span class="text-sm" style="color:black">${currency(filteredData[0].price.special_price)}</span>`);
+                        $('#_modal_single_product').html(`<s>${currency(filteredData[0].price.price_web)}</s><br><span class="text-sm" style="color:black">${currency(filteredData[0].price.special_price)}</span>
+                             <span style="color:white;background-color:#000" class="ml-2 line-clamp-1 pl-1 pr-1 text-right">${currency(filteredData[0].price.consumer - filteredData[0].price.special_price)}</span>
+                        `);
                     } else {
                         $('#_modal_single_product').html(`<span>${currency(filteredData[0].price.consumer)}</span>`);
                     }
@@ -1230,6 +1234,23 @@
                     password: $('#password').val(),
                 },
                 success: function (response) {
+                    if (response.data.customer_type_id == 2) {
+                        Swal.fire({
+                            title: "Login Berhasil",
+                            text: "Silahkan untuk melanjutkan berbelanja",
+                            icon: "success",
+                            allowOutsideClick: false,
+                            timer: 3000, // 3 seconds
+                            didOpen: () => {
+                                Swal.showLoading(); // Show loading animation
+                            },
+                            willClose: () => {
+                                window.location.href = `{{ config('services.frontend_url') }}/redirect?token=${response.token.accessToken}`; // Redirect to the reseller page
+                            }
+                        });
+                        return;
+                    }
+
                     Swal.fire({
                         title: "Login Berhasil",
                         text: "Silahkan untuk melanjutkan berbelanja",
@@ -1238,9 +1259,9 @@
                     })
 
                     $('#login').modal('hide');
-                    setTimeout(() => {
-                        location.reload();
-                    }, 2000);
+                    // setTimeout(() => {
+                    //     location.reload();
+                    // }, 2000);
                 },
                 error: function (xhr, status, error) {
                     $.each(xhr.responseJSON.errors, function (i, v) {

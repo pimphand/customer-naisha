@@ -173,6 +173,21 @@
             </div>
 
             {{-- add like total_sale rating_star views--}}
+            <div class="modal fade" id="video" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content mt-5">
+                        <div class="modal-body">
+                            <video width="100%" controls autoplay="true" muted>
+                                <source src="{{ $product['shopee_detail']['video_info'][0]['video_url'] }}"
+                                    type="video/mp4">
+
+                                Your browser does not support HTML video.
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -182,5 +197,30 @@
 <script>
     openModal("{{ $slug }}", "close");
    $("#description").html(`{!! nl2br(e($product['description'])) !!}`);
+
+   $(document).ready(function() {
+    $("#video").on("show.bs.modal", function() {
+        const video = $("#modalVideo")[0]; // Ambil elemen video
+        if (video) { // Cek apakah video ada
+            video.play(); // Auto-play video
+        } else {
+            console.error("Video element not found.");
+        }
+    });
+
+    // Pause video dan reset saat modal ditutup
+    $("#video").on("hide.bs.modal", function() {
+        const video = $("#modalVideo")[0]; // Ambil elemen video
+        if (video) { // Cek apakah video ada
+            video.pause(); // Pause video
+            video.currentTime = 0; // Reset video ke awal
+        } else {
+            console.error("Video element not found.");
+        }
+    });
+    });
+
+    // Memanggil modal untuk ditampilkan
+    $("#video").modal("show");
 </script>
 @endpush
