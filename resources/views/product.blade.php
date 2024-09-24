@@ -171,7 +171,7 @@
                 </div>
                 @endif
             </div>
-
+            @if (isset($product['shopee_detail']) && $product['shopee_detail'] != null)
             {{-- add like total_sale rating_star views--}}
             <div class="modal fade" id="video" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
                 aria-hidden="true">
@@ -188,6 +188,7 @@
                     </div>
                 </div>
             </div>
+            @endif
         </div>
     </div>
 </section>
